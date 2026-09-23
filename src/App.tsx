@@ -74,7 +74,7 @@ function timelinePosition(node: ResearchNodeModel, index: number, nodes: Researc
 function App() {
   const { setCenter, fitView } = useReactFlow<ResearchFlowNode, CausalFlowEdge>()
   const { statuses, notes, nodePositions, importedNodes, importedEdges, setStatus, setNote, setNodePosition, resetNodePositions, addImportedPaper } = useResearchState()
-  const [selectedId, setSelectedId] = useState<string>('transformer')
+  const [selectedId, setSelectedId] = useState<string>('hybrid-equation-aware-world-model')
   const [fog, setFog] = useState(true)
   const [timeline, setTimeline] = useState(false)
   const [traceMode, setTraceMode] = useState<TraceMode | null>(null)

@@ -1,0 +1,121 @@
+{
+  "generated_at": "2026-09-22T05:53:00.249Z",
+  "source": "OpenAlex API",
+  "date_range": [
+    1950,
+    2025
+  ],
+  "retrieval": "OpenAlex title.search.exact with quoted phrases, plural wildcards, and explicit orthographic aliases; counts normalized by all indexed works per publication year",
+  "limitations": [
+    "Search is exact-phrase and title-anchored, so it measures explicit label visibility rather than complete method use.",
+    "A separate sensitivity table compares exact phrases with broader stemmed title queries.",
+    "OpenAlex coverage and concept assignment vary by year and venue.",
+    "The 2021-2025 window is used because 2026 is incomplete and subject to indexing lag.",
+    "Trajectory labels are descriptive thresholds, not causal proof."
+  ],
+  "thresholds": {
+    "contracted": "survival_ratio < 0.10",
+    "legacy_niche": "0.10 <= survival_ratio < 0.35",
+    "surviving_niche": "0.35 <= survival_ratio < 0.80",
+    "active": "survival_ratio >= 0.80",
+    "revival_modifier": "recent_trend_ratio >= 1.20"
+  },
+  "branches": [
+    {
+      "id": "expert-systems",
+      "label": "Expert systems",
+      "broad_query": "expert system",
+      "exact_query": "\"expert system*\""
+    },
+    {
+      "id": "symbolic-ai",
+      "label": "Symbolic AI",
+      "broad_query": "symbolic artificial intelligence",
+      "exact_query": "\"symbolic artificial intelligence\""
+    },
+    {
+      "id": "case-based-reasoning",
+      "label": "Case-based reasoning",
+      "broad_query": "case based reasoning",
+      "exact_query": "\"case-based reasoning\"|\"case based reasoning\""
+    },
+    {
+      "id": "inductive-logic-programming",
+      "label": "Inductive logic programming",
+      "broad_query": "inductive logic programming",
+      "exact_query": "\"inductive logic programming\""
+    },
+    {
+      "id": "learning-classifier-systems",
+      "label": "Learning classifier systems",
+      "broad_query": "learning classifier system",
+      "exact_query": "\"learning classifier system*\""
+    },
+    {
+      "id": "fuzzy-logic",
+      "label": "Fuzzy logic",
+      "broad_query": "fuzzy logic",
+      "exact_query": "\"fuzzy logic\""
+    },
+    {
+      "id": "genetic-programming",
+      "label": "Genetic programming",
+      "broad_query": "genetic programming",
+      "exact_query": "\"genetic programming\""
+    },
+    {
+      "id": "artificial-life",
+      "label": "Artificial life",
+      "broad_query": "artificial life",
+      "exact_query": "\"artificial life\""
+    },
+    {
+      "id": "self-organizing-maps",
+      "label": "Self-organizing maps",
+      "broad_query": "self organizing map",
+      "exact_query": "\"self-organizing map*\"|\"self organizing map*\""
+    },
+    {
+      "id": "hopfield-networks",
+      "label": "Hopfield networks",
+      "broad_query": "hopfield network",
+      "exact_query": "\"hopfield network*\""
+    },
+    {
+      "id": "boltzmann-machines",
+      "label": "Boltzmann machines",
+      "broad_query": "boltzmann machine",
+      "exact_query": "\"boltzmann machine*\""
+    },
+    {
+      "id": "reservoir-computing",
+      "label": "Reservoir computing",
+      "broad_query": "reservoir computing",
+      "exact_query": "\"reservoir computing\""
+    },
+    {
+      "id": "neuroevolution",
+      "label": "Neuroevolution",
+      "broad_query": "neuroevolution",
+      "exact_query": "neuroevolution"
+    },
+    {
+      "id": "symbolic-regression",
+      "label": "Symbolic regression",
+      "broad_query": "symbolic regression",
+      "exact_query": "\"symbolic regression\""
+    },
+    {
+      "id": "support-vector-machines",
+      "label": "Support vector machines (control)",
+      "broad_query": "support vector machine",
+      "exact_query": "\"support vector machine*\""
+    },
+    {
+      "id": "bayesian-networks",
+      "label": "Bayesian networks (control)",
+      "broad_query": "bayesian network",
+      "exact_query": "\"bayesian network*\""
+    }
+  ]
+}

@@ -19,6 +19,12 @@ export type ExplorationStatus =
   | 'unresolved'
 
 export type EdgeType =
+  | 'MOTIVATES'
+  | 'REVIVES'
+  | 'REPLACES'
+  | 'ENABLES'
+  | 'APPLIES'
+  | 'EVALUATES'
   | 'INTRODUCES'
   | 'EXTENDS'
   | 'MOTIVATED_BY'
