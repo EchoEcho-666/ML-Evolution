@@ -73,7 +73,7 @@ export function Prologue({ onEnter, theme, onToggleTheme }: PrologueProps) {
       <section className="prologue-intro">
         <div className="prologue-intro-grid">
           <div className="prologue-copy">
-            <div className="prologue-mark"><span>ML EVOLUTION · PROLOGUE</span></div>
+            <div className="prologue-mark"><span>ML CIVILIZATION · PROLOGUE</span></div>
             <h1 id="prologue-title">Standing on the<br />Shoulders of Giants</h1>
             <p className="prologue-lede">
               Machine learning is not a sequence of isolated breakthroughs. Every idea inherits

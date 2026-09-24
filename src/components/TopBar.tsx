@@ -23,7 +23,7 @@ export function TopBar({ fog, lineage, timeline, theme, selectedTitle, selectedY
     <header className="topbar">
       <button className="brand-lockup" onClick={onOpenPrologue} title="Return to the prologue">
         <div className="brand-sigil"><Sparkles size={16} /></div>
-        <div><div className="brand-name">ML EVOLUTION</div><div className="brand-sub">AN INTELLECTUAL MAP</div></div>
+        <div><div className="brand-name">ML CIVILIZATION</div><div className="brand-sub">AN INTELLECTUAL MAP</div></div>
       </button>
       <div className="era-indicator">
         <span>{contextLabel}</span>

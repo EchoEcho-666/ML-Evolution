@@ -51,17 +51,17 @@ That distinction matters: expert systems as a label contracted sharply, while id
 
 I compared broad current frontiers and completed deeper first-pass studies of AI for Physics, world models, and recursive self-improvement. AI for Physics currently scores highest because equations give independent checks on predictions. A recent thesis already ran the simplest two-model comparison under a viscosity shift, so that would be my starting replication. The proposed contribution is to test whether a compact symbolic correction adds reliable transfer. I still need to confirm that the full experiment fits my interests, skills, and available resources.
 
-The current website is a working research prototype. I can search and inspect nodes, trace a lineage, move through time, and see the selected frontier connections. The graph is a curated seed, not yet a complete history or an automated proof of causality. My next step is to choose one semester project and make its first experiment reproducible.”
+The current website is a working research prototype. I can search and inspect nodes, trace a lineage, move through time, and see connections to the leading frontier candidate. The graph is a curated seed, not yet a complete history or an automated proof of causality. My next step is to choose one semester project and make its first experiment reproducible.”
 
 ## Website demonstration (about two minutes)
 
-1. Open `http://127.0.0.1:5173/` and say the graph is a working prototype with a curated initial scope.
-2. Select the hybrid equation-aware world-model node. Explain the proposed question in one sentence.
-3. Follow its incoming and outgoing edges to show how the atlas connects older symbolic methods, AI for Physics, and world models.
+1. Run `npm run dev`, open the Local URL Vite prints, and click **Go to map** if the prologue appears. Say the graph is a working prototype with a curated initial scope.
+2. Click **Focus** to center the selected hybrid equation-aware world-model node. Its detail panel labels it a leading candidate. Explain the proposed question in one sentence.
+3. Follow its incoming motivations, then select AI for Physics or symbolic regression to show how the atlas connects older methods to current questions.
 4. Open one detail panel and distinguish the source-backed historical edge from a proposed project connection.
 5. Use search or timeline/lineage controls once; avoid promising that every frontier or branch is already represented.
 
-If the local page is unavailable, run `npm run dev` in the project directory and use the Local URL Vite prints. Do not use a container preview URL.
+The Local URL is normally `http://127.0.0.1:5173/`. Use the port Vite prints if 5173 is occupied. Do not use a container preview URL.
 
 ## Questions to expect
 
@@ -69,7 +69,7 @@ If the local page is unavailable, run `npm run dev` in the project directory and
 - **Does a falling curve mean the method failed?** No. It means the label lost relative publication visibility. Mechanisms can move under other names, and the causal report treats that as a separate question.
 - **Why AI for Physics?** It has independent physical diagnostics and a useful bridge from symbolic regression and neural operators to current world models. The exact experiment still needs a viable data and compute path and a contribution beyond the recent FNO/PINO comparison.
 - **What could make the experiment fail?** The constraint may help only in-distribution, destabilize training, or cost more than it saves. Those outcomes are measurable and informative.
-- **What is still incomplete?** Broader historical citation-flow validation, full-lineage imports, and empirical replication of the project experiment. The selected graph is an initial integration.
+- **What is still incomplete?** Broader historical citation-flow validation, full-lineage imports, and empirical replication of the project experiment. The visible graph is an initial integration.
 
 ## Leave these unresolved until you have the information
 

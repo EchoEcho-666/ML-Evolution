@@ -5,7 +5,7 @@
   {"id":"ai-for-physics","title":"AI for Physics","year":2023,"type":"concept","status":"frontier","sourceUrl":"https://doi.org/10.1126/science.adi2336"},
   {"id":"world-models","title":"World Models","year":2018,"type":"concept","status":"frontier","sourceUrl":"https://arxiv.org/abs/1803.10122"},
   {"id":"intervention-aware-evaluation","title":"Intervention and Regime Shift","year":2026,"type":"problem","status":"unresolved","sourceUrl":"https://arxiv.org/abs/2301.04104"},
-  {"id":"hybrid-equation-aware-world-model","title":"Hybrid Equation-Aware World Model","year":2026,"type":"research-idea","status":"current-research","sourceUrl":"https://arxiv.org/abs/2010.08895"},
+  {"id":"hybrid-equation-aware-world-model","title":"Hybrid Equation-Aware World Model","year":2026,"type":"research-idea","status":"current-research","sourceUrl":"https://repository.tudelft.nl/record/uuid:bc293c72-0833-4df2-bd42-0aa63914ee23"},
   {"id":"bounded-rsi","title":"Bounded Recursive Self-Improvement","year":2025,"type":"concept","status":"frontier","sourceUrl":"https://arxiv.org/abs/2505.22954"},
   {"id":"stop","title":"Self-Taught Optimizer","year":2023,"type":"paper","status":"unread","sourceUrl":"https://arxiv.org/abs/2310.02304"},
   {"id":"alphaevolve","title":"AlphaEvolve","year":2025,"type":"paper","status":"unread","sourceUrl":"https://arxiv.org/abs/2506.13131"},
