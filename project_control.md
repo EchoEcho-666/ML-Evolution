@@ -1,7 +1,7 @@
 # ML Civilization — Project Plan
 
-**Last updated:** 2026-09-23  
-**Current phase:** Quantitative history of ML branches, present-frontier census, and project-focus selection  
+**Last updated:** 2026-09-24
+**Current phase:** Validate semester-project fit, then prepare a reproducible first experiment
 **This week:** 2026-09-21 to 2026-09-27
 
 ## North star
@@ -37,7 +37,8 @@ Build an evidence-backed causal atlas of machine-learning history that explains:
 | AI for Physics deep dive | Complete first pass | Scope, taxonomy, 29-paper chronology, evidence limits, causal edges, open questions, and a decisive experiment are drafted. | Verify metadata and compare its 32/35 provisional score against world models and RSI. |
 | World-model deep dive | Complete first pass | Operational definition, six-part taxonomy, 17-item chronology, lineage notes for Ha, LeCun/JEPA, DeepMind, and NVIDIA, evidence limits, causal edges, bottlenecks, and a 28/35 experiment score are drafted. | Convert the selected AI-for-Physics lineage and its comparators into evidence-backed imports. |
 | Recursive self-improvement deep dive | Complete first pass | Operational definition, exclusions, five-field improvement loop, target taxonomy, claim/evidence matrix, causal edges, bottlenecks, bounded falsifiable experiment, and a 27/35 provisional score are drafted. | Preserve bounded RSI as a comparator; convert documented claims and edges into the import list. |
-| Research direction | Selected | AI for Physics leads the common comparison at 32/35; the selected focus is a hybrid equation-aware world model under regime shift. | Build the evidence-backed paper/relationship imports and integrate the selected lineage into the atlas. |
+| Research direction | Provisional selection | AI for Physics leads the common comparison at 32/35; the candidate focus is a hybrid equation-aware world model under regime shift. | On 2026-09-25, confirm or revise it against personal interest, course constraints, compute, and benchmark feasibility; record the student's decision. |
+| Meeting preparation | Draft ready | A five-hour study path, short talk track, local-site demo steps, and likely questions are prepared. | Use [tomorrow's study and presentation guide](research/tomorrow-study-and-presentation.md), then capture the chosen focus and next experiment. |
 
 Detailed engineering plans:
 
@@ -210,11 +211,11 @@ Score each candidate from 1–5 on:
 | Distinct contribution | Is there a credible contribution beyond another general survey or benchmark? |
 
 - [x] Publish the completed score matrix and sensitivity analysis for reasonable weight changes.
-- [x] Select **one** primary focus rather than one or two.
+- [~] Identify one leading candidate rather than carry multiple co-equal options; student confirmation or replacement is pending.
 - [x] Define its research question, minimum experiment, dataset or benchmark, success criterion, risks, and four-week milestone.
 - [x] Write a decision note explaining why AI for Physics, world models, RSI, and the strongest other frontiers were selected or deferred.
 
-**Deliverable:** [Project-focus decision](research/project-focus-decision.md). Complete for the current comparison phase; AI for Physics is the single selected focus.
+**Deliverable:** [Project-focus decision](research/project-focus-decision.md). Comparison and recommendation are complete; the student's final semester-project choice is pending the 2026-09-25 review.
 
 ## Priority 7 — Paper list and relationship graph
 

@@ -1,17 +1,17 @@
 # ML Civilization — project-focus decision
 
 **Updated:** 2026-09-22
-**Decision status:** one primary focus selected
+**Decision status:** provisional recommendation; student decision pending
 
 ## Decision
 
-The primary research focus is:
+The current leading candidate is:
 
 > **Hybrid equation-aware world models for physical systems under regime shift.**
 
 In practical terms, the project will test whether adding explicit physical constraints and a compact symbolic residual to a learned dynamics/operator model improves transfer to unseen parameters, resolution, and rollout horizons without hiding regressions in ordinary accuracy, stability, uncertainty calibration, or compute.
 
-This is a deliberately narrow project inside **AI for Physics**, not a claim that AI for Physics as a whole is solved or that world models and recursive self-improvement are unimportant.
+This is a deliberately narrow candidate inside **AI for Physics**, not a final commitment or a claim that AI for Physics as a whole is solved. The student will confirm or replace it after checking personal interest, course constraints, compute, and benchmark feasibility on 2026-09-25.
 
 ## Why this wins
 
@@ -146,4 +146,4 @@ Deferral is not rejection. World models, bounded RSI, verifiable reasoning, cont
 
 ## Meeting explanation
 
-“I compared seven frontier candidates using the same seven criteria. AI for Physics scores 32 out of 35, ahead of world models at 28 and bounded recursive self-improvement at 27, with four additional frontiers retained as comparators. The choice is not based only on importance: AI for Physics has the clearest equations, baselines, invariants, and out-of-distribution tests. My focused project asks when physics constraints and a compact symbolic residual actually improve a learned model under regime shift. If they do not, that negative result is still informative.”
+“I compared seven frontier candidates using the same seven criteria. AI for Physics currently leads at 32 out of 35, ahead of world models at 28 and bounded recursive self-improvement at 27, with four additional frontiers retained as comparators. I am treating that as a recommendation while I check my own interests, course constraints, and compute. The candidate project asks when physical constraints improve a learned model under regime shift; its first version can compare a data-only operator with a constrained version. If they do not improve, that negative result is still informative.”
