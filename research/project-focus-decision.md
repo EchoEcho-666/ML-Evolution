@@ -1,6 +1,6 @@
 # ML Civilization — project-focus decision
 
-**Updated:** 2026-09-22
+**Updated:** 2026-09-24
 **Decision status:** provisional recommendation; student decision pending
 
 ## Decision
@@ -9,7 +9,7 @@ The current leading candidate is:
 
 > **Hybrid equation-aware world models for physical systems under regime shift.**
 
-In practical terms, the project will test whether adding explicit physical constraints and a compact symbolic residual to a learned dynamics/operator model improves transfer to unseen parameters, resolution, and rollout horizons without hiding regressions in ordinary accuracy, stability, uncertainty calibration, or compute.
+In practical terms, the first milestone reproduces a matched data-only versus physics-constrained comparison under a held-out parameter. A distinct semester contribution then needs to explain or improve transfer beyond that established comparison; the compact symbolic residual is the current candidate for that step.
 
 This is a deliberately narrow candidate inside **AI for Physics**, not a final commitment or a claim that AI for Physics as a whole is solved. The student will confirm or replace it after checking personal interest, course constraints, compute, and benchmark feasibility on 2026-09-25.
 
@@ -43,7 +43,7 @@ Each criterion is scored from 1 to 5. Scores are evidence-backed research judgme
 
 | Candidate | Under | Frontier | Tractability | Evidence | Atlas | Evaluation | Distinct | Total | Decision |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- |
-| **AI for Physics — hybrid equation-aware model** | 4 | 5 | 4 | 5 | 5 | 5 | 4 | **32** | **Selected** |
+| **AI for Physics — hybrid equation-aware model** | 4 | 5 | 4 | 5 | 5 | 5 | 4 | **32** | **Leading recommendation** |
 | World models — intervention-aware evaluation | 4 | 5 | 3 | 4 | 5 | 3 | 4 | 28 | Defer, retain as close comparator |
 | Bounded RSI / automated research | 4 | 5 | 3 | 3 | 5 | 3 | 4 | 27 | Defer |
 | Verifiable reasoning and inference-time search | 3 | 5 | 4 | 5 | 4 | 5 | 3 | 29 | Retain as comparator |
@@ -76,30 +76,30 @@ The “normalized” totals divide the weighted sum by the sum of weights and mu
 
 ## Research question
 
-> Under controlled regime shift, when do physics constraints and compact symbolic residuals improve a learned dynamical model's transfer, stability, and uncertainty calibration compared with a matched data-driven model?
+> Under a controlled physical parameter shift, can a compact symbolic residual correction improve a learned dynamical model's transfer and physical consistency beyond both a data-only model and the same model with a physics-residual loss, at comparable compute?
 
 ## Minimum experiment
 
-Use one open PDE or dynamical-system benchmark with controllable parameters, such as reaction–diffusion, shallow water, or 2D Navier–Stokes. Compare three matched models:
+The likely pilot is 1D viscous Burgers, which has a clear viscosity parameter and an official FNO baseline. First reproduce two matched models:
 
 1. a data-driven neural operator or latent dynamics model;
-2. the same model with explicit conservation/physics constraints; and
-3. the same model with a compact symbolic residual correction discovered from training residuals.
+2. the same model with one explicit conservation or equation constraint.
 
-Hold architecture family, training trajectories, parameter budget, and optimization budget as constant as feasible. Test:
+Hold architecture family, training trajectories, parameter budget, and optimization budget as constant as feasible. The primary test holds out one viscosity value. Measure held-out prediction error, physical consistency, in-distribution error, and total training plus inference compute. If the pilot works, add a compact symbolic correction fitted only on training residuals and test whether it improves the held-out regime. Long autoregressive rollouts require a separate time-stepping design; do not claim them from a model that predicts a fixed full trajectory.
 
-- unseen physical parameters;
-- unseen spatial resolution or geometry;
-- longer rollout horizons;
-- invariant/conservation error;
-- uncertainty calibration and coverage;
-- in-distribution accuracy;
-- total training plus inference compute; and
-- failure detection or abstention outside the training support.
+The official PDEBench dataset and code provide a credible reference, but each full 1D Burgers HDF5 file is listed at about 7.7 GB. Downloading several complete files is a material setup cost. The official NeuralOperator library includes a 16-point mini Burgers dataset that can check the training pipeline, but it does not by itself establish viscosity-shift performance. Before confirming this benchmark, inspect the data-generation settings and establish a small reproducible subset or small generated dataset with a trusted numerical reference. [PDEBench dataset record](https://darus.uni-stuttgart.de/dataset.xhtml?persistentId=doi:10.18419/darus-2986&version=7.0), [PDEBench Burgers baseline commands](https://github.com/pdebench/PDEBench/blob/main/pdebench/models/run_forward_1D.sh), [NeuralOperator Burgers dataset documentation](https://neuraloperator.github.io/dev/_modules/neuralop/data/datasets/burgers.html).
+
+### Novelty audit before commitment
+
+A 2026 TU Delft thesis already compared the same FNO backbone with and without a PDE-residual loss on PDEBench Burgers and Darcy, including a held-out Burgers viscosity. It found that gains in ordinary accuracy did not guarantee gains under shift. This directly overlaps the two-model pilot, which should be described as replication and learning, not the novel semester result. Its released implementation used a CUDA cluster and three seeds. A separate 2026 study examined PINO training choices across several operators and PDEs. [TU Delft thesis](https://repository.tudelft.nl/record/uuid:bc293c72-0833-4df2-bd42-0aa63914ee23), [released code and limitations](https://github.com/samuekisde/fno-pino-data-efficiency), [PINO training study](https://arxiv.org/abs/2606.06164).
+
+The original 32/35 score applies to the broader hybrid project, including the symbolic correction and controlled failure analysis. It does **not** establish that the two-model pilot alone is distinct. Confirm this focus only if a small benchmark and the third comparison fit the semester's compute and schedule; otherwise choose another focus or explicitly frame the course project as a replication study if that meets course expectations.
+
+The later, expanded experiment may test new resolution or geometry, uncertainty calibration, and genuinely autoregressive rollouts.
 
 ## Success criterion
 
-The hybrid is a success only if it improves a predeclared out-of-distribution criterion—such as long-horizon error, invariant violation, or calibrated coverage—without a material regression in in-distribution accuracy, stability, compute, or uncertainty reliability. A result that improves only training-distribution error is not sufficient.
+The pilot succeeds when both models run reproducibly on a predeclared split. The semester claim succeeds only if the symbolic correction improves a predeclared held-out-parameter metric beyond both pilot models without a material regression in ordinary accuracy, physical consistency, or compute. A negative result is useful if it identifies a repeatable failure mode and the implementation is independently checkable.
 
 ## Four-week milestone
 
@@ -116,15 +116,15 @@ The hybrid is a success only if it improves a predeclared out-of-distribution cr
 - run matched seeds and ablations;
 - measure whether the constraint helps interpolation, extrapolation, or only optimization.
 
-### Week 3 — symbolic residual
+### Week 3 — symbolic correction and robustness
 
-- fit a compact symbolic correction to residual dynamics;
-- compare sparse/library choices and prevent test leakage;
-- inspect whether the expression is stable across seeds and training regimes.
+- repeat the primary comparison with matched seeds and fixed data splits;
+- fit one compact correction to training residuals and freeze its complexity limit;
+- inspect whether it changes held-out error, physical consistency, or compute.
 
 ### Week 4 — stress test and atlas integration
 
-- evaluate hidden parameter/resolution/horizon shifts;
+- evaluate the predeclared parameter and horizon shifts;
 - report negative results and compute costs;
 - connect the experiment to historical symbolic-regression, neural-operator, and hybrid-solver nodes;
 - write a short reproducible report and decide whether the result merits a larger study.
@@ -142,8 +142,8 @@ The hybrid is a success only if it improves a predeclared out-of-distribution cr
 
 ## Deferred alternatives
 
-Deferral is not rejection. World models, bounded RSI, verifiable reasoning, continual learning, causal/neuro-symbolic learning, and efficient/physical computing remain atlas branches and may provide methods, evaluation designs, or future projects. The current research project has exactly one focus so that the meeting can present a falsifiable plan rather than a list of interests.
+World models, bounded RSI, verifiable reasoning, continual learning, causal/neuro-symbolic learning, and efficient/physical computing remain atlas branches and possible later projects. This comparison recommends one focus for a falsifiable semester plan; the student will confirm it against course constraints and personal interest.
 
 ## Meeting explanation
 
-“I compared seven frontier candidates using the same seven criteria. AI for Physics currently leads at 32 out of 35, ahead of world models at 28 and bounded recursive self-improvement at 27, with four additional frontiers retained as comparators. I am treating that as a recommendation while I check my own interests, course constraints, and compute. The candidate project asks when physical constraints improve a learned model under regime shift; its first version can compare a data-only operator with a constrained version. If they do not improve, that negative result is still informative.”
+“I compared seven frontier candidates using the same seven criteria. AI for Physics currently leads at 32 out of 35, but that score belongs to the full hybrid project, not a simple two-model test. A recent thesis already compared a data-only operator with a physics-constrained one under a viscosity shift. I would use that comparison as my starting point, then test whether a compact symbolic correction adds reliable transfer without hiding error or compute costs. I am confirming that this fits my course requirements and available resources before I commit.”

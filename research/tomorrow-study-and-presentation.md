@@ -17,24 +17,24 @@
 
 ## Research choice in plain language
 
-The leading idea is to test whether adding physical structure helps a learned simulator predict conditions it did not see during training. Compare a neural operator trained from examples, the same model with conservation or equation constraints, and a version with a small symbolic correction. Test on a shifted physical parameter and longer rollouts. Track prediction error, conservation error, stability, uncertainty, and compute.
+The leading idea is to test whether a compact symbolic correction helps a learned physical model predict conditions it did not see during training. Compare a data-driven operator, the same operator with an equation constraint, and a version with the symbolic correction. Test on a held-out physical parameter. Track prediction error, physical consistency, and compute. Add long rollouts only if the chosen model actually predicts step by step.
 
 The question is not “does physics help?” in general. It is: “Under a specified shift, does a particular physical constraint or symbolic correction improve reliable prediction enough to justify its added complexity and cost?” A negative result is useful if the comparison is fair and the shift is explicit.
 
 ### A practical MVP to investigate tomorrow
 
-Start by checking **1D viscous Burgers on PDEBench** as the likely pilot, before committing to the 2D Navier–Stokes version. PDEBench includes 10,000-sample 1D Burgers data in its benchmark table, varies viscosity, provides FNO baselines, and reports both prediction and physics-oriented metrics. Its dataset is downloadable in HDF5, and the project publishes generation code. This gives a plausible route to one withheld-viscosity test with a much smaller state than a 2D fluid field. [PDEBench paper](https://papers.nips.cc/paper/2022/file/0a9747136d411fb83f0cf81820d44afb-Paper-Datasets_and_Benchmarks.pdf), [official dataset record](https://darus.uni-stuttgart.de/dataset.xhtml?persistentId=doi:10.18419/darus-2986), [official code](https://github.com/pdebench/PDEBench).
+Start by checking **1D viscous Burgers on PDEBench** as the likely pilot. PDEBench varies viscosity, provides FNO baselines, and reports prediction and physics-oriented metrics. Its full HDF5 files are about **7.7 GB per viscosity**, so downloading several complete files is not a small first step. Use the official code to inspect a reproducible small data-generation path or subset before committing to the benchmark. The 16-point mini Burgers dataset in NeuralOperator can check that the model pipeline runs, but cannot alone prove viscosity transfer. [PDEBench paper](https://papers.nips.cc/paper/2022/file/0a9747136d411fb83f0cf81820d44afb-Paper-Datasets_and_Benchmarks.pdf), [official dataset record](https://darus.uni-stuttgart.de/dataset.xhtml?persistentId=doi:10.18419/darus-2986&version=7.0), [PDEBench code](https://github.com/pdebench/PDEBench), [NeuralOperator dataset documentation](https://neuraloperator.github.io/dev/_modules/neuralop/data/datasets/burgers.html).
 
 Treat that as a feasibility candidate, not a final benchmark choice. First verify which files are currently downloadable, the precise viscosity values and boundary conditions, and whether the held-out regime is genuinely outside training. If the data setup is awkward, choose another small PDE with an equally clear parameter shift. The benchmark authors explicitly identify unseen-parameter and unseen-time evaluation as open challenges and caution that average RMSE alone misses conservation and stability. Physics-informed neural operators already combine data with PDE constraints, so the novelty must come from a carefully controlled shift and evaluation, not simply adding a physics loss. [PDEBench](https://papers.nips.cc/paper/2022/file/0a9747136d411fb83f0cf81820d44afb-Paper-Datasets_and_Benchmarks.pdf), [PINO](https://arxiv.org/abs/2111.03794).
 
-For the semester minimum, compare a data-only FNO with the same model plus one justified equation or conservation term. Defer symbolic residual discovery until these two runs are reproducible; it is a strong extension, but adds search and interpretation decisions before feasibility is established.
+For the first milestone, compare a data-only FNO with the same model plus one justified equation term. This is a replication pilot: a [2026 TU Delft thesis](https://repository.tudelft.nl/record/uuid:bc293c72-0833-4df2-bd42-0aa63914ee23) already did a matched FNO/PINO comparison on PDEBench Burgers, including a viscosity shift. A distinct semester result needs the symbolic correction or another clearly specified new question. Check the data and compute path before choosing it. The thesis used a CUDA cluster; its [code and limitations](https://github.com/samuekisde/fno-pino-data-efficiency) give a realistic setup reference.
 
 ## Decision checks
 
 Before committing, answer these in writing:
 
 1. Can I explain the physical system and the chosen shift well enough to catch an invalid result?
-2. Can I run the baseline and at least one comparison with the compute and time I actually have?
+2. Can I run the replication pilot and the additional comparison that makes my result distinct with the compute and time I actually have?
 3. Is the primary metric decisive, and are the data split and shift defined before tuning?
 4. Would I still find the result useful if the hybrid method loses?
 5. Is this the project I want to spend a semester learning, rather than simply the highest-scoring row?
@@ -49,7 +49,7 @@ I measured the visibility of 16 historical branch labels in OpenAlex from 1950 t
 
 That distinction matters: expert systems as a label contracted sharply, while ideas such as explicit rules, verification, and separating knowledge from inference continued elsewhere. So the atlas keeps documented links separate from interpretation.
 
-I compared broad current frontiers and completed deeper first-pass studies of AI for Physics, world models, and recursive self-improvement. AI for Physics currently scores highest because a small experiment can test transfer under a defined shift with measurable accuracy, conservation, stability, and compute. I have not treated that score as the final answer: I still need to check whether the project fits my interests, skills, and available resources.
+I compared broad current frontiers and completed deeper first-pass studies of AI for Physics, world models, and recursive self-improvement. AI for Physics currently scores highest because equations give independent checks on predictions. A recent thesis already ran the simplest two-model comparison under a viscosity shift, so that would be my starting replication. The proposed contribution is to test whether a compact symbolic correction adds reliable transfer. I still need to confirm that the full experiment fits my interests, skills, and available resources.
 
 The current website is a working research prototype. I can search and inspect nodes, trace a lineage, move through time, and see the selected frontier connections. The graph is a curated seed, not yet a complete history or an automated proof of causality. My next step is to choose one semester project and make its first experiment reproducible.”
 
@@ -67,12 +67,12 @@ If the local page is unavailable, run `npm run dev` in the project directory and
 
 - **Why exact titles?** Broad search counts papers that merely mention a method. Exact title phrases make the label measure more interpretable; the sensitivity file shows how much the answer changes.
 - **Does a falling curve mean the method failed?** No. It means the label lost relative publication visibility. Mechanisms can move under other names, and the causal report treats that as a separate question.
-- **Why AI for Physics?** It has a tractable experiment, strong physical diagnostics, and a useful bridge from symbolic regression and neural operators to current world models. The comparison is provisional until feasibility and personal fit are checked.
+- **Why AI for Physics?** It has independent physical diagnostics and a useful bridge from symbolic regression and neural operators to current world models. The exact experiment still needs a viable data and compute path and a contribution beyond the recent FNO/PINO comparison.
 - **What could make the experiment fail?** The constraint may help only in-distribution, destabilize training, or cost more than it saves. Those outcomes are measurable and informative.
 - **What is still incomplete?** Broader historical citation-flow validation, full-lineage imports, and empirical replication of the project experiment. The selected graph is an initial integration.
 
 ## Leave these unresolved until you have the information
 
 - Exact benchmark and PDE, based on setup cost and physical interpretability.
-- Whether to include the symbolic correction in the semester minimum or treat it as an extension after the constrained baseline.
+- Whether a compact symbolic correction can fit the semester. If not, choose a different distinct question or agree with the supervisor that a careful replication is sufficient.
 - Whether tomorrow's choice confirms or replaces AI for Physics; your interests and course constraints belong in that decision.
