@@ -5,6 +5,10 @@
 **Primary scope:** AI used to model, infer, discover, design, or control physical systems  
 **Secondary scope:** physical principles or substrates that materially change AI methods
 
+## Start with a review
+
+[When physics meets machine learning: a survey of physics-informed machine learning (2025)](https://doi.org/10.1007/s44379-025-00016-0) is the best starting review for the proposed equation-aware project. It organizes why and how known physics enters a learned model, including surrogate simulation and the limits of physical constraints. It covers the *physics-informed* part of this survey; the broader [scientific-discovery review in Nature](https://doi.org/10.1038/s41586-023-06221-2) provides context for hypothesis generation and experiments. Neither is a complete census of all physics subfields.
+
 ## Thesis
 
 AI for Physics is moving from isolated surrogate models toward reusable models of operators, dynamics, materials, and experiments. Its central unsolved problem is not interpolation accuracy. It is **reliable transfer across physical regimes while preserving invariants, calibrated uncertainty, causal response, and computational advantage**. The most promising project-scale opportunity is therefore a controlled comparison of data-driven, physics-constrained, and hybrid symbolic models under distribution shift—not another in-distribution leaderboard.
@@ -27,6 +31,26 @@ Excluded from the primary comparison:
 - chemistry or biology papers with no physical modeling component;
 - product demonstrations without methods, baselines, or falsifiable evaluation; and
 - “physics-inspired” metaphors that do not impose an equation, symmetry, conservation law, energy, dynamics, or physical substrate.
+
+## The April AI-for-science seminar topics in context
+
+The seminar titles shared by a student in September 2026 span several tasks and disciplines. They are useful examples of the wider landscape, not evidence that the course endorsed any one semester project.
+
+| Seminar topic | Research task | How it relates to this survey |
+| --- | --- | --- |
+| Generative AI for biological systems across scales | Model interacting biological processes | AI for science adjacent to physics; many methods transfer, but the biological claim requires its own validation. |
+| Structured and verifiable reasoning / SciencePedia | Build inspectable chains of scientific claims | Cross-cutting evaluation and knowledge organization; the [SciencePedia paper](https://arxiv.org/abs/2510.26854) reports a verifiable reasoning knowledge base. |
+| Gravitational-wave detection and AresGW | Find rare merger signals in noisy detector time series | Physics data analysis and inverse inference; [AResGW](https://arxiv.org/abs/2211.01520) is one concrete deep-learning detector. |
+| NASA TESS data | Find and characterize periodic brightness changes | Astronomy signal detection at scale; [NASA describes TESS](https://science.nasa.gov/mission/tess/) as an active exoplanet survey. |
+| GNNome genome assembly | Resolve paths through ambiguous assembly graphs | Biology rather than physics; [the GNNome paper](https://genome.cshlp.org/content/early/2024/10/28/gr279307124) is a useful example of graph structure guiding scientific inference. |
+| Materials discovery | Predict and screen candidate properties | Atomistic models, uncertainty, and experimental confirmation; see the materials family below. |
+| DeepH electronic structure | Approximate an expensive quantum calculation | [DeepH](https://arxiv.org/abs/2104.03786) learns density-functional-theory Hamiltonians to reduce repeated self-consistent calculations. |
+
+### Why gravitational waves attract AI work
+
+The [gravitational-wave ML review (Living Reviews in Relativity, 2025)](https://doi.org/10.1007/s41114-024-00055-8) surveys detector optimization, noise mitigation, simulated signals, detection, localization, and parameter estimation. The combination of weak rare signals, changing instrumental noise, physics-based waveform models, and public detector data creates several well-defined ML tasks. The [Gravitational Wave Open Science Center](https://gwosc.org/tutorials/) provides beginner tutorials and real data. This helps explain the two gravitational-wave seminars; it is an inference from the research landscape, not a claim about the course organizer's intent.
+
+The research challenge is reliability under changing noise and at very low false-alarm rates. A [2025 sensitivity study of AresGW](https://arxiv.org/abs/2509.05283) found performance varied across month-long real-noise samples, so simply comparing an ML detector with a traditional pipeline on one split would not be a new contribution. This is a close cousin of the proposed physics-model regime-shift question: the shift is detector noise instead of viscosity. The thesis project remains open to either domain after checking interest, data, compute, and prior work.
 
 ## Taxonomy
 

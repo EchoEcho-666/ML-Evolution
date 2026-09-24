@@ -10,12 +10,12 @@ export type CausalEdgeData = {
 
 export type CausalFlowEdge = Edge<CausalEdgeData, 'causal'>
 
-export function CausalEdge({ id, sourceX, sourceY, targetX, targetY, sourcePosition, targetPosition, markerEnd, data }: EdgeProps<CausalFlowEdge>) {
+export function CausalEdge({ id, source, sourceX, sourceY, targetX, targetY, sourcePosition, targetPosition, markerEnd, data }: EdgeProps<CausalFlowEdge>) {
   const [path, labelX, labelY] = getBezierPath({ sourceX, sourceY, targetX, targetY, sourcePosition, targetPosition, curvature: 0.34 })
   const relation = data?.relation ?? 'EXTENDS'
 
   return (
-    <g className={`causal-edge ${data?.dimmed ? 'is-dimmed' : ''} ${data?.featured ? 'is-featured' : ''}`}>
+    <g className={`causal-edge ${data?.dimmed ? 'is-dimmed' : ''} ${data?.featured ? 'is-featured' : ''} ${source === 'branch-survival-analysis' ? 'is-census' : ''}`}>
       <BaseEdge id={id} path={path} markerEnd={markerEnd} className="edge-visible" />
       <path d={path} className="edge-hitbox" fill="none" />
       <foreignObject x={labelX - 120} y={labelY - 44} width="240" height="88" className="edge-foreign">

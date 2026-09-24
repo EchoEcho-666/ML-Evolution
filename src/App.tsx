@@ -64,7 +64,16 @@ function buildTrace(id: string, mode: TraceMode, nodes: ResearchNodeModel[], edg
   return all
 }
 
+function branchPosition(node: ResearchNodeModel, nodes: ResearchNodeModel[]) {
+  if (node.id === 'branch-survival-analysis' || !node.tags.includes('branch-analysis')) return node.position
+  const branches = nodes.filter((item) => item.id !== 'branch-survival-analysis' && item.tags.includes('branch-analysis'))
+    .sort((a, b) => (a.year ?? 0) - (b.year ?? 0) || a.title.localeCompare(b.title))
+  return { x: 80 + branches.findIndex((item) => item.id === node.id) * 245, y: 1050 }
+}
+
 function timelinePosition(node: ResearchNodeModel, index: number, nodes: ResearchNodeModel[]) {
+  if (node.id === 'branch-survival-analysis') return { x: 4110, y: 1050 }
+  if (node.tags.includes('branch-analysis')) return branchPosition(node, nodes)
   const year = node.year ?? 2026
   const lanes = { paper: 30, concept: 260, mechanism: 490, problem: 710, 'open-question': 900, contradiction: 900, 'research-idea': 900 }
   const sameYearOffset = nodes.filter((item, itemIndex) => itemIndex < index && item.year === year && item.type === node.type).length
@@ -104,7 +113,7 @@ function App() {
     return {
       id: record.id,
       type: 'research',
-      position: timeline ? timelinePosition(record, index, allNodes) : nodePositions[record.id] ?? record.position,
+      position: timeline ? timelinePosition(record, index, allNodes) : nodePositions[record.id] ?? branchPosition(record, allNodes),
       data: {
         record,
         displayStatus: status,
@@ -141,7 +150,7 @@ function App() {
     setSearchOpen(false)
     setProgressOpen(false)
     setDiscoveryOpen(false)
-    const position = timeline ? timelinePosition(record, index, allNodes) : nodePositions[record.id] ?? record.position
+    const position = timeline ? timelinePosition(record, index, allNodes) : nodePositions[record.id] ?? branchPosition(record, allNodes)
     setCenter(position.x + 110, position.y + 60, { zoom: 1.15, duration: 850 })
   }, [allNodes, nodePositions, setCenter, timeline])
 
@@ -298,7 +307,7 @@ function App() {
 
         <div className="atlas-atmosphere" aria-hidden="true" />
         <div className="canvas-vignette" />
-        <div className="atlas-caption"><span><Crosshair size={13} /> SEQUENCE INTELLIGENCE</span><strong>{traceMode ? `TRACING ${traceMode.toUpperCase()}` : 'CAUSAL MAP'}</strong></div>
+        <div className="atlas-caption"><span><Crosshair size={13} /> {selectedNode?.tags.includes('branch-analysis') ? 'HISTORICAL BRANCHES' : 'SEQUENCE INTELLIGENCE'}</span><strong>{traceMode ? `TRACING ${traceMode.toUpperCase()}` : 'CAUSAL MAP'}</strong></div>
         <Legend />
         <div className="canvas-tools">
           <button onClick={() => fitView({ padding: 0.18, duration: 700, maxZoom: 0.9 })}><Focus size={15} /> Fit map</button>

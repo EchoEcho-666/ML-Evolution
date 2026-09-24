@@ -5,6 +5,10 @@
 **Primary scope:** bounded systems that propose and retain changes to their own code, tools, data, model, or training procedure
 **Decision rule:** call a system RSI only when an improvement loop is closed by an external or independently checkable evaluation
 
+## Start with a survey
+
+[Recursive Self-Improvement in AI: From Bounded Self-Refinement to Autonomous Research Loops (revised September 2026 preprint)](https://arxiv.org/abs/2607.07663) is the most directly useful recent survey for this project's definition. It separates what changes from how fully the loop closes, and examines evaluator strength, self-confirming feedback, and compute limits. Treat its literature taxonomy as a map of claims; the primary STOP, AlphaEvolve, Gödel Agent, and DGM papers below remain the evidence for what each system actually demonstrated.
+
 ## Operational definition
 
 For this project, **recursive self-improvement (RSI)** means:
@@ -144,4 +148,3 @@ The experiment supports bounded RSI only if the recursive system improves hidden
 ## Meeting explanation
 
 “I use recursive self-improvement in a narrow, testable sense: a system proposes a change to something that helps it operate, evaluates that change, and keeps it so the next round inherits the improvement. This includes code or scaffold improvement, but it does not automatically mean the model rewrote its own weights or became generally more intelligent. STOP, AlphaEvolve, Gödel Agent, and the Darwin Gödel Machine show increasingly closed loops, yet their evidence is still bounded by the evaluator, benchmark, resource budget, and safety controls. My decisive test would use hidden tests and regression checks to see whether improvement survives outside the visible objective.”
-

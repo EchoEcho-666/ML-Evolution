@@ -24,19 +24,19 @@ Build an evidence-backed causal atlas of machine-learning history that explains:
 
 | Area | Status | Current state | Next action |
 | --- | --- | --- | --- |
-| Interactive atlas | Expanded | Causal graph, node details, search, lineage view, fog, and timeline are implemented; the AI-for-Physics lineage and frontier comparators are visible. The site is branded ML Civilization. | Complete a manual browser walkthrough; the automated browser control service was unavailable on 2026-09-24. |
-| Seed research content | Complete first integration | The visible graph connects genetic programming, symbolic regression, neural operators, AI for Physics, world models, bounded RSI, and the leading project candidate. Its untested gains are labelled as proposed. | Expand only after evidence notes and relationship imports are reviewed. |
+| Interactive atlas | Expanded | The 16 measured branches now occupy a chronological history lane, and the timeline places the analysis after them. A few linked paths show how ideas moved into rule induction, modern memory, physical reservoirs, and evolutionary code search. | Manually click through the history and frontier paths; use **Restore nodes** if saved drag positions obscure the curated layout. |
+| Seed research content | Complete first integration | The Branch Survival Analysis hub remains connected to all 16 labels with visually quiet census edges. Selected successor paths have source links and hover notes; quantitative trajectory and inference limits remain in node details. | Verify further inheritance before adding more successor edges. |
 | Local research workflow | Complete | Exploration state, imported papers, relationships, and notes persist locally. | Define a consistent evidence-note format. |
 | Literature discovery | Partial | OpenAlex search, Crossref fallback, paper import, deduplication, provenance, and source links are implemented. | Add citation-neighborhood expansion and evidence-layer edges. |
 | Shared backend | Planned | A Supabase schema exists, but the app is still local-first and is not connected to it. | Add authentication, sync, and a server-side provider proxy later. |
 | Branch Realizer | Planned | The design and evaluation plan exist; no candidate-ranking model has been implemented. | Start with deterministic ranking after more confirmed edges exist. |
-| Quality checks | Partial | Production build and lint passed on 2026-09-18. On 2026-09-24, TypeScript compilation and import-graph integrity passed; full Vite build, lint, and visual browser verification were not completed because local file/dependency access stalled and browser control was unavailable. There is no automated test suite. | Re-run `npm run build` and `npm run lint` in the local Terminal, then manually click through the meeting demo. |
+| Quality checks | Partial | On 2026-09-24, TypeScript compiled, 50 graph nodes and 60 edge endpoints passed integrity checks, and Vite served the revised graph and App modules. Production bundling, ESLint, and visual browser verification remain incomplete because dependency reads stalled and browser control was unavailable. | Re-run `npm run build` and `npm run lint` in the local Terminal, then manually click through the meeting demo. |
 | Cloud development and delivery | Pushed to GitHub | Codespaces and GitHub Actions configuration are committed on `main`; the remote is `EchoEcho-666/ML-Evolution`. | Verify the repository's Pages setting before relying on the hosted page; use local Vite for the meeting. |
-| Historical branch analysis | In progress | The 16-branch census has passed broad-vs-exact query sensitivity analysis, and a first causal/inheritance report is complete. | Add citation-flow evidence, expand the branch set, and verify inferred inheritance edges. |
+| Historical branch analysis | Integrated first pass | The 16-branch census has passed broad-vs-exact query sensitivity analysis; its quantitative diagnoses and interpretation warnings are now visible in the website. | Add citation-flow evidence, expand the branch set, and verify inferred inheritance edges. |
 | Frontier census | Complete first pass | Twelve present frontiers are mapped with common bottlenecks, historical ancestors, evidence anchors, and minimum experiments. | Keep four non-preferred comparators in the final decision matrix. |
-| AI for Physics deep dive | Complete first pass | Scope, taxonomy, 29-paper chronology, evidence limits, causal edges, open questions, and a decisive experiment are drafted. | Verify metadata and compare its 32/35 provisional score against world models and RSI. |
-| World-model deep dive | Complete first pass | Operational definition, six-part taxonomy, 17-item chronology, lineage notes for Ha, LeCun/JEPA, DeepMind, and NVIDIA, evidence limits, causal edges, bottlenecks, and a 28/35 experiment score are drafted. | Convert the selected AI-for-Physics lineage and its comparators into evidence-backed imports. |
-| Recursive self-improvement deep dive | Complete first pass | Operational definition, exclusions, five-field improvement loop, target taxonomy, claim/evidence matrix, causal edges, bottlenecks, bounded falsifiable experiment, and a 27/35 provisional score are drafted. | Preserve bounded RSI as a comparator; convert documented claims and edges into the import list. |
+| AI for Physics deep dive | Complete first pass | Scope, taxonomy, 29-paper chronology, evidence limits, causal edges, open questions, and a decisive experiment are drafted. A 2025 physics-informed-ML survey is linked, with an April seminar comparison and gravitational-wave review. | Check whether detector-noise shift, PDE parameter shift, or another domain best fits student interest and compute. |
+| World-model deep dive | Complete first pass | Definition, six-part taxonomy, 17-item chronology, lineage comparisons, bottlenecks, and a 28/35 experiment score are drafted. A revised June 2026 embodied-world-model survey is linked. | Compare the survey's physical-consistency metrics with our proposed intervention evaluation. |
+| Recursive self-improvement deep dive | Complete first pass | Definition, exclusions, five-field improvement loop, claim/evidence matrix, bottlenecks, experiment, and 27/35 score are drafted. A revised September 2026 RSI survey is linked. | Keep evaluator strength and loop closure explicit when comparing systems. |
 | Research direction | Provisional selection | AI for Physics scored 32/35 for the full hybrid proposal. A 2026 thesis already ran the two-model FNO/PINO Burgers viscosity-shift comparison, so that experiment is a replication pilot; the symbolic correction or another distinct question must carry the semester contribution. | Confirm student interest, course originality requirements, compute, and a small reproducible benchmark before the final choice. |
 | Meeting preparation | Draft ready | A five-hour study path, short talk track, local-site demo steps, and likely questions are prepared. | Use [tomorrow's study and presentation guide](research/tomorrow-study-and-presentation.md), then capture the chosen focus and next experiment. |
 
@@ -151,6 +151,8 @@ For each frontier: define the object of study, representative primary papers, 20
 - [x] Draft the survey structure, thesis, candidate projects, and smallest decisive experiment.
 
 **Deliverable:** [AI for Physics survey and paper matrix](research/ai-for-physics-survey.md). First pass complete.
+
+The April AI-for-science seminar list supplied by the student spans biological systems, verifiable scientific reasoning/SciencePedia, gravitational-wave detection and AResGW, TESS astronomy, GNNome genome assembly, materials discovery, and DeepH electronic structure. The [AI-for-Physics survey](research/ai-for-physics-survey.md) maps these examples by task. Gravitational waves warrant attention because weak signals meet changing detector noise and physical waveform models; [the 2025 detector-ML review](https://doi.org/10.1007/s41114-024-00055-8) and [AresGW robustness study](https://arxiv.org/abs/2509.05283) make this a credible comparison domain. A gravitational-wave project is an option to evaluate, not the selected focus.
 
 ## Priority 4 — Deep dive: world models
 
@@ -289,7 +291,13 @@ Confidence / unresolved questions:
 - Completed a 12-area present-frontier census and retained four non-preferred comparison fields to reduce selection bias.
 - Completed the AI for Physics deep-dive draft with a 29-paper chronology and a provisional project score of `32/35`.
 
-**Next active work:** complete the world-model and RSI deep dives, compare all candidates against AI for Physics, select one focus, and export the paper/relationship graph.
+### 2026-09-24
+
+- Integrated all 16 branch diagnoses into the visible graph and arranged their historical nodes in year order; chronology remains available even when the main causal layout is customized.
+- Added sourced successor paths for expert systems to inductive rule learning, Hopfield memory to its modern form, reservoir computing to physical hardware, and evolutionary program search to AlphaEvolve. Kept the census spokes quiet so the successor paths remain legible.
+- Linked a relevant survey in each of the AI-for-Physics, world-model, and RSI deep dives, and placed the April seminar topics and gravitational-wave alternatives in the physics survey.
+
+**Next active work:** verify the local visual walkthrough, then confirm the semester focus against interest, data, compute, and originality requirements. The full historical citation-flow audit remains open.
 
 ## Weekly review
 

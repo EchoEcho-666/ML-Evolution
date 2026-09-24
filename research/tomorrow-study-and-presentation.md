@@ -56,10 +56,10 @@ The current website is a working research prototype. I can search and inspect no
 ## Website demonstration (about two minutes)
 
 1. Run `npm run dev`, open the Local URL Vite prints, and click **Go to map** if the prologue appears. Say the graph is a working prototype with a curated initial scope.
-2. Click **Focus** to center the selected hybrid equation-aware world-model node. Its detail panel labels it a leading candidate. Explain the proposed question in one sentence.
-3. Follow its incoming motivations, then select AI for Physics or symbolic regression to show how the atlas connects older methods to current questions.
-4. Open one detail panel and distinguish the source-backed historical edge from a proposed project connection.
-5. Use search or timeline/lineage controls once; avoid promising that every frontier or branch is already represented.
+2. Turn on **Timeline** to show the 16 historical branches left to right by emergence year. Search for **Branch Survival Analysis** and explain that its evaluation links measure research-label trajectories. If an older saved arrangement affects the regular map, turn Timeline off and use **Restore nodes**.
+3. Open **Expert Systems**, then **What followed** to trace the knowledge-acquisition bottleneck and inductive rule learning. Open **Hopfield Networks**, **Reservoir Computing**, or **Genetic Programming** for another path into current work.
+4. Search for **Hybrid Equation-Aware World Model** and click **Focus**. Explain that it is the leading candidate, not a completed result.
+5. Follow its incoming motivation from AI for Physics. Distinguish the measured historical evidence from the proposed semester experiment, and avoid claiming that every causal inheritance edge is already verified.
 
 The Local URL is normally `http://127.0.0.1:5173/`. Use the port Vite prints if 5173 is occupied. Do not use a container preview URL.
 

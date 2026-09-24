@@ -140,6 +140,8 @@ kbd { font-family: inherit; font-size: 9px; color: #728079; padding: 2px 5px; bo
 
 .edge-visible { stroke: #60726b !important; stroke-width: 1.1 !important; opacity: .48; transition: opacity .3s; }
 .causal-edge.is-featured .edge-visible { stroke: #849f92 !important; opacity: .7; stroke-width: 1.4 !important; stroke-dasharray: 7 5; animation: edgeFlow 18s linear infinite; }
+.causal-edge.is-census .edge-visible { opacity: .10; }
+.causal-edge.is-census .edge-label { opacity: 0; }
 .causal-edge.is-dimmed .edge-visible { opacity: .035; }
 .edge-hitbox { stroke: transparent; stroke-width: 18; pointer-events: stroke; }
 .edge-foreign { overflow: visible; pointer-events: none; }
