@@ -91,8 +91,8 @@ function inChapter(node: ResearchNodeModel, chapter: Chapter) {
 // Left-to-right phylogeny for the Branches chapter: census hub, then branches by year,
 // then each branch's successors in later columns so every edge flows left to right.
 function phylogenyLayout(nodes: ResearchNodeModel[], edges: ResearchEdge[]) {
-  const COLUMN = 330
-  const ROW = 132
+  const COLUMN = 340
+  const ROW = 150
   const GAP = 40
   const visible = new Set(nodes.filter((node) => inChapter(node, 'branches')).map((node) => node.id))
   const branches = nodes.filter((node) => node.id !== 'branch-survival-analysis' && node.tags.includes('branch-analysis'))
@@ -116,13 +116,26 @@ function phylogenyLayout(nodes: ResearchNodeModel[], edges: ResearchEdge[]) {
     }
     return columns
   })
+  // Wrap the branch blocks into side-by-side era groups so the chapter is wide, not one tall column.
+  const GROUPS = 3
+  const heights = blocks.map((columns) => Math.max(...columns.map((ids) => ids.length)) * ROW + GAP)
+  const groupWidth = Math.max(...blocks.map((columns) => columns.length)) * COLUMN + COLUMN / 2
+  const target = heights.reduce((sum, height) => sum + height, 0) / GROUPS
   const positions: Record<string, { x: number; y: number }> = {}
+  let group = 0
   let top = 0
-  blocks.forEach((columns) => {
-    columns.forEach((ids, column) => ids.forEach((id, row) => { positions[id] = { x: (column + 1) * COLUMN, y: top + row * ROW } }))
-    top += Math.max(...columns.map((ids) => ids.length)) * ROW + GAP
+  let tallest = 0
+  blocks.forEach((columns, index) => {
+    if (top > 0 && top + heights[index] / 2 > target && group < GROUPS - 1) {
+      group += 1
+      top = 0
+    }
+    const left = COLUMN + group * groupWidth
+    columns.forEach((ids, column) => ids.forEach((id, row) => { positions[id] = { x: left + column * COLUMN, y: top + row * ROW } }))
+    top += heights[index]
+    tallest = Math.max(tallest, top)
   })
-  positions['branch-survival-analysis'] = { x: 0, y: (top - GAP - ROW) / 2 }
+  positions['branch-survival-analysis'] = { x: 0, y: (tallest - GAP - ROW) / 2 }
   return positions
 }
 
@@ -191,7 +204,7 @@ function App() {
     return {
       id: record.id,
       type: 'research',
-      position: timeline ? timelinePosition(record, index, allNodes) : chapter === 'branches' && phylogeny[record.id] ? phylogeny[record.id] : nodePositions[record.id] ?? branchPosition(record, allNodes),
+      position: timeline ? timelinePosition(record, index, allNodes) : chapter === 'branches' && phylogeny[record.id] ? nodePositions[`branches:${record.id}`] ?? phylogeny[record.id] : nodePositions[record.id] ?? branchPosition(record, allNodes),
       hidden: !inChapter(record, chapter),
       data: {
         record,
@@ -239,7 +252,7 @@ function App() {
     setSearchOpen(false)
     setProgressOpen(false)
     setDiscoveryOpen(false)
-    const position = timeline ? timelinePosition(record, index, allNodes) : chapter === 'branches' && phylogeny[record.id] ? phylogeny[record.id] : nodePositions[record.id] ?? branchPosition(record, allNodes)
+    const position = timeline ? timelinePosition(record, index, allNodes) : chapter === 'branches' && phylogeny[record.id] ? nodePositions[`branches:${record.id}`] ?? phylogeny[record.id] : nodePositions[record.id] ?? branchPosition(record, allNodes)
     setCenter(position.x + 110, position.y + 60, { zoom: 1.15, duration: 850 })
   }, [allNodes, chapter, nodePositions, phylogeny, setCenter, timeline])
 
@@ -380,7 +393,7 @@ function App() {
           nodeTypes={nodeTypes}
           edgeTypes={edgeTypes}
           onNodeClick={onNodeClick}
-          onNodeDragStop={(_event, node) => { if (chapter !== 'branches') setNodePosition(node.id, node.position) }}
+          onNodeDragStop={(_event, node) => setNodePosition(chapter === 'branches' && phylogeny[node.id] ? `branches:${node.id}` : node.id, node.position)}
           minZoom={0.25}
           maxZoom={1.8}
           defaultViewport={{ x: -80, y: 240, zoom: 0.65 }}
