@@ -84,6 +84,13 @@ All four use the same backbone, data, and budget.
 | 3 | FNO + **symbolic correction** fitted to training errors (sparse regression, e.g. [SINDy](https://doi.org/10.1073/pnas.1517384113)) | The idea |
 | 4 | FNO + **equal-size neural correction**, same inputs and data | The control |
 
+**What the two corrections are.** The FNO's prediction leaves an error at each point. A correction learns that error from training data and is added back: *final prediction = FNO output + correction.*
+
+- **Equation-like (formula) correction:** the error is written as a short formula built from physics-style terms, for example (illustrative):
+  `error ≈ 0.8 · ν · u_xx − 0.1 · u · u_x`
+  Sparse regression tries a list of candidate terms (`u`, `u_x`, `u_xx`, `u·u_x`, `ν·u_xx`, …) and keeps only the few that matter, with fitted coefficients. The result is a formula you can read.
+- **Neural-net correction:** a tiny network learns the same error with no formula, just weights. It is flexible but not readable.
+
 **Reading the result:**
 - 3 beats 4 on extrapolation → the formula's *structure* helps.
 - 3 ≈ 4 → only the extra module helps.
