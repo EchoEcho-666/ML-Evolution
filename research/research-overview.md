@@ -20,6 +20,16 @@
 ## 2. Present: two frontiers, one shared weakness (2 min)
 
 - **World models** (Ha → Dreamer → JEPA → Genie, Cosmos, World Labs Atlas) predict what happens next. They look realistic, but nobody can check whether they're *right* about new situations.
+
+  **Three families of world model**
+
+  | Family | Example | How it predicts | Weak spot |
+  | --- | --- | --- | --- |
+  | **1. Latent dynamics** (RNN-based) | [Ha & Schmidhuber 2018](https://arxiv.org/abs/1803.10122), [Dreamer](https://arxiv.org/abs/1912.01603) | Compress each frame into a small latent code; an RNN predicts how the code changes; the agent practises inside this "dream" | The code may drop details an action later depends on |
+  | **2. Predict meaning, not pixels** | [LeCun's JEPA](https://openreview.net/pdf/315d43ba26f55357a84cec9a7ed15a6610094f79.pdf), [V-JEPA 2](https://ai.meta.com/research/publications/v-jepa-2-self-supervised-video-models-enable-understanding-prediction-and-planning/) | Predict the *representation* of the next moment, skipping pixels | Hard to check what was thrown away |
+  | **3. Generate pixels / video** | [Genie 3](https://deepmind.google/blog/genie-3-a-new-frontier-for-world-models/), [Cosmos](https://research.nvidia.com/labs/cosmos-lab/cosmos3/), [World Labs Atlas](https://www.worldlabs.ai/blog/atlas) | Generate the next frames, pixel by pixel, often controllable by actions or camera | Looks realistic but may be physically wrong; consistency lasts minutes |
+
+  In all three, the **latent space** (the compressed internal state) decides what the model can and cannot predict.
 - **Recursive self-improvement** (STOP → AlphaEvolve → Darwin Gödel Machine): systems improve their own code, but only as well as their tests can check.
 - **Shared weakness:** both look good on what they were tested on and can fail under a shift nobody checked.
 - **Show (chapter 3 · Frontier):** World Models and Bounded RSI both lead to **Intervention and Regime Shift**, which leads to my project.
@@ -253,6 +263,16 @@ For 13 branches I tracked citations to each **founding paper**:
 6. **Hybrid Equation-Aware World Model → Focus:** the proposed project and its ancestors.
 
 ## B5. World models
+
+**Three families of world model**
+
+| Family | Example | How it predicts | Weak spot |
+| --- | --- | --- | --- |
+| **1. Latent dynamics** (RNN-based) | [Ha & Schmidhuber 2018](https://arxiv.org/abs/1803.10122), [Dreamer](https://arxiv.org/abs/1912.01603) | Compress each frame into a small latent code; an RNN predicts how the code changes; the agent practises inside this "dream" | The code may drop details an action later depends on |
+| **2. Predict meaning, not pixels** | [LeCun's JEPA](https://openreview.net/pdf/315d43ba26f55357a84cec9a7ed15a6610094f79.pdf), [V-JEPA 2](https://ai.meta.com/research/publications/v-jepa-2-self-supervised-video-models-enable-understanding-prediction-and-planning/) | Predict the *representation* of the next moment, skipping pixels | Hard to check what was thrown away |
+| **3. Generate pixels / video** | [Genie 3](https://deepmind.google/blog/genie-3-a-new-frontier-for-world-models/), [Cosmos](https://research.nvidia.com/labs/cosmos-lab/cosmos3/), [World Labs Atlas](https://www.worldlabs.ai/blog/atlas) | Generate the next frames, pixel by pixel, often controllable by actions or camera | Looks realistic but may be physically wrong; consistency lasts minutes |
+
+In all three, the **latent space** (the compressed internal state) decides what the model can and cannot predict.
 
 **Definition:** a learned model that holds the state of an environment and predicts what happens next, ideally *if I act*. It is a functional category, not one architecture. Survey: [A Comprehensive Survey on World Models for Embodied AI](https://arxiv.org/abs/2510.16732).
 
