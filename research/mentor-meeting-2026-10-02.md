@@ -194,4 +194,4 @@ Anthropic's interpretability team ([summary, April 2026](https://www.anthropic.c
 
 ## After the meeting
 
-Record the mentor's answers to section 5 at the top of `project-focus-decision.md` and change its status from "provisional" to confirmed or revised.
+Record the mentor's answers to section 6 at the top of `project-focus-decision.md` and change its status from "provisional" to confirmed or revised.
