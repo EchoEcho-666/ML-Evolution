@@ -3,6 +3,8 @@
 **Updated:** 2026-09-24
 **Decision status:** provisional recommendation; student decision pending
 
+See [AI for Physics project feasibility and publication path](ai-physics-publication-feasibility.md) for the minimum workshop-paper bar and the recommended sequence between the hybrid and bounded-RSI ideas.
+
 ## Decision
 
 The current leading candidate is:

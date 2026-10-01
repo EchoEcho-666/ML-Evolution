@@ -11,7 +11,7 @@ import {
 import '@xyflow/react/dist/style.css'
 import { Crosshair, Focus, LocateFixed, RotateCcw } from 'lucide-react'
 import { researchEdges, researchNodes } from './data/researchGraph'
-import type { EdgeType, ExplorationStatus, ResearchEdge, ResearchNode as ResearchNodeModel } from './types'
+import type { EdgeType, ExplorationStatus, IdeaFlow, ResearchEdge, ResearchNode as ResearchNodeModel } from './types'
 import { ResearchNode, type ResearchFlowNode } from './components/ResearchNode'
 import { CausalEdge, type CausalFlowEdge } from './components/CausalEdge'
 import { DetailPanel } from './components/DetailPanel'
@@ -27,6 +27,8 @@ import { Prologue } from './components/Prologue'
 
 const nodeTypes = { research: ResearchNode }
 const edgeTypes = { causal: CausalEdge }
+const ideaFlowColors = { survival: '#78a68e', merger: '#9a86c1', migration: '#6fa6b4', extinction: '#c8785f' } as const
+const allIdeaFlows: IdeaFlow[] = ['survival', 'merger', 'migration', 'extinction']
 
 type TraceMode = 'all' | 'ancestors' | 'descendants' | 'unresolved'
 type Theme = 'dark' | 'light'
@@ -72,12 +74,17 @@ function branchPosition(node: ResearchNodeModel, nodes: ResearchNodeModel[]) {
 }
 
 function timelinePosition(node: ResearchNodeModel, index: number, nodes: ResearchNodeModel[]) {
-  if (node.id === 'branch-survival-analysis') return { x: 4110, y: 1050 }
-  if (node.tags.includes('branch-analysis')) return branchPosition(node, nodes)
   const year = node.year ?? 2026
+  const years = [...new Set(nodes.map((item) => item.year ?? 2026))].sort((a, b) => a - b)
+  const x = years.indexOf(year) * 245
+  if (node.id === 'branch-survival-analysis') return { x, y: 1360 }
+  if (node.tags.includes('branch-analysis')) {
+    const sameYearOffset = nodes.filter((item, itemIndex) => itemIndex < index && item.year === year && item.tags.includes('branch-analysis')).length
+    return { x, y: 1080 + sameYearOffset * 155 }
+  }
   const lanes = { paper: 30, concept: 260, mechanism: 490, problem: 710, 'open-question': 900, contradiction: 900, 'research-idea': 900 }
   const sameYearOffset = nodes.filter((item, itemIndex) => itemIndex < index && item.year === year && item.type === node.type).length
-  return { x: (year - 1986) * 90, y: lanes[node.type] + sameYearOffset * 155 }
+  return { x, y: lanes[node.type] + sameYearOffset * 155 }
 }
 
 function App() {
@@ -91,6 +98,7 @@ function App() {
   const [progressOpen, setProgressOpen] = useState(false)
   const [discoveryOpen, setDiscoveryOpen] = useState(false)
   const [activeRail, setActiveRail] = useState('atlas')
+  const [visibleIdeaFlows, setVisibleIdeaFlows] = useState<IdeaFlow[]>(allIdeaFlows)
   const [introVisible, setIntroVisible] = useState(true)
   const [prologueOpen, setPrologueOpen] = useState(() => sessionStorage.getItem('ml-evolution:prologue-seen') !== 'true')
   const [theme, setTheme] = useState<Theme>(() => {
@@ -132,15 +140,17 @@ function App() {
     })
     return {
       id: edge.id, source: edge.source, target: edge.target, type: 'causal',
-      markerEnd: { type: MarkerType.ArrowClosed, width: 13, height: 13, color: '#71827b' },
+      hidden: Boolean(edge.ideaFlow && !visibleIdeaFlows.includes(edge.ideaFlow)),
+      markerEnd: { type: MarkerType.ArrowClosed, width: 13, height: 13, color: edge.ideaFlow ? ideaFlowColors[edge.ideaFlow] : '#71827b' },
       data: {
         relation: edge.type,
         explanation: edge.explanation,
         dimmed: dimmed || fogged,
         featured: Boolean(edge.featured),
+        ideaFlow: edge.ideaFlow,
       },
     }
-  }), [allEdges, allNodes, fog, statusOf, tracedIds])
+  }), [allEdges, allNodes, fog, statusOf, tracedIds, visibleIdeaFlows])
 
   const travelTo = useCallback((id: string) => {
     const index = allNodes.findIndex((node) => node.id === id)
@@ -308,7 +318,7 @@ function App() {
         <div className="atlas-atmosphere" aria-hidden="true" />
         <div className="canvas-vignette" />
         <div className="atlas-caption"><span><Crosshair size={13} /> {selectedNode?.tags.includes('branch-analysis') ? 'HISTORICAL BRANCHES' : 'SEQUENCE INTELLIGENCE'}</span><strong>{traceMode ? `TRACING ${traceMode.toUpperCase()}` : 'CAUSAL MAP'}</strong></div>
-        <Legend />
+        <Legend visibleFlows={visibleIdeaFlows} onToggleFlow={(flow) => setVisibleIdeaFlows((current) => current.includes(flow) ? current.filter((item) => item !== flow) : [...current, flow])} />
         <div className="canvas-tools">
           <button onClick={() => fitView({ padding: 0.18, duration: 700, maxZoom: 0.9 })}><Focus size={15} /> Fit map</button>
           <button onClick={() => selectedNode && travelTo(selectedNode.id)}><LocateFixed size={15} /> Focus</button>

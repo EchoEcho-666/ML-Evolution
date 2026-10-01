@@ -140,6 +140,14 @@ kbd { font-family: inherit; font-size: 9px; color: #728079; padding: 2px 5px; bo
 
 .edge-visible { stroke: #60726b !important; stroke-width: 1.1 !important; opacity: .48; transition: opacity .3s; }
 .causal-edge.is-featured .edge-visible { stroke: #849f92 !important; opacity: .7; stroke-width: 1.4 !important; stroke-dasharray: 7 5; animation: edgeFlow 18s linear infinite; }
+.causal-edge.flow-survival .edge-visible { stroke: #78a68e !important; }
+.causal-edge.flow-merger .edge-visible { stroke: #9a86c1 !important; }
+.causal-edge.flow-migration .edge-visible { stroke: #6fa6b4 !important; }
+.causal-edge.flow-extinction .edge-visible { stroke: #c8785f !important; }
+.causal-edge.flow-survival .edge-label strong { color: #9bc7af; }
+.causal-edge.flow-merger .edge-label strong { color: #b5a4d4; }
+.causal-edge.flow-migration .edge-label strong { color: #91c3ce; }
+.causal-edge.flow-extinction .edge-label strong { color: #dda08c; }
 .causal-edge.is-census .edge-visible { opacity: .10; }
 .causal-edge.is-census .edge-label { opacity: 0; }
 .causal-edge.is-dimmed .edge-visible { opacity: .035; }
@@ -151,7 +159,7 @@ kbd { font-family: inherit; font-size: 9px; color: #728079; padding: 2px 5px; bo
 .causal-edge.is-dimmed .edge-label { opacity: 0; }
 .react-flow__edge:hover .edge-label { padding: 7px 9px; opacity: 1; transform: translateY(-2px); }
 .react-flow__edge:hover .edge-label span { display: block; }
-.react-flow__edge:hover .edge-visible { opacity: 1; stroke: #a7bcb2 !important; }
+.react-flow__edge:hover .edge-visible { opacity: 1; }
 @keyframes edgeFlow { to { stroke-dashoffset: -120; } }
 
 .canvas-vignette { position: absolute; inset: 0; pointer-events: none; z-index: 6; background: radial-gradient(ellipse at center, transparent 45%, rgba(4,7,8,.3) 100%); }
@@ -162,7 +170,16 @@ kbd { font-family: inherit; font-size: 9px; color: #728079; padding: 2px 5px; bo
 .legend-title { align-self: stretch; padding: 0 12px; display: flex; align-items: center; justify-content: center; border-right: 1px solid rgba(137,157,148,.12); font-size: 7px; line-height: 1; letter-spacing: .17em; color: #65716c; }
 .legend-items { display: flex; align-items: center; gap: 12px; padding: 0 12px; overflow-x: auto; scrollbar-width: none; }
 .legend-items span { display: flex; align-items: center; gap: 4px; white-space: nowrap; font-size: 7px; color: #718079; }
+.legend-items button { display: flex; align-items: center; gap: 4px; padding: 0; border: 0; background: transparent; white-space: nowrap; font: inherit; font-size: 7px; color: #718079; cursor: pointer; }
+.legend-items button[aria-pressed='false'] { opacity: .28; }
+.legend-items button:focus-visible { outline: 1px solid currentColor; outline-offset: 3px; }
 .legend-items svg { width: 9px; height: 9px; color: #91a79d; }
+.legend-divider { width: 1px; height: 18px; background: rgba(137,157,148,.16); }
+.flow-key::before { content: ""; width: 13px; border-top: 2px solid; }
+.flow-key.survival::before { border-color: #78a68e; }
+.flow-key.merger::before { border-color: #9a86c1; }
+.flow-key.migration::before { border-color: #6fa6b4; }
+.flow-key.extinction::before { border-color: #c8785f; }
 .canvas-tools { position: absolute; z-index: 10; right: 20px; top: 18px; display: flex; border: 1px solid rgba(139,160,150,.14); background: rgba(8,13,14,.76); backdrop-filter: blur(8px); }
 .canvas-tools button { height: 30px; display: flex; gap: 6px; align-items: center; padding: 0 9px; border: 0; border-right: 1px solid rgba(139,160,150,.12); background: transparent; cursor: pointer; color: #76847e; font-size: 8px; text-transform: uppercase; letter-spacing: .08em; }
 .canvas-tools button:last-child { border: 0; }
@@ -439,7 +456,8 @@ kbd { font-family: inherit; font-size: 9px; color: #728079; padding: 2px 5px; bo
 .app-shell[data-theme='light'] .canvas-vignette { background: radial-gradient(ellipse at center, transparent 48%, rgba(49,67,74,.09) 100%); }
 .app-shell[data-theme='light'] .atlas-caption span,
 .app-shell[data-theme='light'] .legend-title,
-.app-shell[data-theme='light'] .legend-items span { color: #65766e; }
+.app-shell[data-theme='light'] .legend-items span,
+.app-shell[data-theme='light'] .legend-items button { color: #65766e; }
 .app-shell[data-theme='light'] .atlas-caption strong { color: rgba(48,67,58,.58); }
 .app-shell[data-theme='light'] .legend-panel,
 .app-shell[data-theme='light'] .canvas-tools,

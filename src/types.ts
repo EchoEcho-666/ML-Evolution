@@ -39,6 +39,8 @@ export type EdgeType =
   | 'SIMPLIFIES'
   | 'INSPIRES'
 
+export type IdeaFlow = 'survival' | 'merger' | 'migration' | 'extinction'
+
 export interface ResearchNode {
   id: string
   type: NodeType
@@ -79,4 +81,5 @@ export interface ResearchEdge {
   type: EdgeType
   explanation: string
   featured?: boolean
+  ideaFlow?: IdeaFlow
 }

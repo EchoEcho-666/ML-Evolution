@@ -5,6 +5,8 @@
 **Primary scope:** bounded systems that propose and retain changes to their own code, tools, data, model, or training procedure
 **Decision rule:** call a system RSI only when an improvement loop is closed by an external or independently checkable evaluation
 
+For the physics-specific implementation and publication bar, see [AI for Physics project feasibility and publication path](ai-physics-publication-feasibility.md).
+
 ## Start with a survey
 
 [Recursive Self-Improvement in AI: From Bounded Self-Refinement to Autonomous Research Loops (revised September 2026 preprint)](https://arxiv.org/abs/2607.07663) is the most directly useful recent survey for this project's definition. It separates what changes from how fully the loop closes, and examines evaluator strength, self-confirming feedback, and compute limits. Treat its literature taxonomy as a map of claims; the primary STOP, AlphaEvolve, Gödel Agent, and DGM papers below remain the evidence for what each system actually demonstrated.

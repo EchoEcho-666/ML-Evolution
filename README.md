@@ -61,5 +61,15 @@ npm run preview
 - Toggle **Lineage** to isolate causal ancestry and descendants.
 - Toggle **Fog** (or press `F`) to reveal locked territory.
 - Switch to **Timeline** for a chronological projection of the same causal graph.
+- Select a color in the map key to show or hide survival, merger, migration, or extinction/stagnation edges.
 
 Exploration states and notes are stored in browser local storage.
+
+## Current research decisions
+
+- [Mentor meeting brief (2026-10-02)](research/mentor-meeting-2026-10-02.md)
+- [Project-focus decision](research/project-focus-decision.md)
+- [AI-for-physics survey](research/ai-for-physics-survey.md)
+- [Publication feasibility for the hybrid and bounded-RSI ideas](research/ai-physics-publication-feasibility.md)
+- [U.S. AI PhD decision for 2028](research/phd-in-ai-2028.md)
+- [Runnable Burgers reference and baseline](experiments/burgers-pilot/README.md)

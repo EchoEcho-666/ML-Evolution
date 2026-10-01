@@ -1,0 +1,48 @@
+{
+  "equation": "u_t + u u_x = nu u_xx (periodic on [0, 2pi))",
+  "solver": "Rusanov finite-volume flux + centered diffusion + SSP-RK3",
+  "grid_size": 96,
+  "final_time": 2.0,
+  "snapshots": 20,
+  "phases": [
+    0.0,
+    0.7,
+    1.4
+  ],
+  "split": {
+    "train_viscosities": [
+      0.01,
+      0.02,
+      0.04
+    ],
+    "test_viscosities": [
+      0.015,
+      0.03
+    ],
+    "extrapolation_viscosities": [
+      0.005,
+      0.08
+    ]
+  },
+  "train": {
+    "trajectories": 9,
+    "persistence_one_step_rmse": 0.03962687815313008,
+    "persistence_final_rollout_rmse": 0.4872928664756148,
+    "max_mass_drift": 2.5326962749261384e-16,
+    "energy_monotonicity_violations": 0
+  },
+  "test": {
+    "trajectories": 6,
+    "persistence_one_step_rmse": 0.039540814645284576,
+    "persistence_final_rollout_rmse": 0.48772155987370414,
+    "max_mass_drift": 2.500893011199897e-16,
+    "energy_monotonicity_violations": 0
+  },
+  "extrapolation": {
+    "trajectories": 6,
+    "persistence_one_step_rmse": 0.038499542279465365,
+    "persistence_final_rollout_rmse": 0.47761928411831267,
+    "max_mass_drift": 2.2667053419430283e-16,
+    "energy_monotonicity_violations": 0
+  }
+}

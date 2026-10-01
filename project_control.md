@@ -1,8 +1,8 @@
 # ML Civilization — Project Plan
 
-**Last updated:** 2026-09-24
-**Current phase:** Validate semester-project fit, then prepare a reproducible first experiment
-**This week:** 2026-09-21 to 2026-09-27
+**Last updated:** 2026-10-01
+**Current phase:** Mentor review of the research idea (2026-10-02), then the first trainable baseline
+**This week:** 2026-09-28 to 2026-10-04
 
 ## North star
 
@@ -24,13 +24,13 @@ Build an evidence-backed causal atlas of machine-learning history that explains:
 
 | Area | Status | Current state | Next action |
 | --- | --- | --- | --- |
-| Interactive atlas | Expanded | The 16 measured branches now occupy a chronological history lane, and the timeline places the analysis after them. A few linked paths show how ideas moved into rule induction, modern memory, physical reservoirs, and evolutionary code search. | Manually click through the history and frontier paths; use **Restore nodes** if saved drag positions obscure the curated layout. |
-| Seed research content | Complete first integration | The Branch Survival Analysis hub remains connected to all 16 labels with visually quiet census edges. Selected successor paths have source links and hover notes; quantitative trajectory and inference limits remain in node details. | Verify further inheritance before adding more successor edges. |
+| Interactive atlas | Expanded | The 16 measured branches remain in strict year order without node collisions. Timeline view now uses shared, evenly spaced year columns. Idea-flow edges distinguish survival, merger, migration, and extinction/stagnation by label, color, and interactive legend filters. | Use **Restore nodes** if saved drag positions obscure the curated layout; verify further inheritance before adding more idea-flow labels. |
+| Seed research content | Complete first integration | Every measured branch now opens a scholarly source. WaveNet, S4, Mamba, and Mamba-2 extend the sequence lineage through 2024 while distinguishing SSM recurrence from its convolutional compute form. | Add only recent nodes that establish a consequential mechanism or branch connection. |
 | Local research workflow | Complete | Exploration state, imported papers, relationships, and notes persist locally. | Define a consistent evidence-note format. |
 | Literature discovery | Partial | OpenAlex search, Crossref fallback, paper import, deduplication, provenance, and source links are implemented. | Add citation-neighborhood expansion and evidence-layer edges. |
 | Shared backend | Planned | A Supabase schema exists, but the app is still local-first and is not connected to it. | Add authentication, sync, and a server-side provider proxy later. |
 | Branch Realizer | Planned | The design and evaluation plan exist; no candidate-ranking model has been implemented. | Start with deterministic ranking after more confirmed edges exist. |
-| Quality checks | Partial | On 2026-09-24, TypeScript compiled, 50 graph nodes and 60 edge endpoints passed integrity checks, and Vite served the revised modules. GitHub Actions run `36018395612` passed lint and production build. Visual browser verification remains open. | Manually click through the meeting demo. |
+| Quality checks | Partial | On 2026-09-24, TypeScript compiled, 54 graph nodes and 66 edge endpoints passed integrity checks, all 16 measured branches had source links, and browser QA confirmed the new nodes, source button, legend, and idea-flow labels render. GitHub Actions run `36018395612` passed the prior lint and production build; verification for this checkpoint is pending push. | Confirm the new GitHub Actions run passes. |
 | Cloud development and delivery | Pushed to GitHub | Codespaces and GitHub Actions verify the `main` branch. Pages deployment runs only when the repository variable `ENABLE_PAGES` is `true`; the local Vite site remains the meeting demo. | To publish later, enable Pages with GitHub Actions as its source and set `ENABLE_PAGES=true`. |
 | Historical branch analysis | Integrated first pass | The 16-branch census has passed broad-vs-exact query sensitivity analysis; its quantitative diagnoses and interpretation warnings are now visible in the website. | Add citation-flow evidence, expand the branch set, and verify inferred inheritance edges. |
 | Frontier census | Complete first pass | Twelve present frontiers are mapped with common bottlenecks, historical ancestors, evidence anchors, and minimum experiments. | Keep four non-preferred comparators in the final decision matrix. |
@@ -295,11 +295,30 @@ Confidence / unresolved questions:
 
 - Integrated all 16 branch diagnoses into the visible graph and arranged their historical nodes in year order; chronology remains available even when the main causal layout is customized.
 - Added sourced successor paths for expert systems to inductive rule learning, Hopfield memory to its modern form, reservoir computing to physical hardware, and evolutionary program search to AlphaEvolve. Kept the census spokes quiet so the successor paths remain legible.
+- Added a source link to every measured branch and extended the sequence lineage with WaveNet, S4, Mamba, and Mamba-2. The graph records SSMs as recurrent/control-theoretic models that can use a convolutional training form, rather than treating them as descendants of CNNs alone.
+- Added survival, merger, and migration as visible idea-flow classes while preserving the existing causal predicates. Corrected the timeline to use one collision-free column per represented year and stack same-year nodes.
 - Linked a relevant survey in each of the AI-for-Physics, world-model, and RSI deep dives, and placed the April seminar topics and gravitational-wave alternatives in the physics survey.
 - Kept GitHub verification independent of Pages activation after confirming that lint and build passed but `configure-pages` failed on an unconfigured repository.
 - Confirmed the next GitHub Actions run passed lint and the production build; Pages deployment was intentionally skipped until enabled.
 
-**Next active work:** verify the local visual walkthrough, then confirm the semester focus against interest, data, compute, and originality requirements. The full historical citation-flow audit remains open.
+### 2026-09-25
+
+- Completed a paper-feasibility comparison for the hybrid equation-aware model and bounded RSI for automated physics research. The recommended sequence is to publish the controlled physics benchmark first, then reuse its frozen hidden tests for the RSI evaluator study.
+- Defined the minimum honest claim, controls, negative-result path, and publication ladder for both ideas. The realistic first target is a short or non-archival reviewed workshop paper; neither broad idea is automatically a main-track contribution.
+- Added a separate 2028 U.S. AI PhD decision note. The linked RSI paper is treated as a roadmap rather than a displacement forecast; the recommendation is to preserve the application option, enroll only with full funding and strong advisor fit, and specialize in physical grounding, evaluator design, and verification.
+- Completed the idea-flow color treatment: survival, merger, and migration now keep their category color across lines, labels, arrowheads, and hover state.
+- Verified the complete source in a clean local copy: `npm run build` and `npm run lint` both pass. A headless-browser render confirmed the atlas and colored legend load correctly.
+- Added extinction/stagnation as the fourth idea-flow class and made all four legend keys interactive visibility filters. Marked the fixed-vector encoder–decoder bottleneck and expert-system knowledge-acquisition bottleneck as the first evidence-backed stagnation paths.
+- Added a dependency-free 1D viscous Burgers reference pilot with a frozen out-of-viscosity split, conservative mass and dissipative-energy checks, and persistence baselines. The default run passes all checks across 15 trajectories.
+- Re-ran `npm run build` and `npm run lint` in the clean verification copy and visually checked the four-color legend in the rendered atlas.
+
+### 2026-10-01
+
+- Added a true extrapolation split (ν = 0.005, 0.08) to the Burgers pilot. The earlier held-out viscosities lay inside the training range and tested only interpolation.
+- Moved the pilot horizon from t = 0.4 to t = 2.0. At t = 0.4, viscosity changed the solution by only 1–3% of RMS, too little for a meaningful shift. At t = 2.0 it is 5–18%. All 21 reference trajectories pass the mass and energy checks.
+- Wrote `research/mentor-meeting-2026-10-02.md`: a talk track on world models, RSI, and the physics research idea, plus questions for the mentor. Re-verified `npm run build` and `npm run lint`.
+
+**Next active work:** record the mentor's feedback in `project-focus-decision.md`; then add a small matched trainable baseline only after choosing an acceptable dependency and compute budget; then audit the supplied architecture report's strongest claims against primary sources. The full historical citation-flow audit and more recent branch coverage remain open.
 
 ## Weekly review
 
