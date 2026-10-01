@@ -88,6 +88,44 @@ function inChapter(node: ResearchNodeModel, chapter: Chapter) {
   return !branch && !frontier
 }
 
+// Left-to-right phylogeny for the Branches chapter: census hub, then branches by year,
+// then each branch's successors in later columns so every edge flows left to right.
+function phylogenyLayout(nodes: ResearchNodeModel[], edges: ResearchEdge[]) {
+  const COLUMN = 330
+  const ROW = 132
+  const GAP = 40
+  const visible = new Set(nodes.filter((node) => inChapter(node, 'branches')).map((node) => node.id))
+  const branches = nodes.filter((node) => node.id !== 'branch-survival-analysis' && node.tags.includes('branch-analysis'))
+    .sort((a, b) => (a.year ?? 0) - (b.year ?? 0) || a.title.localeCompare(b.title))
+  const isBranch = new Set(branches.map((node) => node.id))
+  const owner = new Map<string, { branch: number; column: number }>()
+  const blocks = branches.map((branch, index) => {
+    const columns: string[][] = [[branch.id]]
+    let frontier = [branch.id]
+    while (frontier.length) {
+      const next: string[] = []
+      for (const id of frontier) {
+        for (const edge of edges) {
+          if (edge.source !== id || !visible.has(edge.target) || isBranch.has(edge.target) || owner.has(edge.target)) continue
+          owner.set(edge.target, { branch: index, column: columns.length })
+          next.push(edge.target)
+        }
+      }
+      if (next.length) columns.push(next)
+      frontier = next
+    }
+    return columns
+  })
+  const positions: Record<string, { x: number; y: number }> = {}
+  let top = 0
+  blocks.forEach((columns) => {
+    columns.forEach((ids, column) => ids.forEach((id, row) => { positions[id] = { x: (column + 1) * COLUMN, y: top + row * ROW } }))
+    top += Math.max(...columns.map((ids) => ids.length)) * ROW + GAP
+  })
+  positions['branch-survival-analysis'] = { x: 0, y: (top - GAP - ROW) / 2 }
+  return positions
+}
+
 function branchPosition(node: ResearchNodeModel, nodes: ResearchNodeModel[]) {
   if (node.id === 'branch-survival-analysis' || !node.tags.includes('branch-analysis')) return node.position
   const branches = nodes.filter((item) => item.id !== 'branch-survival-analysis' && item.tags.includes('branch-analysis'))
@@ -143,6 +181,8 @@ function App() {
     }), [allEdges, allNodes, selectedId])
   const tracedIds = useMemo(() => selectedId && traceMode ? buildTrace(selectedId, traceMode, allNodes, allEdges) : null, [allEdges, allNodes, selectedId, traceMode])
 
+  const phylogeny = useMemo(() => phylogenyLayout(allNodes, allEdges), [allEdges, allNodes])
+
   const statusOf = useCallback((node: ResearchNodeModel): ExplorationStatus => statuses[node.id] ?? node.status, [statuses])
 
   const flowNodes = useMemo<ResearchFlowNode[]>(() => allNodes.map((record, index) => {
@@ -151,7 +191,7 @@ function App() {
     return {
       id: record.id,
       type: 'research',
-      position: timeline ? timelinePosition(record, index, allNodes) : nodePositions[record.id] ?? branchPosition(record, allNodes),
+      position: timeline ? timelinePosition(record, index, allNodes) : chapter === 'branches' && phylogeny[record.id] ? phylogeny[record.id] : nodePositions[record.id] ?? branchPosition(record, allNodes),
       hidden: !inChapter(record, chapter),
       data: {
         record,
@@ -161,7 +201,7 @@ function App() {
         selected: record.id === selectedId,
       },
     }
-  }), [allNodes, chapter, fog, nodePositions, selectedId, statusOf, timeline, tracedIds])
+  }), [allNodes, chapter, fog, nodePositions, phylogeny, selectedId, statusOf, timeline, tracedIds])
 
   // React Flow needs node changes applied locally so a dragged node follows the cursor.
   const [renderedNodes, setRenderedNodes] = useState(flowNodes)
@@ -199,9 +239,9 @@ function App() {
     setSearchOpen(false)
     setProgressOpen(false)
     setDiscoveryOpen(false)
-    const position = timeline ? timelinePosition(record, index, allNodes) : nodePositions[record.id] ?? branchPosition(record, allNodes)
+    const position = timeline ? timelinePosition(record, index, allNodes) : chapter === 'branches' && phylogeny[record.id] ? phylogeny[record.id] : nodePositions[record.id] ?? branchPosition(record, allNodes)
     setCenter(position.x + 110, position.y + 60, { zoom: 1.15, duration: 850 })
-  }, [allNodes, chapter, nodePositions, setCenter, timeline])
+  }, [allNodes, chapter, nodePositions, phylogeny, setCenter, timeline])
 
   const importPaper = useCallback((paper: ScholarlyPaper, relation: EdgeType, explanation: string) => {
     const duplicate = allNodes.find((node) =>
@@ -340,7 +380,7 @@ function App() {
           nodeTypes={nodeTypes}
           edgeTypes={edgeTypes}
           onNodeClick={onNodeClick}
-          onNodeDragStop={(_event, node) => setNodePosition(node.id, node.position)}
+          onNodeDragStop={(_event, node) => { if (chapter !== 'branches') setNodePosition(node.id, node.position) }}
           minZoom={0.25}
           maxZoom={1.8}
           defaultViewport={{ x: -80, y: 240, zoom: 0.65 }}
