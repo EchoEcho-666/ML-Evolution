@@ -1,23 +1,23 @@
 # ML Civilization — research overview
 
-**Updated:** 2026-10-01 · **Meeting:** 3:00 pm · Website: `npm run dev` → open the URL → **Go to map**
+**Updated:** 2026-10-01 · **Status:** research direction provisional
 
-**How to use this document:** Part 1 is the whole talk, on one page. Part 2 is backup: open a section only if your mentor asks. Part 3 has every paper and file.
+**Structure:** Part 1 summarizes the project and the proposed research. Part 2 gives the details and evidence. Part 3 lists every cited paper and project file.
 
 ---
 
-# Part 1
+# Part 1 — Summary
 
-**The logic in one line:** *ideas in AI rarely die → today's two frontiers share one weakness → I test that weakness where the answer is exact → here's what I need.*
+**The logic in one line:** *ideas in AI rarely die → today's two frontiers share one weakness → I test that weakness where the answer is exact → open questions.*
 
-## 1. Past: ideas in AI rarely die (3 min, show the website)
+## 1. Past: ideas in AI rarely die
 
 - I built **ML Civilization**, a family tree of AI. For 16 old research branches it shows why each started, why it declined, and where its ideas went.
 - **Finding:** names die, ideas don't. Expert systems fell to 6% of their peak, but its ideas moved into rule learning, verification, and today's agents. Genetic programming's name is at 53% of its peak, but its founding paper is cited more than ever.
 - **Proof from the source:** in 1991, hand-coded expert systems took **100–180 person-years** to build; systems that learned rules from examples took **1–9**. That bottleneck is why the field moved.
-- **Show (chapter 1 · Branches):** the row of 16 branches with where each went below it → the four legend colors (survival, merger, migration, extinction) → click **Expert Systems** → **Genetic Programming** → AlphaEvolve.
+- **The website** shows this as a left-to-right family tree: each branch, then where its ideas went, colored by survival, merger, migration, or extinction.
 
-## 2. Present: two frontiers, one shared weakness (2 min)
+## 2. Present: two frontiers, one shared weakness
 
 - **World models** (Ha → Dreamer → JEPA → Genie, Cosmos, World Labs Atlas) predict what happens next. They look realistic, but nobody can check whether they're *right* about new situations.
 
@@ -32,25 +32,25 @@
   In all three, the **latent space** (the compressed internal state) decides what the model can and cannot predict.
 - **Recursive self-improvement** (STOP → AlphaEvolve → Darwin Gödel Machine): systems improve their own code, but only as well as their tests can check.
 - **Shared weakness:** both look good on what they were tested on and can fail under a shift nobody checked.
-- **Show (chapter 3 · Frontier):** World Models and Bounded RSI both lead to **Intervention and Regime Shift**, which leads to my project.
+- On the website's Frontier view, World Models and Bounded RSI both lead to **Intervention and Regime Shift**, which motivates the proposed project.
 
-## 3. My question: test it where the answer is exact (3 min)
+## 3. Research question: test the weakness where the answer is exact
 
-- **Testbed:** the Burgers equation, a simple fluid model with one knob, viscosity ν. A solver gives the exact answer, so every error is measurable. **Show:** `viscosity-shift.svg`.
+- **Testbed:** the Burgers equation, a simple fluid model with one knob, viscosity ν. A solver gives the exact answer, so every error is measurable. See the [viscosity-shift plot](../experiments/burgers-pilot/viscosity-shift.svg).
 - **Setup:** train on ν = 0.01–0.04; test *outside* that range at 0.005 and 0.08.
 - **Four models:** plain FNO · FNO + physics loss (replicates a 2026 thesis) · FNO + **formula correction** · FNO + **equal-size neural correction** (the control).
 - **The gap:** Late Fusion Neural Operators (2026) showed a formula correction cuts Burgers extrapolation error by ~72%, but **never tested a same-size neural net in its place**. So we don't know whether the formula's *structure* is what helps. I test that, and also how much it depends on choosing the right formula terms.
 - **Status:** solver and frozen test splits done (21 runs pass the physics checks). Next: train the first FNO.
 
-## 4. My ask (1 min)
+## 4. Open questions for discussion
 
-1. Can I get **GPU access**?
+1. Is **GPU access** available for training?
 2. Is the **scope** right: four models, plus the formula-library test?
 3. Physics, world models, or RSI: **which direction** would you push me toward?
 
 ---
 
-# Part 2 — Backup (open only if asked)
+# Part 2 — Details
 
 ## B1. The research idea in detail
 
@@ -128,11 +128,11 @@ All four use the same backbone, data, and budget.
 | [Jakhar et al. 2024, JAMES](https://doi.org/10.1029/2023MS003874) | Closed-form closures appear generalizable across flow regimes, but need physics-informed libraries and sparsity to be stable |
 | [OrthoReg 2026](https://arxiv.org/abs/2606.19145) | Hybrid symbolic-neural models extrapolate better than neural-only corrections; addresses library mismatch |
 
-### Honest verdict on the gap
+### Assessment of the gap
 
 - **Not new:** "formulas extrapolate better than neural nets" has support in ODEs, graph networks, and climate closures.
 - **Still open:** for a **neural-operator surrogate under a PDE parameter shift**, does a fitted symbolic correction beat a **matched-size learned correction** on extrapolation? Late Fusion, the closest paper, skips exactly this control.
-- **Why papers skip it:** method papers aim to beat standard baselines, not explain why they win. The control might weaken the story. Reviewers mostly ask for strong baselines, and every extra model costs runs.
+- **Likely reasons it is skipped:** method papers mainly compare against standard baselines rather than isolate why a method works; reviewers typically ask for strong baselines; and each extra model adds training runs.
 - **Stronger angle to discuss:** vary whether the formula's term library contains the right terms (exact / partly wrong / generic). That asks **when** symbolic structure helps, not just whether, and connects to OrthoReg's library-mismatch problem.
 - **Scale:** a careful ablation-style contribution, suitable for a short workshop paper, not a main-conference claim.
 
@@ -253,14 +253,16 @@ For 13 branches I tracked citations to each **founding paper**:
 - **Lesson:** citation data can raise confidence in a link, but only reading the source can rule one out.
 - **On the website:** every link shows a human **judgment** (documented / inferred / proposed) and, separately, a **citation check**. Open a node → *Connections and evidence*.
 
-### Website demo path
+### Exploring the website
 
-1. **Legend:** toggle the survival, merger, migration, and extinction colors.
-2. **Timeline:** 16 branches in order of emergence.
-3. **Expert Systems → What followed:** extinction, then migration to rule learning.
-4. **Genetic Programming:** survival into symbolic regression, merger into AlphaEvolve (the bridge to RSI).
-5. **Hopfield Networks → Connections and evidence:** judgment and citation badges.
-6. **Hybrid Equation-Aware World Model → Focus:** the proposed project and its ancestors.
+Run `npm run build && npm run preview` and open the printed URL. The map has four views:
+
+1. **Branches:** the 16 measured branches from left to right, each followed by where its ideas went. Legend colors toggle survival, merger, migration, and extinction links.
+2. **Deep learning:** RNN → LSTM → attention → Transformer → state-space models.
+3. **Frontier:** world models, bounded RSI, AI for Physics, and the proposed project with its ancestors.
+4. **All:** the full causal map.
+
+Clicking a node opens its details; *Connections and evidence* lists each link's judgment and citation check.
 
 ## B5. World models
 
@@ -321,15 +323,13 @@ Full survey: [`world-model-survey.md`](world-model-survey.md).
 
 Full survey: [`recursive-self-improvement.md`](recursive-self-improvement.md).
 
-## B7. Optional: emotion concepts in language models
+## B7. Related interest: emotion concepts in language models
 
 Anthropic found internal "emotion vectors" in Claude Sonnet 4.5 that **causally affect behavior**: steering toward "desperation" increased reward hacking, and "calm" reduced it. These are *functional* representations, not evidence of feelings. Sources: [summary, April 2026](https://www.anthropic.com/research/emotion-concepts-function), [technical paper](https://transformer-circuits.pub/2026/emotions/index.html).
 
 **Link to the theme:** an internal state invisible in outputs could predict when an agent games its evaluator. This is a possible later bridge to RSI.
 
-## B8. More questions
-
-**Other questions to ask, if there's time**
+## B8. Further questions for discussion
 
 1. **Compute:** is GPU access available?
 2. **Scope:** four models, or cut to fewer?
@@ -339,11 +339,6 @@ Anthropic found internal "emotion vectors" in Claude Sonnet 4.5 that **causally 
 6. **Prior code:** should I build directly on Late Fusion's setup?
 7. **Website:** is the phylogeny worth a paper of its own?
 8. **Formula library:** should model 3 test how much the formula's advantage depends on choosing the right terms (exact / partly wrong / generic library)?
-
-**Questions you might get**
-
-- **"Isn't Phase B just AutoML?"** It is RSI only if a kept change improves the *next* round of improvement.
-- **"Why trust the atlas?"** It uses label counts plus citation checks, and judgment is shown separately from evidence. One link was confirmed only by reading the original paper.
 
 ---
 
@@ -389,7 +384,7 @@ Every paper and source cited across the project, grouped by topic.
 ### Frontier census (other areas)
 [AlphaGeometry, Trinh 2024](https://doi.org/10.1038/s41586-023-06747-5) · [DeepSeek-R1 report](https://arxiv.org/abs/2501.12948) · [SWE-bench](https://arxiv.org/abs/2310.06770) · [OSWorld](https://arxiv.org/abs/2404.07972) · [In-memory computing, Ielmini & Wong](https://doi.org/10.1038/s41928-018-0092-2)
 
-### Optional interest
+### Related interest
 [Emotion concepts summary](https://www.anthropic.com/research/emotion-concepts-function) · [Emotion concepts paper](https://transformer-circuits.pub/2026/emotions/index.html)
 
 ### Tools and venues
