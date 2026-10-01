@@ -38,7 +38,7 @@ Build an evidence-backed causal atlas of machine-learning history that explains:
 | World-model deep dive | Complete first pass | Definition, six-part taxonomy, 17-item chronology, lineage comparisons, bottlenecks, and a 28/35 experiment score are drafted. A revised June 2026 embodied-world-model survey is linked. | Compare the survey's physical-consistency metrics with our proposed intervention evaluation. |
 | Recursive self-improvement deep dive | Complete first pass | Definition, exclusions, five-field improvement loop, claim/evidence matrix, bottlenecks, experiment, and 27/35 score are drafted. A revised September 2026 RSI survey is linked. | Keep evaluator strength and loop closure explicit when comparing systems. |
 | Research direction | Provisional selection | AI for Physics scored 32/35 for the full hybrid proposal. A 2026 thesis already ran the two-model FNO/PINO Burgers viscosity-shift comparison, so that experiment is a replication pilot; the symbolic correction or another distinct question must carry the semester contribution. | Confirm student interest, course originality requirements, compute, and a small reproducible benchmark before the final choice. |
-| Meeting preparation | Draft ready | A five-hour study path, short talk track, local-site demo steps, and likely questions are prepared. | Use [tomorrow's study and presentation guide](research/tomorrow-study-and-presentation.md), then capture the chosen focus and next experiment. |
+| Meeting preparation | Ready | One prep document holds today's timeline to the 3 pm meeting, a from-zero explanation of the research idea, the 90-second pitch, the talk track (phylogeny, world models, RSI), and the mentor questions. | Use [meeting-prep.md](research/meeting-prep.md); record the mentor's answers afterwards. |
 
 Detailed engineering plans:
 
@@ -321,7 +321,9 @@ Confidence / unresolved questions:
 - Added successor-keyword evidence: keywords whose share among citing papers grew at least 3×. Examples: neuroevolution → neural architecture search; symbolic regression → SINDy and PDEs; reservoir computing → physical reservoir computing; ILP → explainable AI and program synthesis.
 - Found primary-source support for expert systems → ILP. Muggleton (1991) cites MYCIN, and his Fig. 1 compares 100–180 person-years for hand-coded MYCIN and XCON with 1–9 for inductively built GASOIL and BMT. OpenAlex had missed the citation.
 - Added `confidence` (documented / inferred / proposed) to all 66 atlas edges and a separate `citation` check to 10 featured edges. The site shows both as separate badges on edge hover and in a new “Connections and evidence” panel section. Build, lint, and a headless-browser render pass.
-- Wrote `research/mentor-meeting-2026-10-02.md`: a talk track on world models, RSI, and the physics research idea, plus questions for the mentor. Re-verified `npm run build` and `npm run lint`.
+- Wrote the mentor-meeting brief (now merged into `research/meeting-prep.md`): a talk track on world models, RSI, and the physics research idea, plus questions for the mentor. Re-verified `npm run build` and `npm run lint`.
+
+- Merged the brief, a from-zero research-idea primer, a timed prep checklist, and the older study guide into `research/meeting-prep.md`. Added `plot_viscosity_shift.py`, which draws the Burgers solution for each viscosity split.
 
 **Next active work:** record the mentor's feedback in `project-focus-decision.md`; then add a small matched trainable baseline only after choosing an acceptable dependency and compute budget; then audit the supplied architecture report's strongest claims against primary sources. The full historical citation-flow audit and more recent branch coverage remain open.
 

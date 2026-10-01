@@ -67,8 +67,7 @@ Exploration states and notes are stored in browser local storage.
 
 ## Current research decisions
 
-- [Mentor meeting brief (2026-10-02)](research/mentor-meeting-2026-10-02.md)
-- [Research idea primer](research/research-idea-primer.md) and [meeting prep checklist](research/meeting-prep-checklist.md)
+- [Mentor meeting prep: timeline, research idea, talk track](research/meeting-prep.md)
 - [Project-focus decision](research/project-focus-decision.md)
 - [AI-for-physics survey](research/ai-for-physics-survey.md)
 - [Publication feasibility for the hybrid and bounded-RSI ideas](research/ai-physics-publication-feasibility.md)
