@@ -117,7 +117,7 @@ Design choice to ask about: which terms the formula may use (e.g., `ν·u_xx`, `
 
 ### 2.6 What's new, honestly
 
-- Models 1 vs 2 under a viscosity shift were compared in a [2026 TU Delft thesis](https://repository.tudelft.nl/record/uuid:bc293c72-0833-4df2-bd42-0aa63914ee23). So **1 and 2 are a replication** that checks my setup.
+- Models 1 vs 2 under a viscosity shift were compared in S. Campos Vilar, *Can Physics-Informed Training Improve Neural-Operator Data Efficiency? A Controlled FNO and PINO Comparison for PDE Surrogate Modelling* (TU Delft bachelor thesis, June 2026; [thesis](https://repository.tudelft.nl/record/uuid:bc293c72-0833-4df2-bd42-0aa63914ee23), [code](https://github.com/samuekisde/fno-pino-data-efficiency)). It trained on Burgers ν = 0.01, tested out of distribution at ν = 0.001 with 3 seeds on an A100, and found that **PINO matched full-data FNO with 50% of the labels, but the physics loss did not make out-of-distribution prediction reliable.** So **1 and 2 are a close replication** that checks my setup. Mine trains on three viscosities and tests interpolation and extrapolation in both directions.
 - Fitting formulas to residuals and combining operators with sparse regression also exist (e.g., the 2026 [Late Fusion Operator](https://openreview.net/pdf?id=k05FaSEb8p) workshop paper).
 - **New:** the controlled comparison of symbolic vs equal-size learned correction, on a pre-declared extrapolation split, with physics checks and cost. Most papers skip the control (model 4), so they can't separate structure from capacity.
 - Realistic target: a short workshop paper (AI for Science / AI & PDE). Details: [publication feasibility](ai-physics-publication-feasibility.md).
