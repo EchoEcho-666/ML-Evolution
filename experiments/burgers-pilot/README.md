@@ -31,6 +31,8 @@ The output includes:
 
 The default horizon is `t = 2.0`, after the shock forms. At the earlier default `t = 0.4`, changing viscosity from 0.02 to 0.005 or 0.08 moved the solution by only 1–3% of its RMS, so a model could ignore viscosity and still look good on the "shift." At `t = 2.0` the same change is 5–18%.
 
+To see the shift, run `python3 experiments/burgers-pilot/plot_viscosity_shift.py` and open `viscosity-shift.svg` in a browser.
+
 The persistence score is deliberately weak. Its job is to catch broken data or evaluation pipelines before introducing a trainable model.
 
 ## Next gate
