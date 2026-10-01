@@ -32,13 +32,13 @@
 - [x] Write one sentence: *would I still want this project if the formula loses?*
 
 ### 1:45–2:00 · Pitch
-- [ ] Say the 90-second pitch (section 3) twice from the page, then once in your own words. Time it.
+- [x] Say the 90-second pitch (section 3) twice from the page, then once in your own words. Time it.
 
 ### 2:00–2:25 · Website, world models, RSI
-- [ ] Run the website and walk the demo path in section 4.2 once.
-- [ ] Open **Hopfield Networks** → *Connections and evidence* to show the judgment and citation badges.
-- [ ] Memorize: hand-coded MYCIN/XCON took **100–180** person-years; learned GASOIL/BMT took **1–9** (Muggleton 1991).
-- [ ] Skim sections 4.3 and 4.4: one line each for Ha, LeCun, DeepMind, NVIDIA, World Labs Atlas; RSI's five fields and STOP → Gödel Agent → AlphaEvolve → DGM.
+- [x] Run the website and walk the demo path in section 4.2 once.
+- [x] Open **Hopfield Networks** → *Connections and evidence* to show the judgment and citation badges.
+- [x] Memorize: how expert model died hand-coded MYCIN/XCON took **100–180** person-years; learned GASOIL/BMT took **1–9** (Muggleton 1991).
+- [x] Skim sections 4.3 and 4.4: one line each for Ha, LeCun, DeepMind, NVIDIA, World Labs Atlas; RSI's five fields and STOP → Gödel Agent → AlphaEvolve → DGM.
 
 ### 2:25–2:45 · Questions
 - [ ] Pick your top 3 from section 5.1. Recommended: **GPU access**, **scope**, **physics vs world models vs RSI**. Write them down.
@@ -119,8 +119,9 @@ Design choice to ask about: which terms the formula may use (e.g., `ν·u_xx`, `
 ### 2.6 What's new, honestly
 
 - Models 1 vs 2 under a viscosity shift were compared in S. Campos Vilar, *Can Physics-Informed Training Improve Neural-Operator Data Efficiency? A Controlled FNO and PINO Comparison for PDE Surrogate Modelling* (TU Delft bachelor thesis, June 2026; [thesis](https://repository.tudelft.nl/record/uuid:bc293c72-0833-4df2-bd42-0aa63914ee23), [code](https://github.com/samuekisde/fno-pino-data-efficiency)). It trained on Burgers ν = 0.01, tested out of distribution at ν = 0.001 with 3 seeds on an A100, and found that **PINO matched full-data FNO with 50% of the labels, but the physics loss did not make out-of-distribution prediction reliable.** So **1 and 2 are a close replication** that checks my setup. Mine trains on three viscosities and tests interpolation and extrapolation in both directions.
-- Fitting formulas to residuals and combining operators with sparse regression also exist (e.g., the 2026 [Late Fusion Operator](https://openreview.net/pdf?id=k05FaSEb8p) workshop paper).
-- **New:** the controlled comparison of symbolic vs equal-size learned correction, on a pre-declared extrapolation split, with physics checks and cost. Most papers skip the control (model 4), so they can't separate structure from capacity.
+- **Closest paper: [Late Fusion Neural Operators](https://arxiv.org/abs/2604.16721)** (2026). It adds a sparse-regression formula on top of FNO features (a library of candidate terms with parameters such as ν, fitted with an L1 penalty) and tests Burgers viscosity extrapolation (train ν between 0.01 and 0.02, test ν below 0.01). Out-of-domain RMSE was 0.069 against FNO's 0.183, about 72% lower. **It compares only against FNO and CAPE-FNO, and never replaces the formula with a similar-size neural network.** So it can't say whether the gain comes from the formula's structure or from adding a second learned stage.
+- **New:** that missing control. My project is effectively the missing ablation: symbolic vs equal-size learned correction, on a pre-declared extrapolation split, with physics checks and cost.
+- **Why papers skip it:** method papers aim to beat standard baselines, not to explain why they win. A control that might show "any extra module works" weakens the story. Reviewers mostly ask for strong baselines, and every extra model costs runs and seeds. (Verified for Late Fusion; say "the closest paper I checked," not "all papers.")
 - Realistic target: Details: [feasibility](ai-physics-feasibility.md).
 
 *Self-check 6:* What's the one-line answer to "hasn't this been done?"
@@ -146,7 +147,7 @@ Design choice to ask about: which terms the formula may use (e.g., `ν·u_xx`, `
 3. 0.03 is between training values (interpolation); extrapolation needs values outside 0.01–0.04.
 4. Fitting on test data leaks the answer, so the extrapolation test stops being a test.
 5. A method that is good on average but sometimes breaks is not reliable, and averages hide that.
-6. "The two-model comparison is done, and I replicate it. The new part is symbolic vs equally sized learned correction under extrapolation, which separates structure from capacity."
+6. "The two-model comparison is done, and I replicate it. Late Fusion (2026) showed a formula correction beats FNO on Burgers extrapolation, but never tested an equal-size neural correction in its place. That control is my contribution."
 7. In physics the true answer and conservation laws are known exactly, so you can measure whether a model is right, not just whether it looks right.
 
 ---
@@ -268,7 +269,7 @@ Anthropic's interpretability team ([summary, April 2026](https://www.anthropic.c
 
 ### 5.2 Might get
 
-- **"Isn't physics-informed ML already done?"** Adding a physics loss is done; I replicate it. The open question is whether *symbolic* structure transfers better than an equally sized *learned* correction under extrapolation. That needs the control, which most papers skip.
+- **"Isn't physics-informed ML already done?"** Adding a physics loss is done; I replicate it. Late Fusion Neural Operators (2026) showed a sparse-regression formula beats FNO by about 70% on Burgers extrapolation, but never tested a same-size neural network in that slot. Whether the *structure* is what helps is still open, and that's my experiment.
 - **"Why call it a world model? It's a PDE surrogate."** Fair. It is a dynamics model of a physical system. I only call it a world model where it predicts step by step, and I don't claim long-horizon planning.
 - **"What if nothing works?"** Then the result is where and why the correction fails under shift. That is publishable as a negative result if the comparison is fair and the code is released.
 - **"Won't you just keep tweaking until it wins?"** I'll iterate, but against a *practice* shift inside the training data (e.g., train on ν = 0.01–0.02 and validate at 0.04). The real extrapolation test (0.005, 0.08) is opened once, at the end, so any win is real.
