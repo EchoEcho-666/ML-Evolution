@@ -521,6 +521,84 @@ export const researchNodes: ResearchNode[] = [
     tags: ['rsi', 'frontier', 'evaluation'], position: { x: 3560, y: -230 },
     sourceUrl: 'https://arxiv.org/abs/2505.22954', pdfUrl: 'https://arxiv.org/pdf/2505.22954', dataSource: 'seed',
   },
+  {
+    id: 'neuro-symbolic-ai', type: 'concept', title: 'Neuro-Symbolic AI', subtitle: 'Learned representations plus rules and programs', year: 2019, status: 'discoverable',
+    summary: 'Combines neural perception with objects, relations, rules, or programs. The recent growth of the symbolic AI label mostly reflects this hybrid.',
+    evidence: ['Garnelo and Shanahan (2019) review the reconciliation of deep learning with symbolic AI', 'ILP at 30 (Cropper et al., 2022) documents neural-symbolic hybrids'],
+    tags: ['history', 'successor'], position: { x: 80, y: 1720 }, sourceUrl: 'https://doi.org/10.1016/j.cobeha.2018.12.010', dataSource: 'seed',
+  },
+  {
+    id: 'fuzzy-decision-control', type: 'concept', title: 'Fuzzy Control and Decision Science', subtitle: 'Mature engineering tradition', year: 1975, status: 'discoverable',
+    summary: 'Graded membership survives as linguistic control and multi-criteria decision making rather than as a frontier AI branch.',
+    evidence: ['Mamdani-style controllers (1975) controlled nonlinear physical processes with linguistic rules', 'Citers of Zadeh (1965) now emphasize multi-criteria decision making (4%) and TOPSIS'],
+    tags: ['history', 'successor'], position: { x: 325, y: 1720 }, sourceUrl: 'https://doi.org/10.1016/S0020-7373(75)80002-2', dataSource: 'seed',
+  },
+  {
+    id: 'rule-population-scaling', type: 'problem', title: 'Rule-Population Scaling', subtitle: 'Why learning classifier systems narrowed', year: 2005, status: 'discoverable',
+    summary: 'Evolving rule populations with reinforcement credit assignment and many interacting design parameters was harder to scale and benchmark than gradient-based reinforcement learning.',
+    evidence: ['Interpretation in branch analysis section 3.5; deep RL learned representations directly while LCS relied on engineered encodings'],
+    tags: ['history', 'successor'], position: { x: 815, y: 1720 }, dataSource: 'seed',
+  },
+  {
+    id: 'prototype-maps-applied', type: 'concept', title: 'Prototype Maps in Applied Science', subtitle: 'Topology-aware clustering and visualization', year: 2010, status: 'discoverable',
+    summary: 'Self-organizing maps moved from neuroscience-inspired representation learning into domain workflows such as geoscience and cytometry.',
+    evidence: ['Citers of Kohonen (1982) shifted toward geography, geology, and environmental science (about 2% each) and k-means'],
+    tags: ['history', 'successor'], position: { x: 1305, y: 1720 }, sourceUrl: 'https://doi.org/10.1109/5.58325', dataSource: 'seed',
+  },
+  {
+    id: 'retrieval-augmented-generation', type: 'concept', title: 'Retrieval-Augmented Generation', subtitle: 'Retrieve, then generate', year: 2020, status: 'discoverable',
+    summary: 'Language models retrieve related documents before answering, resembling the retrieve and reuse steps of case-based reasoning.',
+    evidence: ['Conceptual convergence only: no documented citation lineage from case-based reasoning yet', 'The CBR adapt and retain steps remain underused'],
+    tags: ['history', 'successor'], position: { x: 1550, y: 1720 }, sourceUrl: 'https://arxiv.org/abs/2005.11401', dataSource: 'seed',
+  },
+  {
+    id: 'probabilistic-programming-causal', type: 'concept', title: 'Probabilistic Programming and Causal Inference', subtitle: 'Absorbed Bayesian-network infrastructure', year: 2010, status: 'discoverable',
+    summary: 'Graph-structured uncertainty survives inside probabilistic programming languages and causal inference rather than as a separate frontier.',
+    evidence: ['Bayesian networks remain at their exact-title peak (survival 1.000)', 'Branch analysis section 3.16: tools absorbed into probabilistic programming and causal modeling'],
+    tags: ['history', 'successor'], position: { x: 1795, y: 1720 }, dataSource: 'seed',
+  },
+  {
+    id: 'energy-based-models', type: 'concept', title: 'Energy-Based Models', subtitle: 'RBMs and modern energy-based learning', year: 2006, status: 'discoverable',
+    summary: 'Restricted Boltzmann machines enabled deep generative pretraining; energy functions, negative sampling, and links to statistical physics survive in energy-based modeling.',
+    evidence: ['Citers of Ackley, Hinton, and Sejnowski (1985) now emphasize deep learning and restricted Boltzmann machines', 'Quantum-mechanics niche among recent citers'],
+    tags: ['history', 'successor'], position: { x: 2040, y: 1720 }, dataSource: 'seed',
+  },
+  {
+    id: 'partition-function-bottleneck', type: 'problem', title: 'Intractable Generative Training', subtitle: 'The partition-function problem', year: 2014, status: 'discoverable',
+    summary: 'Estimating the normalizing constant made Boltzmann-machine training slow and unstable, while autoencoders, autoregressive models, GANs, and diffusion offered more scalable routes.',
+    evidence: ['Branch analysis section 3.11; title share peaked in 2015 to 2019 and then declined'],
+    tags: ['history', 'successor'], position: { x: 2040, y: 1940 }, dataSource: 'seed',
+  },
+  {
+    id: 'open-endedness-qd', type: 'concept', title: 'Open-Endedness and Quality Diversity', subtitle: 'Sustained novelty instead of one objective', year: 2015, status: 'discoverable',
+    summary: 'Search that keeps a diverse archive of behaviours rather than one best solution, inheriting ideas from artificial life, rule populations, and neuroevolution.',
+    evidence: ['Artificial-life questions about emergence and novelty continue in quality-diversity and open-ended research', 'Neuroevolution revived in quality diversity and open-ended systems'],
+    tags: ['history', 'successor'], position: { x: 2285, y: 1720 }, dataSource: 'seed',
+  },
+  {
+    id: 'weak-evaluation-bottleneck', type: 'problem', title: 'Weak Cumulative Evaluation', subtitle: 'Why artificial life narrowed', year: 1998, status: 'discoverable',
+    summary: 'Striking emergent demonstrations were hard to connect to standardized benchmarks, so progress did not accumulate the way benchmarked fields did.',
+    evidence: ['Branch analysis section 3.8; exact-title peak 1994 to 1998, now 22% of peak'],
+    tags: ['history', 'successor'], position: { x: 2285, y: 1940 }, dataSource: 'seed',
+  },
+  {
+    id: 'program-synthesis', type: 'concept', title: 'Program Synthesis and Explainable Rules', subtitle: 'Learning auditable programs', year: 2015, status: 'discoverable',
+    summary: 'ILP survives as program synthesis, differentiable logic, and interpretable rule learning where background knowledge and auditability matter.',
+    evidence: ['Citers of Muggleton (1991) now emphasize explainable AI and interpretability (2% each), answer set programming, and program synthesis', 'ILP at 30 (Cropper et al., 2022)'],
+    tags: ['history', 'successor'], position: { x: 2530, y: 1720 }, sourceUrl: 'https://doi.org/10.1007/s10994-021-06089-1', dataSource: 'seed',
+  },
+  {
+    id: 'tabular-baselines', type: 'concept', title: 'Strong Baselines on Structured Data', subtitle: 'Kernel methods beside trees and boosting', year: 2015, status: 'discoverable',
+    summary: 'SVMs remain competitive on moderate-sized and structured datasets, where they are now used alongside random forests and gradient boosting.',
+    evidence: ['Citers of Cortes and Vapnik (1995) increasingly co-mention random forest (4%) and XGBoost', 'Survival 0.817 (active control)'],
+    tags: ['history', 'successor'], position: { x: 3020, y: 1720 }, dataSource: 'seed',
+  },
+  {
+    id: 'neural-architecture-search', type: 'concept', title: 'Neural Architecture Search', subtitle: 'Searching over network designs', year: 2017, status: 'discoverable',
+    summary: 'Evolutionary and other search methods design neural architectures and hyperparameters, a main modern home of neuroevolution.',
+    evidence: ['Citers of NEAT (2002) now emphasize neural architecture search (3%), evolutionary algorithms, and hyperparameter optimization'],
+    tags: ['history', 'successor'], position: { x: 3510, y: 1720 }, sourceUrl: 'https://arxiv.org/abs/1712.06567', dataSource: 'seed',
+  },
 ]
 
 const curatedEdges: ResearchEdge[] = [
@@ -590,11 +668,27 @@ const curatedEdges: ResearchEdge[] = [
   { id: 'e64', source: 'quadratic-cost', target: 'mamba', type: 'MOTIVATES', explanation: 'Linear sequence scaling offers an alternative to dense quadratic attention.' },
   { id: 'e65', source: 'mamba', target: 'mamba-2', type: 'GENERALIZES', explanation: 'Structured state-space duality merges selective SSM and attention-like matrix views in one framework.', featured: true, ideaFlow: 'merger' },
   { id: 'e66', source: 'mamba-2', target: 'beyond-attention', type: 'MOTIVATES', explanation: 'The duality reframes the frontier as choosing useful structured transformations rather than a simple attention-versus-recurrence split.' },
+  { id: 'e67', source: 'symbolic-ai', target: 'neuro-symbolic-ai', type: 'INSPIRES', explanation: 'Symbolic rules and programs recombine with learned neural representations.', featured: true, ideaFlow: 'merger' },
+  { id: 'e68', source: 'inductive-logic-programming', target: 'neuro-symbolic-ai', type: 'EXTENDS', explanation: 'Neural-symbolic hybrids carry relational rule learning into differentiable systems (Cropper et al., 2022).', featured: true, ideaFlow: 'merger' },
+  { id: 'e69', source: 'inductive-logic-programming', target: 'program-synthesis', type: 'EXTENDS', explanation: 'Rule induction survives as program synthesis and interpretable rule learning; citers now emphasize explainable AI.', featured: true, ideaFlow: 'survival' },
+  { id: 'e70', source: 'fuzzy-logic', target: 'fuzzy-decision-control', type: 'APPLIES', explanation: 'Graded membership persists in fuzzy control and multi-criteria decision making.', featured: true, ideaFlow: 'survival' },
+  { id: 'e71', source: 'learning-classifier-systems', target: 'rule-population-scaling', type: 'FAILS_UNDER', explanation: 'Evolving rule populations scaled and benchmarked worse than gradient-based reinforcement learning.', featured: true, ideaFlow: 'extinction' },
+  { id: 'e72', source: 'learning-classifier-systems', target: 'open-endedness-qd', type: 'INSPIRES', explanation: 'Niche protection and diverse rule populations anticipate diversity-preserving search.', featured: true, ideaFlow: 'survival' },
+  { id: 'e73', source: 'self-organizing-maps', target: 'prototype-maps-applied', type: 'APPLIES', explanation: 'Topology-preserving prototype maps moved into geoscience and other applied data analysis.', featured: true, ideaFlow: 'migration' },
+  { id: 'e74', source: 'case-based-reasoning', target: 'retrieval-augmented-generation', type: 'INSPIRES', explanation: 'Retrieve-then-reuse resembles retrieval-augmented generation; a resemblance, not a documented lineage.', featured: true, ideaFlow: 'migration' },
+  { id: 'e75', source: 'bayesian-networks', target: 'probabilistic-programming-causal', type: 'GENERALIZES', explanation: 'Graphical uncertainty and inference are absorbed into probabilistic programming and causal modeling.', featured: true, ideaFlow: 'survival' },
+  { id: 'e76', source: 'boltzmann-machines', target: 'energy-based-models', type: 'EXTENDS', explanation: 'RBMs and energy-based learning keep the energy formulation while dropping the full Boltzmann machine.', featured: true, ideaFlow: 'survival' },
+  { id: 'e77', source: 'boltzmann-machines', target: 'partition-function-bottleneck', type: 'FAILS_UNDER', explanation: 'Partition-function estimation made training slow; other generative families scaled better.', featured: true, ideaFlow: 'extinction' },
+  { id: 'e78', source: 'artificial-life', target: 'open-endedness-qd', type: 'EXTENDS', explanation: 'Questions of emergence and sustained novelty continue in open-ended and quality-diversity research.', featured: true, ideaFlow: 'survival' },
+  { id: 'e79', source: 'artificial-life', target: 'weak-evaluation-bottleneck', type: 'FAILS_UNDER', explanation: 'Emergence demonstrations rarely connected to cumulative, standardized benchmarks.', featured: true, ideaFlow: 'extinction' },
+  { id: 'e80', source: 'neuroevolution', target: 'neural-architecture-search', type: 'APPLIES', explanation: 'Evolutionary search moved into architecture and hyperparameter search; citers now emphasize NAS.', featured: true, ideaFlow: 'migration' },
+  { id: 'e81', source: 'neuroevolution', target: 'open-endedness-qd', type: 'INSPIRES', explanation: 'Neuroevolution revived in quality-diversity and open-ended systems where gradients are awkward.', featured: true, ideaFlow: 'merger' },
+  { id: 'e82', source: 'support-vector-machines', target: 'tabular-baselines', type: 'APPLIES', explanation: 'SVMs persist as strong baselines on structured data alongside trees and boosting.', featured: true, ideaFlow: 'survival' },
 ]
 
 // Human judgment about each edge, kept separate from machine citation checks.
 // Unlisted curated edges are documented in a primary or contemporaneous source.
-const inferredEdges = new Set(['e9', 'e19b', 'e21', 'e25', 'e26', 'e58', 'e60', 'e66'])
+const inferredEdges = new Set(['e9', 'e19b', 'e21', 'e25', 'e26', 'e58', 'e60', 'e66', 'e71', 'e72', 'e74', 'e75', 'e77', 'e78', 'e79', 'e81', 'e82'])
 const proposedEdges = new Set(['e27', 'e28', 'e32', 'e33', 'e34', 'e36'])
 
 // OpenAlex check of ancestor → successor citation (scripts/analyze-citation-flow.mjs).

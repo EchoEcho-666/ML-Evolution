@@ -325,6 +325,8 @@ Confidence / unresolved questions:
 
 - Merged the brief, a from-zero research-idea primer, a timed prep checklist, and the older study guide into `research/meeting-prep.md`. Added `plot_viscosity_shift.py`, which draws the Burgers solution for each viscosity split.
 - Fixed atlas dragging: nodes did not follow the cursor because React Flow node changes were never applied. Also rendered only on-screen elements, removed the constant edge animation and the blur on panels over the map. A headless measurement went from a frozen drag and a 117 ms pan hitch to a steady 60 fps, and positions persist across reloads.
+- Mapped every remaining branch on the atlas: 13 successor and bottleneck nodes and 16 colored idea-flow edges, so all 16 measured branches now show where their ideas went. Edges backed by primary sources or citation keywords are marked documented; interpretive ones are marked inferred.
+- Expanded the literature check. Formula-beats-network evidence exists for ODEs (universal differential equations), graph networks (Cranmer 2020), and climate closures, but the closest neural-operator paper (Late Fusion, 2026) lacks a matched learned-correction control. Wrote `research/research-overview.md` with all findings and every cited paper.
 
 **Next active work:** record the mentor's feedback in `project-focus-decision.md`; then add a small matched trainable baseline only after choosing an acceptable dependency and compute budget; then audit the supplied architecture report's strongest claims against primary sources. The full historical citation-flow audit and more recent branch coverage remain open.
 
