@@ -329,6 +329,25 @@ Title counts measure whether a field's **name** stays visible. Citations to its 
 3. **Migration is visible in citing fields.** Symbolic regression's citers moved from mostly computer science to **physics first (33%)**, which directly supports the AI-for-Physics bridge. Self-organizing maps moved from neuroscience into environmental science.
 4. **Negative gaps usually mean a newer anchor took over.** Boltzmann-machine work now cites restricted Boltzmann machines and deep belief networks rather than the 1985 paper. Neuroevolution increasingly cites newer methods than NEAT. One anchor per branch undercounts those lineages.
 
+**Successor keywords: what vocabulary is the idea used under now?** For papers citing each founding work, the script compares OpenAlex keyword shares in the early window (first 15 years, capped at 2010) with 2021–2025. Listed keywords are at least 3× more common now and appear in at least 1% of recent citing papers.
+
+| Branch | Emerging keywords among citing papers, 2021–25 (share) | Reading |
+| --- | --- | --- |
+| Genetic programming | symbolic regression 7%, metaheuristic optimization 2%, gene expression programming 2%, feature selection 1% | Program search survives as **equation discovery** and optimization. |
+| Symbolic regression | SINDy (sparse identification of nonlinear dynamics) 2%, data-driven modeling 2%, interpretability 1%, PDEs 1% | Moved into **scientific dynamics modeling**, the AI-for-Physics bridge. |
+| Neuroevolution | neural architecture search 3%, evolutionary algorithms 2%, hyperparameter optimization 1% | Merged into **AutoML / architecture search**. |
+| Inductive logic programming | explainable AI 2%, interpretability 2%, answer set programming 1%, program synthesis 1% | Rule induction is reused for **explainability and program synthesis**. |
+| Case-based reasoning | case retrieval 2%, explainable AI 2% | Retrieve-and-reuse reframed as **explainable retrieval**. |
+| Hopfield networks | recurrent nets 2%, deep learning 2%, associative memory 2%, neuromorphic computing 1% | Memory idea re-entering **deep learning and neuromorphic hardware**. |
+| Boltzmann machines | deep learning 3%, restricted Boltzmann machine 2%, quantum mechanics 1% | Survives via **RBMs** and a quantum-physics niche. |
+| Reservoir computing | echo state networks 4%, time-series forecasting 3%, physical reservoir computing 1%, neuromorphic computing 1% | **Migration to physical substrates** confirmed in vocabulary. |
+| Self-organizing maps | geography 2%, geology 2%, environmental science 2%, k-means 1% | Migrated from neuroscience into **geoscience data analysis**. |
+| Fuzzy logic | multi-criteria decision making 4%, TOPSIS 1%, intuitionistic fuzzy sets 1% | Now mainly a **decision-science** tool. |
+| SVM (control) | random forest 4%, deep learning 2%, XGBoost 1% | Cited as a **baseline** beside newer methods. |
+| Expert systems, learning classifier systems | none passed the threshold (LCS only its own name) | No measurable vocabulary migration through citation. |
+
+These keyword shifts are the strongest quantitative support yet for the survival, merger, and migration edges in the atlas, especially genetic programming → symbolic regression, neuroevolution → architecture search, and reservoir computing → physical substrates. OpenAlex keywords are machine-assigned, so they indicate topical drift, not authors' intent.
+
 **Edge check: do the atlas's featured successor links appear in citation data?**
 
 | Atlas edge | Evidence |
@@ -342,7 +361,9 @@ Title counts measure whether a field's **name** stays visible. Citations to its 
 | Genetic programming (Koza 1994) → symbolic regression (Schmidt & Lipson 2009) | No direct citation of this Koza paper indexed; 152 works cite both. Likely cites a different Koza edition; check by hand. |
 | Genetic programming → AlphaEvolve | AlphaEvolve's references not indexed; 0 co-citing works yet. **Unverified by citation data.** |
 | Mamba → Mamba-2 | Mamba-2 is not indexed in OpenAlex. **Unverified by citation data.** |
-| Expert systems (MYCIN) → inductive logic programming | No direct citation; only 2 works cite both. **Weakest citation support.** Keep it only with a primary-source quote showing ILP was motivated by the knowledge-acquisition bottleneck. |
+| Expert systems (MYCIN) → inductive logic programming | No direct citation indexed; only 2 works cite both. **Confirmed by primary source instead:** Muggleton (1991) cites MYCIN, and his Figure 1 compares hand-coded expert systems (MYCIN 100 and XCON 180 person-years to build; XCON 30 per year to maintain) with inductively built ones (GASOIL 1, BMT 9). OpenAlex's reference list for this paper is incomplete, or it points to a different MYCIN edition. [Muggleton 1991 PDF](https://www.doc.ic.ac.uk/~shm/Papers/ilp.pdf), pp. 297–298. |
+
+**Lesson from the edge check.** Missing citations in OpenAlex are not evidence against a link. The weakest-looking edge by citation data turned out to be explicitly documented in the primary paper. Citation checks can raise confidence; only reading the source can lower it.
 
 **Caveats.** Old papers are naturally cited less over time, which biases citation survival downward for older anchors (the 1965 fuzzy-sets paper staying at 0.96 shows the bias is not overwhelming). One anchor per branch is a sample, not the lineage. OpenAlex reference lists are incomplete for preprints. Co-citation shows that two works are used together, not that one caused the other.
 
@@ -351,7 +372,6 @@ Title counts measure whether a field's **name** stays visible. Citations to its 
 Before this report can support final project selection, it needs:
 
 - multiple anchors per branch (e.g., RBMs and deep belief networks for Boltzmann machines) and hand verification of the GP → symbolic regression and GP → AlphaEvolve links;
-- successor-keyword evidence: which new terms appear in the abstracts of papers citing each founding work;
 - venue/topic-based reconstruction of symbolic AI, whose name is not stable enough for exact-title analysis;
 - expansion beyond the current seed set, especially cybernetics, evolutionary strategies, probabilistic programming, connectionism, analog AI, and developmental robotics;
 - hand verification of the top-cited-paper list and removal of duplicate editions;

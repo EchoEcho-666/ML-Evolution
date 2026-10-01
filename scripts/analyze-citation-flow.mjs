@@ -110,6 +110,28 @@ function topFields(groups, limit = 3) {
     .join('; ')
 }
 
+// Keywords whose share among citing works grew most from the early to the recent window:
+// the vocabulary under which a founding idea is now being used.
+function emergingKeywords(early, recent, limit = 6) {
+  const total = (groups) => groups.reduce((sum, group) => sum + group.count, 0) || 1
+  const earlyTotal = total(early)
+  const recentTotal = total(recent)
+  const earlyShare = new Map(early.map((group) => [group.key, group.count / earlyTotal]))
+  const floor = 0.5 / earlyTotal
+  return recent
+    .filter((group) => group.count >= 10 && group.key_display_name)
+    .map((group) => {
+      const share = group.count / recentTotal
+      return { name: group.key_display_name.toLowerCase(), share, lift: share / Math.max(earlyShare.get(group.key) ?? 0, floor) }
+    })
+    .filter((row) => row.lift >= 3 && row.share >= 0.01)
+    .sort((a, b) => b.share - a.share)
+    .filter((row, index, rows) => rows.findIndex((other) => other.name === row.name) === index)
+    .slice(0, limit)
+    .map((row) => `${row.name} ${(100 * row.share).toFixed(0)}%`)
+    .join('; ')
+}
+
 const branchRows = []
 const yearRows = []
 
@@ -144,6 +166,8 @@ for (const [branchId, label, ref] of anchors) {
   const earlyEnd = Math.min(anchor.publication_year + 14, 2010)
   const earlyFields = await groupCount(`cites:${id},from_publication_date:${anchor.publication_year}-01-01,to_publication_date:${earlyEnd}-12-31`, 'primary_topic.field.id')
   const recentFields = await groupCount(`cites:${id},from_publication_date:${RECENT[0]}-01-01,to_publication_date:${RECENT[1]}-12-31`, 'primary_topic.field.id')
+  const earlyKeywords = await groupCount(`cites:${id},from_publication_date:${anchor.publication_year}-01-01,to_publication_date:${earlyEnd}-12-31`, 'keywords.id')
+  const recentKeywords = await groupCount(`cites:${id},from_publication_date:${RECENT[0]}-01-01,to_publication_date:${RECENT[1]}-12-31`, 'keywords.id')
 
   branchRows.push({
     branch_id: branchId,
@@ -160,6 +184,7 @@ for (const [branchId, label, ref] of anchors) {
     early_window: `${anchor.publication_year}-${earlyEnd}`,
     early_citing_fields: topFields(earlyFields),
     recent_citing_fields: topFields(recentFields),
+    emerging_successor_keywords: emergingKeywords(earlyKeywords, recentKeywords),
   })
   console.log(`${label}: citation survival ${citationSurvival.toFixed(3)} vs label ${labelSurvival}`)
 }
@@ -197,7 +222,7 @@ for (const [edgeId, description, ancestorRef, successorRef] of edges) {
 await mkdir(OUT_DIR, { recursive: true })
 await writeFile(
   path.join(OUT_DIR, 'branch-citation-flow.csv'),
-  toCsv(branchRows, ['branch_id', 'branch', 'anchor_status', 'anchor_id', 'anchor_title', 'anchor_year', 'anchor_cited_by', 'citation_peak_window', 'citation_survival', 'label_survival', 'idea_minus_label', 'early_window', 'early_citing_fields', 'recent_citing_fields']),
+  toCsv(branchRows, ['branch_id', 'branch', 'anchor_status', 'anchor_id', 'anchor_title', 'anchor_year', 'anchor_cited_by', 'citation_peak_window', 'citation_survival', 'label_survival', 'idea_minus_label', 'early_window', 'early_citing_fields', 'recent_citing_fields', 'emerging_successor_keywords']),
 )
 await writeFile(
   path.join(OUT_DIR, 'branch-citation-yearly.csv'),

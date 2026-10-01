@@ -159,6 +159,20 @@ kbd { font-family: inherit; font-size: 9px; color: #728079; padding: 2px 5px; bo
 .causal-edge.is-dimmed .edge-label { opacity: 0; }
 .react-flow__edge:hover .edge-label { padding: 7px 9px; opacity: 1; transform: translateY(-2px); }
 .react-flow__edge:hover .edge-label span { display: block; }
+.edge-evidence b { display: block; font-weight: 500; font-size: 7px; letter-spacing: .06em; color: #a9b8b0; }
+.causal-edge.conf-inferred .edge-visible { opacity: .32; }
+.causal-edge.conf-proposed .edge-visible { stroke-dasharray: 2 5 !important; animation: none; }
+.connection-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 9px; }
+.connection-list li { font-size: 11px; line-height: 1.4; }
+.connection-list em { font-style: normal; font-size: 9px; letter-spacing: .06em; color: #7f8e87; }
+.connection-evidence { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 4px; }
+.badge { padding: 1px 6px; font-size: 9px; border: 1px solid rgba(137,157,148,.3); color: #9eaea6; }
+.badge.conf-documented, .badge.cite-direct { border-color: rgba(120,166,142,.6); color: #9bc7af; }
+.badge.conf-inferred, .badge.cite-co-cited { border-color: rgba(214,180,110,.55); color: #d6b46e; }
+.badge.conf-proposed, .badge.cite-unindexed, .badge.conf-unreviewed { border-color: rgba(137,157,148,.3); color: #8d9b94; }
+.app-shell[data-theme='light'] .edge-evidence b { color: #43564d; }
+.app-shell[data-theme='light'] .badge.conf-documented, .app-shell[data-theme='light'] .badge.cite-direct { color: #2f6b4f; border-color: rgba(47,107,79,.5); }
+.app-shell[data-theme='light'] .badge.conf-inferred, .app-shell[data-theme='light'] .badge.cite-co-cited { color: #8a6418; border-color: rgba(138,100,24,.5); }
 .react-flow__edge:hover .edge-visible { opacity: 1; }
 @keyframes edgeFlow { to { stroke-dashoffset: -120; } }
 

@@ -1,4 +1,4 @@
-import type { ResearchEdge, ResearchNode } from '../types'
+import type { CitationCheck, ResearchEdge, ResearchNode } from '../types'
 
 export const researchNodes: ResearchNode[] = [
   {
@@ -523,7 +523,7 @@ export const researchNodes: ResearchNode[] = [
   },
 ]
 
-export const researchEdges: ResearchEdge[] = [
+const curatedEdges: ResearchEdge[] = [
   { id: 'e1', source: 'rnn', target: 'vanishing-gradients', type: 'FAILS_UNDER', explanation: 'Repeated transitions make long-range credit assignment unstable.' },
   { id: 'e2', source: 'vanishing-gradients', target: 'lstm', type: 'MOTIVATED_BY', explanation: 'LSTM was designed to preserve error signals across long intervals.', featured: true },
   { id: 'e3', source: 'rnn', target: 'lstm', type: 'EXTENDS', explanation: 'LSTM augments recurrent state with gated memory.' },
@@ -577,7 +577,7 @@ export const researchEdges: ResearchEdge[] = [
   { id: 'e51', source: 'branch-survival-analysis', target: 'support-vector-machines', type: 'EVALUATES', explanation: 'An active control showing that an older method need not be dead.' },
   { id: 'e52', source: 'branch-survival-analysis', target: 'bayesian-networks', type: 'EVALUATES', explanation: 'An active control whose current period is its exact-title peak.' },
   { id: 'e53', source: 'expert-systems', target: 'knowledge-acquisition-bottleneck', type: 'FAILS_UNDER', explanation: 'Documented stagnation: hand-authored knowledge was costly to acquire and maintain.', featured: true, ideaFlow: 'extinction' },
-  { id: 'e54', source: 'knowledge-acquisition-bottleneck', target: 'inductive-logic-programming', type: 'MOTIVATES', explanation: 'Documented: rule acquisition moves from manual elicitation toward induction from examples.', featured: true, ideaFlow: 'migration' },
+  { id: 'e54', source: 'knowledge-acquisition-bottleneck', target: 'inductive-logic-programming', type: 'MOTIVATES', explanation: 'Documented in Muggleton (1991), Fig. 1: hand-coded MYCIN and XCON took 100–180 person-years to build, inductively built GASOIL and BMT 1–9. Rule acquisition moves from manual elicitation toward induction from examples.', featured: true, ideaFlow: 'migration' },
   { id: 'e55', source: 'hopfield-networks', target: 'modern-hopfield-networks', type: 'REVIVES', explanation: 'Documented: a revised energy function preserves associative memory with much higher capacity.', featured: true, ideaFlow: 'survival' },
   { id: 'e56', source: 'modern-hopfield-networks', target: 'attention', type: 'EVALUATES', explanation: 'Documented mathematical convergence in Ramsauer et al. (2020); this later reinterpretation is not the historical origin of attention.', ideaFlow: 'merger' },
   { id: 'e57', source: 'reservoir-computing', target: 'physical-reservoirs', type: 'REVIVES', explanation: 'Documented: reservoir dynamics migrate from simulated recurrent networks into material hardware.', featured: true, ideaFlow: 'migration' },
@@ -591,6 +591,42 @@ export const researchEdges: ResearchEdge[] = [
   { id: 'e65', source: 'mamba', target: 'mamba-2', type: 'GENERALIZES', explanation: 'Structured state-space duality merges selective SSM and attention-like matrix views in one framework.', featured: true, ideaFlow: 'merger' },
   { id: 'e66', source: 'mamba-2', target: 'beyond-attention', type: 'MOTIVATES', explanation: 'The duality reframes the frontier as choosing useful structured transformations rather than a simple attention-versus-recurrence split.' },
 ]
+
+// Human judgment about each edge, kept separate from machine citation checks.
+// Unlisted curated edges are documented in a primary or contemporaneous source.
+const inferredEdges = new Set(['e9', 'e19b', 'e21', 'e25', 'e26', 'e58', 'e60', 'e66'])
+const proposedEdges = new Set(['e27', 'e28', 'e32', 'e33', 'e34', 'e36'])
+
+// OpenAlex check of ancestor → successor citation (scripts/analyze-citation-flow.mjs).
+const CHECKED = '2026-10-01'
+const citationChecks: Record<string, CitationCheck> = {
+  e30: { status: 'co-cited', coCitedBy: 152, checked: CHECKED },
+  e54: { status: 'co-cited', coCitedBy: 2, checked: CHECKED },
+  e55: { status: 'direct', coCitedBy: 69, checked: CHECKED },
+  e56: { status: 'direct', coCitedBy: 37, checked: CHECKED },
+  e57: { status: 'direct', coCitedBy: 648, checked: CHECKED },
+  e59: { status: 'unindexed', coCitedBy: 0, checked: CHECKED },
+  e61: { status: 'direct', coCitedBy: 7, checked: CHECKED },
+  e62: { status: 'direct', coCitedBy: 56, checked: CHECKED },
+  e63: { status: 'co-cited', coCitedBy: 291, checked: CHECKED },
+  e65: { status: 'unindexed', checked: CHECKED },
+}
+
+export const researchEdges: ResearchEdge[] = curatedEdges.map((edge) => ({
+  ...edge,
+  confidence: proposedEdges.has(edge.id) ? 'proposed' : inferredEdges.has(edge.id) ? 'inferred' : 'documented',
+  citation: citationChecks[edge.id],
+}))
+
+export const confidenceLabels = {
+  documented: 'Documented', inferred: 'Inferred', proposed: 'Proposed',
+} as const
+
+export const citationLabels = {
+  direct: 'Successor cites ancestor',
+  'co-cited': 'Co-cited only',
+  unindexed: 'Not checkable in OpenAlex',
+} as const
 
 export const nodeTypeLabels = {
   paper: 'Paper', concept: 'Concept', problem: 'Problem', mechanism: 'Mechanism',

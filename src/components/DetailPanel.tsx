@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import { BookMarked, ChevronDown, CircleDotDashed, ExternalLink, FileText, GitFork, Network, PanelRightClose, Route, Save, SearchCheck, UsersRound } from 'lucide-react'
-import type { ExplorationStatus, ResearchNode } from '../types'
-import { nodeTypeLabels, statusLabels } from '../data/researchGraph'
+import type { ExplorationStatus, ResearchEdge, ResearchNode } from '../types'
+import { citationLabels, confidenceLabels, nodeTypeLabels, statusLabels } from '../data/researchGraph'
 
 interface DetailPanelProps {
   node: ResearchNode
@@ -11,6 +11,7 @@ interface DetailPanelProps {
   onStatus: (status: ExplorationStatus) => void
   onNote: (note: string) => void
   onTrace: (mode: 'all' | 'ancestors' | 'descendants' | 'unresolved') => void
+  connections: { edge: ResearchEdge; outgoing: boolean; otherTitle: string }[]
 }
 
 const availableStatuses: ExplorationStatus[] = ['unread', 'reading', 'understood', 'mastered', 'current-research']
@@ -31,7 +32,7 @@ function List({ values }: { values?: string[] }) {
   return <ul>{values.map((value) => <li key={value}>{value}</li>)}</ul>
 }
 
-export function DetailPanel({ node, note, status, onClose, onStatus, onNote, onTrace }: DetailPanelProps) {
+export function DetailPanel({ node, note, status, onClose, onStatus, onNote, onTrace, connections }: DetailPanelProps) {
   const [draftNote, setDraftNote] = useState(note)
   const authorLine = useMemo(() => node.authors?.join(', '), [node.authors])
 
@@ -83,6 +84,15 @@ export function DetailPanel({ node, note, status, onClose, onStatus, onNote, onT
           <Section title="Missing evidence"><List values={node.missingEvidence} /></Section>
           <Section title="Later consequences"><List values={node.laterConsequences} /></Section>
           <Section title="Open questions" open><List values={node.openQuestions} /></Section>
+          <Section title="Connections and evidence">{connections.length > 0 && <ul className="connection-list">
+            {connections.map(({ edge, outgoing, otherTitle }) => <li key={edge.id}>
+              <div><span>{outgoing ? '→' : '←'}</span> <strong>{otherTitle}</strong> <em>{edge.ideaFlow ? `${edge.ideaFlow} · ` : ''}{edge.type.replaceAll('_', ' ').toLowerCase()}</em></div>
+              <div className="connection-evidence">
+                <span className={`badge conf-${edge.confidence ?? 'unreviewed'}`}>{edge.confidence ? confidenceLabels[edge.confidence] : 'Unreviewed'}</span>
+                {edge.citation && <span className={`badge cite-${edge.citation.status}`}>{citationLabels[edge.citation.status]}{edge.citation.coCitedBy ? ` · ${edge.citation.coCitedBy}` : ''}</span>}
+              </div>
+            </li>)}
+          </ul>}</Section>
         </div>
 
         <div className="notes-editor">

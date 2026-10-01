@@ -70,6 +70,7 @@ The phrase “world model” is therefore used as a functional category, not as 
 | 2025 | [V-JEPA 2](https://ai.meta.com/research/publications/v-jepa-2-self-supervised-video-models-enable-understanding-prediction-and-planning/) | Predictive representation plus action model | Pretrained on more than one million hours of video, then adapted an action-conditioned latent model with limited robot data | Reported strong video understanding and zero-shot pick-and-place planning on two Franka setups | Planning coverage was narrow; zero-shot deployment does not prove broad physical causality |
 | 2025 | [Genie 3](https://deepmind.google/blog/genie-3-a-new-frontier-for-world-models/) | Generative interactive simulator | Generated navigable worlds at real-time frame rates with promptable events and short-term consistency | Reported 24 fps, 720p environments with consistency for a few minutes | Google explicitly lists limited action space, multi-agent interaction, real-world-location accuracy, and duration as limitations |
 | 2025 | [Cosmos World Foundation Model Platform](https://research.nvidia.com/publication/2025-01_cosmos-world-foundation-model-platform-physical-ai) | Generative/video world model platform | Positioned pretrained video models, curation tools, tokenizers, and post-training as a platform for physical-AI developers | Open-weight/open-source platform materials and downstream customization examples | Product/platform positioning is broader than evidence for a generally reliable simulator |
+| 2026 | [World Labs Atlas](https://www.worldlabs.ai/blog/atlas) | Spatial generative world model | Shared 3D spatial context over text, images, video, and depth; geometric camera control | Vendor-reported camera-control and 3D-reconstruction results; early access only | No released evaluation artifacts; no demonstrated action-conditioned dynamics or physical simulation |
 | 2025–26 | [Cosmos 3](https://research.nvidia.com/labs/cosmos-lab/cosmos3/) | Omnimodal world model | Connects text, images, video, audio, and actions for physical-AI tasks | Research/product system reports unified understanding, generation, simulation, and action capabilities | The breadth of modalities increases the need for task-specific causal and safety evaluation |
 
 ## What caused the main approaches to emerge?
@@ -130,9 +131,15 @@ DeepMind spans several distinct branches: Dreamer learns latent dynamics for con
 
 Cosmos is primarily a platform and model family for physical-AI development. Its contribution to the atlas is important as a frontier synthesis: pretrained video/world models, data curation, tokenization, and post-training are packaged for downstream simulators and robots. The atlas should mark claims about “general-purpose world models” as product positioning unless accompanied by task-level evidence, baselines, and failure analysis.
 
-### “Atlas” ambiguity
+### World Labs — Atlas
 
-The project plan names **Atlas** as a required lineage but does not identify a paper, lab, or system. This survey does not silently choose an interpretation. A later import should add the exact Atlas referent only after it is specified, because several unrelated robotics and world-model projects use that name.
+**Referent (resolved 2026-10-01):** the project plan lists Atlas among world-model lineages. The matching system is [Atlas: A World Model for Spatial Intelligence](https://www.worldlabs.ai/blog/atlas), announced by World Labs (co-founded by Fei-Fei Li) on 2026-09-01. If the mentor meant a different Atlas, revise this section.
+
+**What it is.** It is an "omni" model pretrained from scratch on text, images, video, and 3D. It is a multimodal autoregressive diffusion transformer: inputs are placed at explicit 3D camera poses in a shared spatial context, and it generates what comes next. Reported uses include camera-controlled video (up to one minute at 1440p), 3D reconstruction from one to many photos (point clouds or Gaussian splats), and real-to-sim scenes for robotics and VFX. It is to power future versions of World Labs' Marble. Early access only.
+
+**Lineage.** Atlas belongs to the **spatial** branch of generative world models. Genie-style models learn from video and keep 3D consistency implicit; Atlas makes geometry an explicit input. It is closer to 3D reconstruction (VGGT, Depth Anything) merged with video generation than to Dreamer- or JEPA-style latent dynamics for control.
+
+**Evidence status.** All benchmarks are World Labs' own. In the camera-control preference test, Atlas received the native camera trajectory while competitors received text descriptions. Evaluation code, splits, seeds, and confidence intervals are not released. An [independent review](https://kingy.ai/blog/world-labs-atlas-world-model-deep-dive/) notes that the launch does not establish physical simulation, action-conditioned transitions, calibrated materials or forces, or latency. Atlas is a strong example of **geometric and visual consistency without demonstrated intervention accuracy**, the evaluation gap this survey identifies.
 
 ## Causal turning points for the atlas
 

@@ -111,6 +111,13 @@ function App() {
   const allEdges = useMemo(() => [...researchEdges, ...importedEdges], [importedEdges])
   const hasCustomLayout = Object.keys(nodePositions).length > 0
   const selectedNode = allNodes.find((node) => node.id === selectedId)
+  const selectedConnections = useMemo(() => allEdges
+    .filter((edge) => edge.source === selectedId || edge.target === selectedId)
+    .map((edge) => {
+      const outgoing = edge.source === selectedId
+      const otherId = outgoing ? edge.target : edge.source
+      return { edge, outgoing, otherTitle: allNodes.find((node) => node.id === otherId)?.title ?? otherId }
+    }), [allEdges, allNodes, selectedId])
   const tracedIds = useMemo(() => selectedId && traceMode ? buildTrace(selectedId, traceMode, allNodes, allEdges) : null, [allEdges, allNodes, selectedId, traceMode])
 
   const statusOf = useCallback((node: ResearchNodeModel): ExplorationStatus => statuses[node.id] ?? node.status, [statuses])
@@ -148,6 +155,8 @@ function App() {
         dimmed: dimmed || fogged,
         featured: Boolean(edge.featured),
         ideaFlow: edge.ideaFlow,
+        confidence: edge.confidence,
+        citation: edge.citation,
       },
     }
   }), [allEdges, allNodes, fog, statusOf, tracedIds, visibleIdeaFlows])
@@ -336,6 +345,7 @@ function App() {
         onStatus={(status) => setStatus(selectedNode.id, status)}
         onNote={(note) => setNote(selectedNode.id, note)}
         onTrace={handleTrace}
+        connections={selectedConnections}
       />}
       {progressOpen && <ProgressPanel nodes={allNodes} statuses={statuses} onClose={() => setProgressOpen(false)} />}
       {discoveryOpen && <PaperDiscoveryPanel selectedNode={selectedNode} onClose={() => setDiscoveryOpen(false)} onImport={importPaper} />}

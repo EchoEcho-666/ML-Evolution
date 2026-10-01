@@ -41,6 +41,14 @@ export type EdgeType =
 
 export type IdeaFlow = 'survival' | 'merger' | 'migration' | 'extinction'
 
+export type EdgeConfidence = 'documented' | 'inferred' | 'proposed'
+
+export interface CitationCheck {
+  status: 'direct' | 'co-cited' | 'unindexed'
+  coCitedBy?: number
+  checked: string
+}
+
 export interface ResearchNode {
   id: string
   type: NodeType
@@ -82,4 +90,6 @@ export interface ResearchEdge {
   explanation: string
   featured?: boolean
   ideaFlow?: IdeaFlow
+  confidence?: EdgeConfidence
+  citation?: CitationCheck
 }

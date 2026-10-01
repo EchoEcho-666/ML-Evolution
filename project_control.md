@@ -50,12 +50,12 @@ Detailed engineering plans:
 By the end of the week, produce:
 
 - [~] a **statistical history of past ML branches**, not a shortlist of only 3–5 fields;
-- [ ] an evidence-backed explanation of which branches contracted, why they contracted, and whether their mechanisms survived under other names;
-- [ ] a map of useful and inspirational concepts inherited by current research;
+- [x] an evidence-backed explanation of which branches contracted, why they contracted, and whether their mechanisms survived under other names; *label, citation-flow, and successor-keyword evidence in [`branch-mortality-analysis.md`](research/branch-mortality-analysis.md).*
+- [x] a map of useful and inspirational concepts inherited by current research; *section 5 of the branch analysis and the survival/merger/migration edges in the atlas.*
 - [~] a broad census of the present AI frontier, with deeper research matrices for **AI for Physics**, **world models**, and **recursive self-improvement**;
 - [ ] a transparent comparison followed by **one primary project focus**;
-- [ ] a chronological paper list and typed relationship list ready to add to the atlas; and
-- [ ] a compact relationship map connecting historical branches, current frontiers, and the selected project.
+- [~] a chronological paper list and typed relationship list ready to add to the atlas; *selected-lineage seed list done, full 16-branch corpus remains.* and
+- [x] a compact relationship map connecting historical branches, current frontiers, and the selected project. *The atlas links genetic programming, symbolic regression, neural operators, reservoirs, and AlphaEvolve to AI for Physics, bounded RSI, and the hybrid project node.*
 
 The minimum useful result is no longer a small candidate list. It is a reproducible dataset, a causal interpretation with uncertainty labels, a frontier comparison, and a single justified project decision.
 
@@ -77,8 +77,8 @@ The minimum useful result is no longer a small candidate list. It is a reproduci
 - [x] Compare 2021–2025 with 2016–2020 (`recent trend ratio`) to distinguish continued decline from revival.
 - [x] Include support-vector machines and Bayesian networks as active controls.
 - [x] Run exact-phrase, plural/orthographic-alias, and broad-query sensitivity checks.
-- [~] Add citation-flow, co-citation, and successor-keyword evidence; publication volume alone cannot establish conceptual inheritance. *Citation flow and co-citation done for 13 branches and 10 featured edges (2026-10-01); successor keywords and multi-anchor lineages remain.*
-- [ ] Hand-code causal evidence from primary and contemporaneous sources.
+- [x] Add citation-flow, co-citation, and successor-keyword evidence; publication volume alone cannot establish conceptual inheritance. *Done for 13 branches and 10 featured edges (2026-10-01); multi-anchor lineages are listed under remaining work in the analysis.*
+- [~] Hand-code causal evidence from primary and contemporaneous sources. *First check: Muggleton (1991) Fig. 1 documents the expert systems → ILP migration. Remaining featured edges are next.*
 
 **Current seed set (16):** expert systems, symbolic AI, case-based reasoning, inductive logic programming, learning classifier systems, fuzzy logic, genetic programming, artificial life, self-organizing maps, Hopfield networks, Boltzmann machines, reservoir computing, neuroevolution, symbolic regression, plus the two controls. The set is extensible; it is not a cap.
 
@@ -108,8 +108,8 @@ These numbers measure title-label visibility. They do **not** prove that a mecha
 
 - [x] Draft origin, promise, contraction, replacement, inheritance, and current-value interpretations for all 16 branches/controls.
 - [x] Distinguish documented inheritance from interpretive similarity in the candidate relationship table.
-- [ ] Validate every causal claim with at least one primary or contemporaneous source and add explicit confidence fields to the import data.
-- [~] Test revival hypotheses with citation-flow and successor-keyword evidence. *Citation flow done; keyword evidence remains.*
+- [~] Validate every causal claim with at least one primary or contemporaneous source and add explicit confidence fields to the import data. *All 66 atlas edges now carry a documented/inferred/proposed judgment, and 10 featured edges carry a separate citation check; source-by-source validation remains.*
+- [x] Test revival hypotheses with citation-flow and successor-keyword evidence. *See section 8 of the branch analysis.*
 
 **Deliverable:** `research/branch-mortality-analysis.md`, the reproducible data above, and a branch-to-successor relationship table.
 
@@ -170,7 +170,7 @@ The April AI-for-science seminar list supplied by the student spans biological s
 - [x] **David Ha** — trace the lineage around learned world models and agent behaviour.
 - [x] **Yann LeCun** — trace predictive learning, JEPA-style representations, and the proposed autonomous-intelligence architecture.
 - [x] **NVIDIA** — map its world/foundation-model work to the broader research lineage; distinguish research contributions from product positioning.
-- [~] **Atlas** — the exact paper, project, lab, or system remains unspecified; the survey records this ambiguity rather than silently selecting one.
+- [x] **Atlas** — resolved as World Labs' Atlas (2026-09-01) and added to the survey's lineage section and chronology; revise if the mentor meant another referent.
 
 ### Synthesis
 
@@ -267,7 +267,7 @@ Confidence / unresolved questions:
 ## Engineering backlog after this research sprint
 
 - [ ] Add OpenCitations one-hop references and citations.
-- [ ] Render citation evidence separately from human-confirmed causal edges.
+- [x] Render citation evidence separately from human-confirmed causal edges. *Edge hover labels and the node panel's “Connections and evidence” section show judgment and citation check as separate badges (2026-10-01).*
 - [ ] Add “promote to causal edge” with a required explanation.
 - [ ] Add request caching, cancellation, retry/backoff, and rate-limit indicators.
 - [ ] Add saved research collections and monitoring.
@@ -317,7 +317,10 @@ Confidence / unresolved questions:
 - Added a true extrapolation split (ν = 0.005, 0.08) to the Burgers pilot. The earlier held-out viscosities lay inside the training range and tested only interpolation.
 - Moved the pilot horizon from t = 0.4 to t = 2.0. At t = 0.4, viscosity changed the solution by only 1–3% of RMS, too little for a meaningful shift. At t = 2.0 it is 5–18%. All 21 reference trajectories pass the mass and energy checks.
 - Added `scripts/analyze-citation-flow.mjs`. For 13 branches it compares citations to a founding paper with title-label visibility. Genetic programming (+0.47), self-organizing maps (+0.25), and ILP (+0.15) show ideas outliving their labels. Expert systems collapsed in both. Symbolic regression's citers are now mostly physics. Five of ten featured atlas edges have direct citation support. Mamba-2 is not in OpenAlex, and AlphaEvolve's references are not indexed. Results are in section 8 of `research/branch-mortality-analysis.md`.
-- Identified the "Atlas" in the mentor's world-model list as World Labs' Atlas (announced 2026-09-01) and added it to the brief.
+- Identified the "Atlas" in the mentor's world-model list as World Labs' Atlas (announced 2026-09-01). Added it to the brief and to the world-model survey's chronology and lineage section, with its evidence gaps.
+- Added successor-keyword evidence: keywords whose share among citing papers grew at least 3×. Examples: neuroevolution → neural architecture search; symbolic regression → SINDy and PDEs; reservoir computing → physical reservoir computing; ILP → explainable AI and program synthesis.
+- Found primary-source support for expert systems → ILP. Muggleton (1991) cites MYCIN, and his Fig. 1 compares 100–180 person-years for hand-coded MYCIN and XCON with 1–9 for inductively built GASOIL and BMT. OpenAlex had missed the citation.
+- Added `confidence` (documented / inferred / proposed) to all 66 atlas edges and a separate `citation` check to 10 featured edges. The site shows both as separate badges on edge hover and in a new “Connections and evidence” panel section. Build, lint, and a headless-browser render pass.
 - Wrote `research/mentor-meeting-2026-10-02.md`: a talk track on world models, RSI, and the physics research idea, plus questions for the mentor. Re-verified `npm run build` and `npm run lint`.
 
 **Next active work:** record the mentor's feedback in `project-focus-decision.md`; then add a small matched trainable baseline only after choosing an acceptable dependency and compute budget; then audit the supplied architecture report's strongest claims against primary sources. The full historical citation-flow audit and more recent branch coverage remain open.
@@ -331,3 +334,16 @@ At the end of the week:
 - [ ] Record the selected research direction and the evidence behind the choice.
 - [ ] List assumptions that remain unverified.
 - [ ] Choose the next week's single primary outcome.
+
+### Review: week of 2026-09-28
+
+- **Completed and carried forward:** see the 2026-10-01 log. Still open: the project decision (pending the mentor meeting), multi-anchor citation lineages, primary-source checks for the remaining featured edges, the full 16-branch paper corpus, and the trainable baseline.
+- **Papers accepted into the written matrices:** AI for Physics 29; world models 18 (including World Labs Atlas); RSI 4 systems plus one category row. The frontier census covers 12 areas. The branch analysis covers 16 title-label branches and 13 citation anchors, and one founding paper (Muggleton 1991) was read in full for edge validation. *Screened and personally read counts: student to fill in.*
+- **Selected direction:** provisional. The hybrid equation-aware world model for AI for Physics (32/35) is pending mentor feedback on 2026-10-02.
+- **Unverified assumptions:**
+  - A data-only FNO will actually fail to extrapolate in viscosity at t = 2.0, i.e., the shift is hard enough to separate the methods.
+  - A symbolic correction can be fit stably from training residuals alone.
+  - GPU access is available for 3 seeds × 4 models.
+  - One anchor paper per branch represents its lineage; Boltzmann machines and neuroevolution suggest it does not.
+  - OpenAlex keywords reflect real topical change rather than tagging drift.
+- **Next week's single primary outcome:** a reproducible data-only neural-operator baseline on the frozen Burgers splits (train, interpolation, extrapolation), run with 3 seeds and reporting the pilot's metrics. Revise after the mentor meeting if scope or compute changes.
