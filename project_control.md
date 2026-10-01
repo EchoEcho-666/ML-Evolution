@@ -77,7 +77,7 @@ The minimum useful result is no longer a small candidate list. It is a reproduci
 - [x] Compare 2021–2025 with 2016–2020 (`recent trend ratio`) to distinguish continued decline from revival.
 - [x] Include support-vector machines and Bayesian networks as active controls.
 - [x] Run exact-phrase, plural/orthographic-alias, and broad-query sensitivity checks.
-- [ ] Add citation-flow, co-citation, and successor-keyword evidence; publication volume alone cannot establish conceptual inheritance.
+- [~] Add citation-flow, co-citation, and successor-keyword evidence; publication volume alone cannot establish conceptual inheritance. *Citation flow and co-citation done for 13 branches and 10 featured edges (2026-10-01); successor keywords and multi-anchor lineages remain.*
 - [ ] Hand-code causal evidence from primary and contemporaneous sources.
 
 **Current seed set (16):** expert systems, symbolic AI, case-based reasoning, inductive logic programming, learning classifier systems, fuzzy logic, genetic programming, artificial life, self-organizing maps, Hopfield networks, Boltzmann machines, reservoir computing, neuroevolution, symbolic regression, plus the two controls. The set is extensible; it is not a cap.
@@ -109,7 +109,7 @@ These numbers measure title-label visibility. They do **not** prove that a mecha
 - [x] Draft origin, promise, contraction, replacement, inheritance, and current-value interpretations for all 16 branches/controls.
 - [x] Distinguish documented inheritance from interpretive similarity in the candidate relationship table.
 - [ ] Validate every causal claim with at least one primary or contemporaneous source and add explicit confidence fields to the import data.
-- [ ] Test revival hypotheses with citation-flow and successor-keyword evidence.
+- [~] Test revival hypotheses with citation-flow and successor-keyword evidence. *Citation flow done; keyword evidence remains.*
 
 **Deliverable:** `research/branch-mortality-analysis.md`, the reproducible data above, and a branch-to-successor relationship table.
 
@@ -316,6 +316,8 @@ Confidence / unresolved questions:
 
 - Added a true extrapolation split (ν = 0.005, 0.08) to the Burgers pilot. The earlier held-out viscosities lay inside the training range and tested only interpolation.
 - Moved the pilot horizon from t = 0.4 to t = 2.0. At t = 0.4, viscosity changed the solution by only 1–3% of RMS, too little for a meaningful shift. At t = 2.0 it is 5–18%. All 21 reference trajectories pass the mass and energy checks.
+- Added `scripts/analyze-citation-flow.mjs`. For 13 branches it compares citations to a founding paper with title-label visibility. Genetic programming (+0.47), self-organizing maps (+0.25), and ILP (+0.15) show ideas outliving their labels. Expert systems collapsed in both. Symbolic regression's citers are now mostly physics. Five of ten featured atlas edges have direct citation support. Mamba-2 is not in OpenAlex, and AlphaEvolve's references are not indexed. Results are in section 8 of `research/branch-mortality-analysis.md`.
+- Identified the "Atlas" in the mentor's world-model list as World Labs' Atlas (announced 2026-09-01) and added it to the brief.
 - Wrote `research/mentor-meeting-2026-10-02.md`: a talk track on world models, RSI, and the physics research idea, plus questions for the mentor. Re-verified `npm run build` and `npm run lint`.
 
 **Next active work:** record the mentor's feedback in `project-focus-decision.md`; then add a small matched trainable baseline only after choosing an acceptable dependency and compute budget; then audit the supplied architecture report's strongest claims against primary sources. The full historical citation-flow audit and more recent branch coverage remain open.

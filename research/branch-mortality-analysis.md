@@ -300,11 +300,58 @@ The strongest inputs are associative memory, case retrieval and adaptation, dyna
 
 The strongest inputs are genetic programming, neuroevolution, learning-classifier populations, explicit verification, and Bayesian uncertainty. Historical failures point directly to the bottleneck: proposal generation is easier than trustworthy evaluation, regression prevention, credit assignment, and preservation of diversity.
 
-## 8. What is still missing
+## 8. Citation-flow evidence (first pass, 2026-10-01)
+
+Title counts measure whether a field's **name** stays visible. Citations to its founding paper measure whether its **ideas** are still being used. If a label dies while its founding work keeps being cited, the idea survived under other names.
+
+**Method.** For 13 branches, I chose one canonical founding work and counted the papers citing it each year in OpenAlex, normalized by all works that year. The script compares the 2021–2025 citation rate with the work's peak five-year rate (**citation survival**), just as the title analysis does for labels. It also records which research fields the citing papers come from, early and recently. Script: [`scripts/analyze-citation-flow.mjs`](../scripts/analyze-citation-flow.mjs).
+
+| Branch | Founding work | Label survival | Citation survival | Idea − label | Top citing fields, 2021–25 |
+| --- | --- | ---: | ---: | ---: | --- |
+| Genetic programming | Koza (1994) | 0.53 | **1.00** | **+0.47** | CS 43%, Engineering 30%, Environmental Sci. 6% |
+| Self-organizing maps | Kohonen (1982) | 0.44 | 0.69 | +0.25 | CS 23%, Environmental Sci. 19%, Engineering 15% |
+| Inductive logic programming | Muggleton (1991) | 0.13 | 0.27 | +0.15 | CS 82% |
+| SVM (control) | Cortes & Vapnik (1995) | 0.82 | 0.96 | +0.15 | CS 29%, Engineering 20%, Environmental Sci. 10% |
+| Fuzzy logic | Zadeh (1965) | 0.96 | 0.96 | 0.00 | Decision Sci. 38%, CS 19%, Engineering 14% |
+| Symbolic regression | Schmidt & Lipson (2009) | 1.00 | 0.99 | −0.01 | **Physics 33%**, CS 21%, Engineering 20% |
+| Reservoir computing | Jaeger & Haas (2004) | 1.00 | 0.99 | −0.01 | CS 78%, Engineering 8% |
+| Expert systems | MYCIN (Buchanan & Shortliffe) | 0.06 | 0.04 | −0.02 | CS 57%, Medicine 15% |
+| Learning classifier systems | Wilson, XCS (1995) | 0.16 | 0.14 | −0.02 | CS 89% |
+| Hopfield networks | Hopfield (1982) | 0.41 | 0.34 | −0.07 | CS 38%, Engineering 18%, Neuroscience 18% |
+| Case-based reasoning | Aamodt & Plaza (1994) | 0.38 | 0.29 | −0.08 | CS 55%, Engineering 18% |
+| Neuroevolution | NEAT (2002) | 1.00 | 0.75 | −0.25 | CS 68%, Engineering 17% |
+| Boltzmann machines | Ackley, Hinton & Sejnowski (1985) | 0.64 | 0.22 | −0.42 | CS 50%, Engineering 12%, Neuroscience 12% |
+
+**What this shows**
+
+1. **"Label died, idea survived" holds for some branches, not all.** Genetic programming is the clearest case: its name is at 53% of peak, but its founding paper is cited at its all-time high, increasingly from engineering and environmental science. Self-organizing maps and ILP show the same pattern more weakly.
+2. **Expert systems did not survive through citations.** Both the label (6%) and MYCIN citations (4%) collapsed. If its ideas survive in today's rule engines and verifiers, they did so through reinvention, not citation of the original line. The atlas should show this as *migration by analogy*, not documented inheritance.
+3. **Migration is visible in citing fields.** Symbolic regression's citers moved from mostly computer science to **physics first (33%)**, which directly supports the AI-for-Physics bridge. Self-organizing maps moved from neuroscience into environmental science.
+4. **Negative gaps usually mean a newer anchor took over.** Boltzmann-machine work now cites restricted Boltzmann machines and deep belief networks rather than the 1985 paper. Neuroevolution increasingly cites newer methods than NEAT. One anchor per branch undercounts those lineages.
+
+**Edge check: do the atlas's featured successor links appear in citation data?**
+
+| Atlas edge | Evidence |
+| --- | --- |
+| Hopfield (1982) → modern Hopfield networks (2020) | **Direct citation**; 69 works cite both |
+| Attention (2017) ↔ modern Hopfield networks | **Direct citation**; 37 works cite both |
+| Reservoir computing (2004) → physical reservoir computing review (2019) | **Direct citation**; 648 works cite both |
+| LSTM → S4 | **Direct citation**; 56 works cite both |
+| WaveNet → S4 | **Direct citation**; 7 works cite both |
+| S4 → Mamba | Mamba's references not indexed; 291 works cite both (strong co-citation) |
+| Genetic programming (Koza 1994) → symbolic regression (Schmidt & Lipson 2009) | No direct citation of this Koza paper indexed; 152 works cite both. Likely cites a different Koza edition; check by hand. |
+| Genetic programming → AlphaEvolve | AlphaEvolve's references not indexed; 0 co-citing works yet. **Unverified by citation data.** |
+| Mamba → Mamba-2 | Mamba-2 is not indexed in OpenAlex. **Unverified by citation data.** |
+| Expert systems (MYCIN) → inductive logic programming | No direct citation; only 2 works cite both. **Weakest citation support.** Keep it only with a primary-source quote showing ILP was motivated by the knowledge-acquisition bottleneck. |
+
+**Caveats.** Old papers are naturally cited less over time, which biases citation survival downward for older anchors (the 1965 fuzzy-sets paper staying at 0.96 shows the bias is not overwhelming). One anchor per branch is a sample, not the lineage. OpenAlex reference lists are incomplete for preprints. Co-citation shows that two works are used together, not that one caused the other.
+
+## 9. What is still missing
 
 Before this report can support final project selection, it needs:
 
-- citation-flow analysis from historical papers into modern descendants;
+- multiple anchors per branch (e.g., RBMs and deep belief networks for Boltzmann machines) and hand verification of the GP → symbolic regression and GP → AlphaEvolve links;
+- successor-keyword evidence: which new terms appear in the abstracts of papers citing each founding work;
 - venue/topic-based reconstruction of symbolic AI, whose name is not stable enough for exact-title analysis;
 - expansion beyond the current seed set, especially cybernetics, evolutionary strategies, probabilistic programming, connectionism, analog AI, and developmental robotics;
 - hand verification of the top-cited-paper list and removal of duplicate editions;
@@ -319,3 +366,5 @@ Before this report can support final project selection, it needs:
 - [Query sensitivity](data/branch-query-sensitivity.csv)
 - [Top-cited works](data/branch-top-cited-papers.csv)
 - [Metadata and limitations](data/branch-analysis-metadata.json)
+- [Citation-flow script](../scripts/analyze-citation-flow.mjs)
+- [Branch citation flow](data/branch-citation-flow.csv), [yearly citing works](data/branch-citation-yearly.csv), and [edge citation evidence](data/edge-citation-evidence.csv)

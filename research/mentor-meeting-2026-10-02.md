@@ -11,7 +11,7 @@
 | Under-explored field · why it came to be · why it died out · frontier | 0 — the phylogeny (these four questions are the website's structure) |
 | AI for Physics survey paper | 3 — research idea, and `ai-for-physics-survey.md` |
 | World model survey paper · NVIDIA · David Ha · LeCun | 1 |
-| Atlas | 1 — ask which "Atlas" is meant (question 6) |
+| Atlas | 1 (World Labs' Atlas world model); if it meant the atlas itself, section 0 |
 | RSI | 2 |
 | Optional: emotions in AI | 4 |
 
@@ -37,6 +37,13 @@ ML Civilization is an interactive **causal atlas** of machine-learning history. 
 ### Measuring "death" honestly
 
 For 16 historical branches I counted exact-phrase paper titles in OpenAlex (1950–2025), divided by all papers that year, and compared recent share with each branch's peak. **Key finding: a label can die while its ideas survive.** Expert systems fell to 6% of their peak share, yet explicit rules, knowledge bases, and verification are everywhere in today's agents and verifiers.
+
+**New this week: I tested that claim with citations.** For 13 branches I tracked citations to each founding paper, not just title labels.
+- *Genetic programming:* the name is at 53% of its peak, but Koza's founding paper is cited at its all-time high, now heavily from engineering and environmental science. The idea outlived the label.
+- *Symbolic regression:* its most-cited modern paper is now cited mostly by **physics (33%)**. This is a measurable migration into AI for Physics.
+- *Expert systems:* both the label (6%) and MYCIN citations (4%) collapsed. Its ideas live on by reinvention, not citation, so the atlas should not claim documented inheritance there.
+- Five of the website's ten featured successor links are confirmed by direct citations (e.g., Hopfield 1982 → modern Hopfield networks; LSTM → S4). The rest are either untestable in OpenAlex or need hand checks.
+Details: section 8 of `branch-mortality-analysis.md`.
 
 Caveat to say out loud: this measures *label visibility*, not every use of an idea, and it cannot prove why a field declined. Broad search made two fields look revived when they weren't (artificial life, learning classifier systems). Exact-phrase search fixed that.
 
@@ -99,7 +106,8 @@ If saved positions clutter the map, turn Timeline off and click **Restore nodes*
 - **Yann LeCun (JEPA):** world modeling as *predictive representation*: predict embeddings, not pixels, plus memory and planning. I-JEPA → V-JEPA 2 added action-conditioned robot planning.
 - **Google DeepMind:** several different branches, not one: Dreamer (latent control), MuZero (planning-only model), Genie / Genie 3 (generated interactive worlds).
 - **NVIDIA (Cosmos):** mainly a *platform* for physical AI: pretrained video world models, data curation, tokenizers, post-training for robots and cars. I treat "general-purpose world model" there as product positioning unless a task-level result backs it.
-- **Atlas:** my notes list it, but several unrelated projects share that name (e.g., Boston Dynamics' humanoid, which is now trained with large learned behavior models). I'll ask which one is meant before adding it to the map.
+- **World Labs — Atlas (announced 2026-09-01):** Fei-Fei Li's company. A multimodal world model that takes text, images, video, and 3D in one sequence, with every frame tied to an explicit 3D camera pose. It generates camera-controlled video (up to 1 minute at 1440p), reconstructs 3D scenes from a few photos, and is pitched for VFX and robotics real-to-sim. Architecture: autoregressive diffusion transformer. It will power World Labs' Marble tool. Early access only. **What to say:** it pushes the *spatial* branch of world models (geometry-grounded, not just pixels), which is a real step past Genie-style video. But all benchmarks are World Labs' own, the baselines got text instead of camera geometry, and nothing shows it predicts *physical consequences of actions*. It is the clearest current example of my evaluation gap: great geometry and appearance, untested intervention accuracy. ([announcement summary](https://howaiworks.ai/blog/world-labs-atlas-world-model-2026), [critical review](https://kingy.ai/blog/world-labs-atlas-world-model-deep-dive/))
+- *If "Atlas" on the list meant my own atlas (ML Civilization), that is section 0.*
 
 **Established:** latent models help planning and sample efficiency on bounded tasks; large video models can generate controllable environments.
 
@@ -181,8 +189,7 @@ Anthropic's interpretability team ([summary, April 2026](https://www.anthropic.c
 3. **Direction:** would you push me toward world models or RSI instead of physics? Physics wins on clean evaluation, but I want your read on which builds better long-term skills and fits your group.
 4. **Physics depth:** is Burgers the right first PDE, or is there a system you know better and could sanity-check results on?
 5. **Target:** is a 2027 AI-for-Science or AI & PDE workshop a reasonable goal, and would you be willing to co-author or advise on it?
-6. **Atlas:** which "Atlas" did you mean in the world-model list: a specific paper, lab, or robot?
-7. **The website:** is the phylogeny itself worth developing into a paper (e.g., a dataset of how ML branches survive, merge, migrate, and die), or should it stay a tool that supports the research project?
+6. **The website:** is the phylogeny itself worth developing into a paper (e.g., a dataset of how ML branches survive, merge, migrate, and die), or should it stay a tool that supports the research project?
 
 ## 7. Questions I might get, with short answers
 

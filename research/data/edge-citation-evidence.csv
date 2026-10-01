@@ -1,0 +1,11 @@
+edge_id,relationship,ancestor_id,ancestor_title,successor_id,successor_title,successor_reference_count,citation_evidence,works_citing_both
+e30,genetic-programming → symbolic-regression,W2040492000,Genetic programming as a means for programming computers by natural selection,W1979769287,Distilling Free-Form Natural Laws from Experimental Data,21,no direct citation indexed,152
+e59,genetic-programming → AlphaEvolve,W2040492000,Genetic programming as a means for programming computers by natural selection,W4415108068,AlphaEvolve: A coding agent for scientific and algorithmic discovery,0,successor references not indexed,0
+e55,Hopfield networks → modern Hopfield networks,W2128084896,Neural networks and physical systems with emergent collective computational abilities.,W3127151792,Hopfield Networks is All You Need,93,direct citation,69
+e56,modern Hopfield networks ↔ attention,W2626778328,Attention Is All You Need,W3127151792,Hopfield Networks is All You Need,93,direct citation,37
+e57,reservoir computing → physical reservoirs,W2118706537,Harnessing Nonlinearity: Predicting Chaotic Systems and Saving Energy in Wireless Communication,W2887258823,Recent advances in physical reservoir computing: A review,359,direct citation,648
+e54,expert systems (knowledge bottleneck) → inductive logic programming,W1549872659,Rule-Based Expert Systems: The MYCIN Experiments of the Stanford Heuristic Programming Project,W2520858206,Inductive logic programming,46,no direct citation indexed,2
+e62,RNN (LSTM) → S4,W2064675550,Long Short-Term Memory,W3209374680,Efficiently Modeling Long Sequences with Structured State Spaces,41,direct citation,56
+e61,WaveNet → S4,W2519091744,WaveNet: A Generative Model for Raw Audio,W3209374680,Efficiently Modeling Long Sequences with Structured State Spaces,41,direct citation,7
+e63,S4 → Mamba,W3209374680,Efficiently Modeling Long Sequences with Structured State Spaces,W4389326242,Mamba: Linear-Time Sequence Modeling with Selective State Spaces,0,successor references not indexed,291
+e65,Mamba → Mamba-2,W4389326242,Mamba: Linear-Time Sequence Modeling with Selective State Spaces,,,,not indexed in OpenAlex: successor,
