@@ -68,6 +68,26 @@ function buildTrace(id: string, mode: TraceMode, nodes: ResearchNodeModel[], edg
   return all
 }
 
+type Chapter = 'branches' | 'lineage' | 'frontier' | 'all'
+
+const chapters: { id: Chapter; label: string; hint: string }[] = [
+  { id: 'branches', label: '1 · Branches', hint: 'Why old AI branches rose, declined, and where their ideas went' },
+  { id: 'lineage', label: '2 · Deep learning', hint: 'RNN to Transformer to state-space models' },
+  { id: 'frontier', label: '3 · Frontier', hint: 'World models, self-improvement, AI for Physics, and my project' },
+  { id: 'all', label: 'All', hint: 'The full causal map' },
+]
+
+const frontierTags = ['physics', 'world-model', 'rsi', 'scientific-ml', 'evaluation', 'physical-computing', 'program-search']
+
+function inChapter(node: ResearchNodeModel, chapter: Chapter) {
+  if (chapter === 'all') return true
+  const branch = node.tags.includes('branch-analysis') || node.tags.includes('successor') || (node.tags.includes('history') && !node.tags.includes('sequence'))
+  const frontier = node.tags.some((tag) => frontierTags.includes(tag))
+  if (chapter === 'branches') return branch
+  if (chapter === 'frontier') return frontier
+  return !branch && !frontier
+}
+
 function branchPosition(node: ResearchNodeModel, nodes: ResearchNodeModel[]) {
   if (node.id === 'branch-survival-analysis' || !node.tags.includes('branch-analysis')) return node.position
   const branches = nodes.filter((item) => item.id !== 'branch-survival-analysis' && item.tags.includes('branch-analysis'))
@@ -92,7 +112,8 @@ function timelinePosition(node: ResearchNodeModel, index: number, nodes: Researc
 function App() {
   const { setCenter, fitView } = useReactFlow<ResearchFlowNode, CausalFlowEdge>()
   const { statuses, notes, nodePositions, importedNodes, importedEdges, setStatus, setNote, setNodePosition, resetNodePositions, addImportedPaper } = useResearchState()
-  const [selectedId, setSelectedId] = useState<string>('hybrid-equation-aware-world-model')
+  const [selectedId, setSelectedId] = useState<string>('')
+  const [chapter, setChapter] = useState<Chapter>('branches')
   const [fog, setFog] = useState(true)
   const [timeline, setTimeline] = useState(false)
   const [traceMode, setTraceMode] = useState<TraceMode | null>(null)
@@ -131,6 +152,7 @@ function App() {
       id: record.id,
       type: 'research',
       position: timeline ? timelinePosition(record, index, allNodes) : nodePositions[record.id] ?? branchPosition(record, allNodes),
+      hidden: !inChapter(record, chapter),
       data: {
         record,
         displayStatus: status,
@@ -139,7 +161,7 @@ function App() {
         selected: record.id === selectedId,
       },
     }
-  }), [allNodes, fog, nodePositions, selectedId, statusOf, timeline, tracedIds])
+  }), [allNodes, chapter, fog, nodePositions, selectedId, statusOf, timeline, tracedIds])
 
   // React Flow needs node changes applied locally so a dragged node follows the cursor.
   const [renderedNodes, setRenderedNodes] = useState(flowNodes)
@@ -172,13 +194,14 @@ function App() {
     const index = allNodes.findIndex((node) => node.id === id)
     const record = allNodes[index]
     if (!record) return
+    if (!inChapter(record, chapter)) setChapter('all')
     setSelectedId(id)
     setSearchOpen(false)
     setProgressOpen(false)
     setDiscoveryOpen(false)
     const position = timeline ? timelinePosition(record, index, allNodes) : nodePositions[record.id] ?? branchPosition(record, allNodes)
     setCenter(position.x + 110, position.y + 60, { zoom: 1.15, duration: 850 })
-  }, [allNodes, nodePositions, setCenter, timeline])
+  }, [allNodes, chapter, nodePositions, setCenter, timeline])
 
   const importPaper = useCallback((paper: ScholarlyPaper, relation: EdgeType, explanation: string) => {
     const duplicate = allNodes.find((node) =>
@@ -335,7 +358,10 @@ function App() {
 
         <div className="atlas-atmosphere" aria-hidden="true" />
         <div className="canvas-vignette" />
-        <div className="atlas-caption"><span><Crosshair size={13} /> {selectedNode?.tags.includes('branch-analysis') ? 'HISTORICAL BRANCHES' : 'SEQUENCE INTELLIGENCE'}</span><strong>{traceMode ? `TRACING ${traceMode.toUpperCase()}` : 'CAUSAL MAP'}</strong></div>
+        <div className="atlas-caption"><span><Crosshair size={13} /> {chapters.find((item) => item.id === chapter)?.hint.toUpperCase()}</span><strong>{traceMode ? `TRACING ${traceMode.toUpperCase()}` : 'CAUSAL MAP'}</strong></div>
+        <div className="chapter-bar" role="tablist" aria-label="Map chapters">
+          {chapters.map((item) => <button key={item.id} type="button" role="tab" aria-selected={chapter === item.id} title={item.hint} onClick={() => { setChapter(item.id); window.setTimeout(() => fitView({ padding: 0.18, duration: 600, maxZoom: 0.9 }), 30) }}>{item.label}</button>)}
+        </div>
         <Legend visibleFlows={visibleIdeaFlows} onToggleFlow={(flow) => setVisibleIdeaFlows((current) => current.includes(flow) ? current.filter((item) => item !== flow) : [...current, flow])} />
         <div className="canvas-tools">
           <button onClick={() => fitView({ padding: 0.18, duration: 700, maxZoom: 0.9 })}><Focus size={15} /> Fit map</button>

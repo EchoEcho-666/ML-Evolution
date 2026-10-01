@@ -6,7 +6,7 @@
 
 ---
 
-# Part 1 — The talk (about 8 minutes)
+# Part 1
 
 **The logic in one line:** *ideas in AI rarely die → today's two frontiers share one weakness → I test that weakness where the answer is exact → here's what I need.*
 
@@ -15,13 +15,14 @@
 - I built **ML Civilization**, a family tree of AI. For 16 old research branches it shows why each started, why it declined, and where its ideas went.
 - **Finding:** names die, ideas don't. Expert systems fell to 6% of their peak, but its ideas moved into rule learning, verification, and today's agents. Genetic programming's name is at 53% of its peak, but its founding paper is cited more than ever.
 - **Proof from the source:** in 1991, hand-coded expert systems took **100–180 person-years** to build; systems that learned rules from examples took **1–9**. That bottleneck is why the field moved.
-- **Show:** the legend's four colors (survival, merger, migration, extinction) → **Expert Systems → What followed** → **Genetic Programming** → AlphaEvolve.
+- **Show (chapter 1 · Branches):** the row of 16 branches with where each went below it → the four legend colors (survival, merger, migration, extinction) → click **Expert Systems** → **Genetic Programming** → AlphaEvolve.
 
 ## 2. Present: two frontiers, one shared weakness (2 min)
 
 - **World models** (Ha → Dreamer → JEPA → Genie, Cosmos, World Labs Atlas) predict what happens next. They look realistic, but nobody can check whether they're *right* about new situations.
 - **Recursive self-improvement** (STOP → AlphaEvolve → Darwin Gödel Machine): systems improve their own code, but only as well as their tests can check.
 - **Shared weakness:** both look good on what they were tested on and can fail under a shift nobody checked.
+- **Show (chapter 3 · Frontier):** World Models and Bounded RSI both lead to **Intervention and Regime Shift**, which leads to my project.
 
 ## 3. My question: test it where the answer is exact (3 min)
 

@@ -177,6 +177,13 @@ kbd { font-family: inherit; font-size: 9px; color: #728079; padding: 2px 5px; bo
 .canvas-vignette { position: absolute; inset: 0; pointer-events: none; z-index: 6; background: radial-gradient(ellipse at center, transparent 45%, rgba(4,7,8,.3) 100%); }
 .atlas-caption { position: absolute; left: 22px; top: 20px; z-index: 8; display: flex; flex-direction: column; gap: 5px; pointer-events: none; }
 .atlas-caption span { display: flex; align-items: center; gap: 6px; color: #687a72; font-size: 8px; letter-spacing: .16em; }
+.chapter-bar { position: absolute; left: 50%; top: 18px; z-index: 10; transform: translateX(-50%); display: flex; border: 1px solid rgba(139,160,150,.18); background: rgba(8,13,14,.92); }
+.chapter-bar button { padding: 9px 16px; border: 0; border-right: 1px solid rgba(139,160,150,.14); background: transparent; color: #8a9a92; font: inherit; font-size: 11px; letter-spacing: .06em; cursor: pointer; }
+.chapter-bar button:last-child { border-right: 0; }
+.chapter-bar button[aria-selected='true'] { background: rgba(145,183,167,.16); color: #dfe8e3; }
+.app-shell[data-theme='light'] .chapter-bar { background: rgba(247,250,250,.95); border-color: rgba(67,87,94,.2); }
+.app-shell[data-theme='light'] .chapter-bar button { color: #5e6f67; border-right-color: rgba(69,89,79,.13); }
+.app-shell[data-theme='light'] .chapter-bar button[aria-selected='true'] { background: rgba(79,117,101,.14); color: #1f3329; }
 .atlas-caption strong { font-family: Georgia, serif; font-weight: 400; color: rgba(196,207,201,.55); letter-spacing: .13em; font-size: 12px; }
 .legend-panel { position: absolute; left: 20px; bottom: 20px; z-index: 9; width: max-content; max-width: calc(100% - 40px); height: 40px; display: flex; align-items: center; border: 1px solid rgba(137,157,148,.13); background: rgba(8,13,14,.9); }
 .legend-title { align-self: stretch; padding: 0 12px; display: flex; align-items: center; justify-content: center; border-right: 1px solid rgba(137,157,148,.12); font-size: 7px; line-height: 1; letter-spacing: .17em; color: #65716c; }
