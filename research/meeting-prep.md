@@ -41,10 +41,10 @@
 - [x] Skim sections 4.3 and 4.4: one line each for Ha, LeCun, DeepMind, NVIDIA, World Labs Atlas; RSI's five fields and STOP → Gödel Agent → AlphaEvolve → DGM.
 
 ### 2:25–2:45 · Questions
-- [ ] Pick your top 3 from section 5.1. Recommended: **GPU access**, **scope**, **physics vs world models vs RSI**. Write them down.
+- [x] Pick your top 3 from section 5.1. Recommended: **GPU access**, **scope**, **physics vs world models vs RSI**. Write them down.
 
 ### 2:45–3:00 · Buffer
-- [ ] Website and shift plot open in tabs. Water. Stop studying at 2:55.
+- [x] Website and shift plot open in tabs. Water. Stop studying at 2:55.
 
 ---
 

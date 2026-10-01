@@ -67,6 +67,7 @@ Exploration states and notes are stored in browser local storage.
 
 ## Current research decisions
 
+- [Research overview: everything in one place, with all paper links](research/research-overview.md)
 - [Mentor meeting prep: timeline, research idea, talk track](research/meeting-prep.md)
 - [Project-focus decision](research/project-focus-decision.md)
 - [AI-for-physics survey](research/ai-for-physics-survey.md)
