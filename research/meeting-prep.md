@@ -19,16 +19,17 @@
 ## 1. Today's timeline (12:40 → 3:00)
 
 ### 12:40–1:20 · Understand the research idea (most important)
-- [ ] Read section 2.1–2.4 below slowly.
-- [ ] Open [`viscosity-shift.svg`](../experiments/burgers-pilot/viscosity-shift.svg) in a browser. Find the shock. Find the roundest curve (ν = 0.08) and say why it is roundest.
-- [ ] Run the pilot: `python3 experiments/burgers-pilot/burgers_pilot.py`. Find the train / test / extrapolation blocks and note that all checks pass.
-- [ ] Answer self-checks 1–4 out loud **before** reading the answers (section 2.9).
-- [ ] Without looking, write the four models on paper and what each adds.
+- [x] Read section 2.1–2.4 below slowly.
+- [x] Open [`viscosity-shift.svg`](../experiments/burgers-pilot/viscosity-shift.svg) in a browser. Find the shock. Find the roundest curve (ν = 0.08) and say why it is roundest.
+  - this is because the 0.08 value is out of range of the taining doubling the largest value 
+- [x] Run the pilot: `python3 experiments/burgers-pilot/burgers_pilot.py`. Find the train / test / extrapolation blocks and note that all checks pass.
+- [x] Answer self-checks 1–4 out loud **before** reading the answers (section 2.9).
+- [x] Without looking, write the four models on paper and what each adds.
 
 ### 1:20–1:45 · Defend it
-- [ ] Read section 2.5–2.8 and answer self-checks 5–7.
-- [ ] Practise the three hardest questions out loud (section 5.2): "already done?", "why a world model?", "what if nothing works?"
-- [ ] Write one sentence: *would I still want this project if the formula loses?*
+- [x] Read section 2.5–2.8 and answer self-checks 5–7.
+- [x] Practise the three hardest questions out loud (section 5.2): "already done?", "why a world model?", "what if nothing works?"
+- [x] Write one sentence: *would I still want this project if the formula loses?*
 
 ### 1:45–2:00 · Pitch
 - [ ] Say the 90-second pitch (section 3) twice from the page, then once in your own words. Time it.
@@ -120,7 +121,7 @@ Design choice to ask about: which terms the formula may use (e.g., `ν·u_xx`, `
 - Models 1 vs 2 under a viscosity shift were compared in S. Campos Vilar, *Can Physics-Informed Training Improve Neural-Operator Data Efficiency? A Controlled FNO and PINO Comparison for PDE Surrogate Modelling* (TU Delft bachelor thesis, June 2026; [thesis](https://repository.tudelft.nl/record/uuid:bc293c72-0833-4df2-bd42-0aa63914ee23), [code](https://github.com/samuekisde/fno-pino-data-efficiency)). It trained on Burgers ν = 0.01, tested out of distribution at ν = 0.001 with 3 seeds on an A100, and found that **PINO matched full-data FNO with 50% of the labels, but the physics loss did not make out-of-distribution prediction reliable.** So **1 and 2 are a close replication** that checks my setup. Mine trains on three viscosities and tests interpolation and extrapolation in both directions.
 - Fitting formulas to residuals and combining operators with sparse regression also exist (e.g., the 2026 [Late Fusion Operator](https://openreview.net/pdf?id=k05FaSEb8p) workshop paper).
 - **New:** the controlled comparison of symbolic vs equal-size learned correction, on a pre-declared extrapolation split, with physics checks and cost. Most papers skip the control (model 4), so they can't separate structure from capacity.
-- Realistic target: a short workshop paper (AI for Science / AI & PDE). Details: [publication feasibility](ai-physics-publication-feasibility.md).
+- Realistic target: Details: [feasibility](ai-physics-feasibility.md).
 
 *Self-check 6:* What's the one-line answer to "hasn't this been done?"
 
@@ -270,6 +271,7 @@ Anthropic's interpretability team ([summary, April 2026](https://www.anthropic.c
 - **"Isn't physics-informed ML already done?"** Adding a physics loss is done; I replicate it. The open question is whether *symbolic* structure transfers better than an equally sized *learned* correction under extrapolation. That needs the control, which most papers skip.
 - **"Why call it a world model? It's a PDE surrogate."** Fair. It is a dynamics model of a physical system. I only call it a world model where it predicts step by step, and I don't claim long-horizon planning.
 - **"What if nothing works?"** Then the result is where and why the correction fails under shift. That is publishable as a negative result if the comparison is fair and the code is released.
+- **"Won't you just keep tweaking until it wins?"** I'll iterate, but against a *practice* shift inside the training data (e.g., train on ν = 0.01–0.02 and validate at 0.04). The real extrapolation test (0.005, 0.08) is opened once, at the end, so any win is real.
 - **"Isn't Phase B just AutoML?"** It is RSI only if a kept change improves the *next* round of improvement; otherwise I call it iterative optimization.
 - **"Why trust your history atlas?"** Its statistics count title labels, which is why I added citation checks. Documented links are shown separately from inferred ones, and one link was confirmed only by reading the original paper.
 

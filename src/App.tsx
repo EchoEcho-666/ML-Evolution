@@ -5,7 +5,9 @@ import {
   Controls,
   MarkerType,
   ReactFlow,
+  applyNodeChanges,
   useReactFlow,
+  type NodeChange,
   type NodeMouseHandler,
 } from '@xyflow/react'
 import '@xyflow/react/dist/style.css'
@@ -138,6 +140,11 @@ function App() {
       },
     }
   }), [allNodes, fog, nodePositions, selectedId, statusOf, timeline, tracedIds])
+
+  // React Flow needs node changes applied locally so a dragged node follows the cursor.
+  const [renderedNodes, setRenderedNodes] = useState(flowNodes)
+  useEffect(() => setRenderedNodes(flowNodes), [flowNodes])
+  const onNodesChange = useCallback((changes: NodeChange<ResearchFlowNode>[]) => setRenderedNodes((nodes) => applyNodeChanges(changes, nodes)), [])
 
   const flowEdges = useMemo<CausalFlowEdge[]>(() => allEdges.map((edge) => {
     const dimmed = Boolean(tracedIds && (!tracedIds.has(edge.source) || !tracedIds.has(edge.target)))
@@ -303,7 +310,9 @@ function App() {
         className={`atlas ${selectedNode || discoveryOpen || progressOpen ? 'has-detail' : ''}`}
       >
         <ReactFlow<ResearchFlowNode, CausalFlowEdge>
-          nodes={flowNodes}
+          nodes={renderedNodes}
+          onNodesChange={onNodesChange}
+          onlyRenderVisibleElements
           edges={flowEdges}
           nodeTypes={nodeTypes}
           edgeTypes={edgeTypes}

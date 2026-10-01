@@ -324,6 +324,7 @@ Confidence / unresolved questions:
 - Wrote the mentor-meeting brief (now merged into `research/meeting-prep.md`): a talk track on world models, RSI, and the physics research idea, plus questions for the mentor. Re-verified `npm run build` and `npm run lint`.
 
 - Merged the brief, a from-zero research-idea primer, a timed prep checklist, and the older study guide into `research/meeting-prep.md`. Added `plot_viscosity_shift.py`, which draws the Burgers solution for each viscosity split.
+- Fixed atlas dragging: nodes did not follow the cursor because React Flow node changes were never applied. Also rendered only on-screen elements, removed the constant edge animation and the blur on panels over the map. A headless measurement went from a frozen drag and a 117 ms pan hitch to a steady 60 fps, and positions persist across reloads.
 
 **Next active work:** record the mentor's feedback in `project-focus-decision.md`; then add a small matched trainable baseline only after choosing an acceptable dependency and compute budget; then audit the supplied architecture report's strongest claims against primary sources. The full historical citation-flow audit and more recent branch coverage remain open.
 
