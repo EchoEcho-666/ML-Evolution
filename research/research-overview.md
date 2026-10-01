@@ -1,43 +1,166 @@
 # ML Civilization — research overview
 
-**Updated:** 2026-10-01 · **Status:** research direction provisional, pending mentor feedback
-**One document for everything:** the project, the evidence, the research idea, every paper cited, and links to every working note.
+**Updated:** 2026-10-01 · **Meeting:** 3:00 pm · Website: `npm run dev` → open the URL → **Go to map**
 
-**Run things**
-- Website: `npm run dev` → open the printed URL (usually `http://127.0.0.1:5173/`) → **Go to map**
-- Burgers reference solver: `python3 experiments/burgers-pilot/burgers_pilot.py`
-- Viscosity-shift plot: `python3 experiments/burgers-pilot/plot_viscosity_shift.py`, then `open -a "Google Chrome" experiments/burgers-pilot/viscosity-shift.svg`
-- Citation-flow analysis: `node scripts/analyze-citation-flow.mjs`
-
-## Contents
-
-1. [The story in brief](#1-the-story-in-brief)
-2. [ML Civilization: a phylogeny of AI](#2-ml-civilization-a-phylogeny-of-ai)
-3. [World models](#3-world-models)
-4. [Recursive self-improvement](#4-recursive-self-improvement)
-5. [The research idea](#5-the-research-idea)
-6. [Prior work and the research gap](#6-prior-work-and-the-research-gap)
-7. [Plan, status, and risks](#7-plan-status-and-risks)
-8. [Optional interest: emotion concepts in language models](#8-optional-interest-emotion-concepts-in-language-models)
-9. [Pitch, questions, and answers](#9-pitch-questions-and-answers)
-10. [Paper library](#10-paper-library)
-11. [Project documents, data, and code](#11-project-documents-data-and-code)
+**How to use this document:** Part 1 is the whole talk, on one page. Part 2 is backup: open a section only if your mentor asks. Part 3 has every paper and file.
 
 ---
 
-## 1. The story in brief
+# Part 1 — The talk (about 8 minutes)
 
-> I built a phylogeny of AI showing that ideas rarely die. They migrate, merge, and come back when a bottleneck lifts. Two frontiers sit at the end of those lines: **world models** and **recursive self-improvement**. Both fail in the same place: they look good on what they were tested on and break under a shift nobody checked. I study that gap where the ground truth is known, in **physics**.
+**The logic in one line:** *ideas in AI rarely die → today's two frontiers share one weakness → I test that weakness where the answer is exact → here's what I need.*
 
-**The research question:** when a learned physics model must predict conditions outside its training range, does a short **formula** correction help more than an equally small **neural-network** correction?
+## 1. Past: ideas in AI rarely die (3 min, show the website)
 
-**Why physics:** the right answer is known exactly (a numerical solver and conservation laws), so reliability can be measured, not just judged by eye.
+- I built **ML Civilization**, a family tree of AI. For 16 old research branches it shows why each started, why it declined, and where its ideas went.
+- **Finding:** names die, ideas don't. Expert systems fell to 6% of their peak, but its ideas moved into rule learning, verification, and today's agents. Genetic programming's name is at 53% of its peak, but its founding paper is cited more than ever.
+- **Proof from the source:** in 1991, hand-coded expert systems took **100–180 person-years** to build; systems that learned rules from examples took **1–9**. That bottleneck is why the field moved.
+- **Show:** the legend's four colors (survival, merger, migration, extinction) → **Expert Systems → What followed** → **Genetic Programming** → AlphaEvolve.
+
+## 2. Present: two frontiers, one shared weakness (2 min)
+
+- **World models** (Ha → Dreamer → JEPA → Genie, Cosmos, World Labs Atlas) predict what happens next. They look realistic, but nobody can check whether they're *right* about new situations.
+- **Recursive self-improvement** (STOP → AlphaEvolve → Darwin Gödel Machine): systems improve their own code, but only as well as their tests can check.
+- **Shared weakness:** both look good on what they were tested on and can fail under a shift nobody checked.
+
+## 3. My question: test it where the answer is exact (3 min)
+
+- **Testbed:** the Burgers equation, a simple fluid model with one knob, viscosity ν. A solver gives the exact answer, so every error is measurable. **Show:** `viscosity-shift.svg`.
+- **Setup:** train on ν = 0.01–0.04; test *outside* that range at 0.005 and 0.08.
+- **Four models:** plain FNO · FNO + physics loss (replicates a 2026 thesis) · FNO + **formula correction** · FNO + **equal-size neural correction** (the control).
+- **The gap:** Late Fusion Neural Operators (2026) showed a formula correction cuts Burgers extrapolation error by ~72%, but **never tested a same-size neural net in its place**. So we don't know whether the formula's *structure* is what helps. I test that, and also how much it depends on choosing the right formula terms.
+- **Status:** solver and frozen test splits done (21 runs pass the physics checks). Next: train the first FNO.
+
+## 4. My ask (1 min)
+
+1. Can I get **GPU access**?
+2. Is the **scope** right: four models, plus the formula-library test?
+3. Physics, world models, or RSI: **which direction** would you push me toward?
 
 ---
 
-## 2. ML Civilization: a phylogeny of AI
+# Part 2 — Backup (open only if asked)
 
-### 2.1 What it is
+## B1. The research idea in detail
+
+### The physics: Burgers equation
+
+`u_t + u·u_x = ν·u_xx` describes a 1D fluid on a ring.
+- `u·u_x` steepens waves into a **shock**.
+- `ν·u_xx` (viscosity, friction between neighbouring fluid) smooths it.
+- Larger ν gives a smoother shock.
+
+Plot: [`viscosity-shift.svg`](../experiments/burgers-pilot/viscosity-shift.svg). All runs form a shock by t = 2, and ν = 0.08 is visibly roundest.
+
+### The shift
+
+| Split | Viscosities | Tests |
+| --- | --- | --- |
+| Train | 0.01, 0.02, 0.04 | What the model learns from |
+| Interpolation | 0.015, 0.03 | Unseen but between training values (easy) |
+| Extrapolation | 0.005, 0.08 | Outside the training range (the real question) |
+
+The horizon is t = 2 because before the shock forms, viscosity changes the solution by only 1–3%.
+
+### The four models
+
+All four use the same backbone, data, and budget.
+
+| # | Model | Role |
+| --- | --- | --- |
+| 1 | [FNO](https://arxiv.org/abs/2010.08895), data only | Baseline |
+| 2 | FNO + PDE-residual loss ([PINO](https://arxiv.org/abs/2111.03794)) | Close replication of a 2026 thesis |
+| 3 | FNO + **symbolic correction** fitted to training errors (sparse regression, e.g. [SINDy](https://doi.org/10.1073/pnas.1517384113)) | The idea |
+| 4 | FNO + **equal-size neural correction**, same inputs and data | The control |
+
+**Reading the result:**
+- 3 beats 4 on extrapolation → the formula's *structure* helps.
+- 3 ≈ 4 → only the extra module helps.
+- Neither beats 1 → corrections don't transfer.
+- 3 helps only on interpolation → the formula overfit.
+
+### Measurement rules
+
+- **Metrics:**
+  - prediction error per split;
+  - physics checks (mass conserved, energy only decreasing);
+  - compute;
+  - worst seed over ≥3 seeds.
+- **No leakage:** fit and tune only on training viscosities. Iterate against a *practice* shift inside the training range (e.g., train on 0.01–0.02, validate at 0.04). Open the real extrapolation test once, at the end.
+
+### How it connects
+
+- **World models:** a small world model of a physical system, tested where world models fail, but with an exact answer key.
+- **RSI (Phase B):** freeze the extrapolation tests as a hidden suite. Do a coding agent's improvements survive them?
+- **Phylogeny:** symbolic regression descends from genetic programming and now migrates into physics.
+
+## B2. Prior work and the research gap
+
+### Directly related
+
+| Paper | What it did | Missing piece |
+| --- | --- | --- |
+| [Campos Vilar 2026, TU Delft thesis](https://repository.tudelft.nl/record/uuid:bc293c72-0833-4df2-bd42-0aa63914ee23) ([code](https://github.com/samuekisde/fno-pino-data-efficiency)) | FNO vs PINO on PDEBench Burgers (train ν = 0.01, OOD 0.001) and Darcy; 3 seeds, A100. PINO matched full-data FNO with 50% of the labels, but **physics loss did not make OOD reliable**. | Only physics *loss*; no correction modules |
+| [Late Fusion Neural Operators 2026](https://arxiv.org/abs/2604.16721) | Sparse-regression formula on FNO features plus parameters; Burgers trained on ν ∈ (0.01, 0.02), tested on ν < 0.01; **~72% lower OOD RMSE than FNO** | Compares only with FNO and CAPE-FNO; **never swaps the formula for a same-size neural net** |
+| [HyCOP 2026](https://arxiv.org/abs/2605.00820) | Composes numerical sub-solvers and learned modules into short programs; order-of-magnitude OOD gains. Replacing numerical primitives with learned FNOs raised OOD error ~10× | Structure there means *numerical solvers*, not a fitted correction on a neural operator |
+| [PINO training study 2026](https://arxiv.org/abs/2606.06164) | PINO training choices across operators and PDEs | Not about corrections |
+| [Residual-based error correction for neural operators](https://arxiv.org/abs/2210.03008), [corrector operator](https://arxiv.org/abs/2306.12047) | Correct operator predictions using PDE residuals | Correction by solving the equation, not symbolic vs learned |
+| [Symbolic discovery of hidden operators](https://arxiv.org/abs/2212.04630), [NOMTO](https://arxiv.org/abs/2501.08086) | Discover equations using neural operators | Equation discovery, not extrapolation of a corrected surrogate |
+
+### Evidence that symbolic structure extrapolates better (other settings)
+
+| Paper | Finding |
+| --- | --- |
+| [Cranmer et al. 2020, NeurIPS](https://arxiv.org/abs/2006.11287) | A formula extracted from a graph network generalized **out of distribution better than the network itself** |
+| [Rackauckas et al. 2020, Universal Differential Equations](https://arxiv.org/abs/2001.04385) | Symbolic regression on a learned missing term improves extrapolation over the neural term (ODEs) |
+| [Zanna & Bolton, ocean closures](https://repository.library.noaa.gov/view/noaa/32948/noaa_32948_DS1.pdf) | Equation discovery gives interpretable, conservation-respecting eddy closures |
+| [Jakhar et al. 2024, JAMES](https://doi.org/10.1029/2023MS003874) | Closed-form closures appear generalizable across flow regimes, but need physics-informed libraries and sparsity to be stable |
+| [OrthoReg 2026](https://arxiv.org/abs/2606.19145) | Hybrid symbolic-neural models extrapolate better than neural-only corrections; addresses library mismatch |
+
+### Honest verdict on the gap
+
+- **Not new:** "formulas extrapolate better than neural nets" has support in ODEs, graph networks, and climate closures.
+- **Still open:** for a **neural-operator surrogate under a PDE parameter shift**, does a fitted symbolic correction beat a **matched-size learned correction** on extrapolation? Late Fusion, the closest paper, skips exactly this control.
+- **Why papers skip it:** method papers aim to beat standard baselines, not explain why they win. The control might weaken the story. Reviewers mostly ask for strong baselines, and every extra model costs runs.
+- **Stronger angle to discuss:** vary whether the formula's term library contains the right terms (exact / partly wrong / generic). That asks **when** symbolic structure helps, not just whether, and connects to OrthoReg's library-mismatch problem.
+- **Scale:** a careful ablation-style contribution, suitable for a short workshop paper, not a main-conference claim.
+
+Feasibility and publication path: [`ai-physics-feasibility.md`](ai-physics-feasibility.md).
+
+## B3. Plan, status, and risks
+
+**Done**
+- Reference solver with frozen splits; all 21 trajectories pass the mass and energy checks.
+- Persistence baseline (predict "no change") error at t = 2 is 0.49. That is the floor real models must beat.
+
+**Next go/no-go:** train model 1 (FNO) with 3 seeds. If it extrapolates fine, the shift is too easy and must be widened first.
+
+**Four-week plan:** [`project-focus-decision.md`](project-focus-decision.md).
+1. Baselines.
+2. Physics loss.
+3. Symbolic and learned corrections.
+4. Stress tests and write-up.
+
+**Needs:** GPU access, PyTorch, the [`neuraloperator`](https://neuraloperator.github.io/dev/_modules/neuralop/data/datasets/burgers.html) library. Optional [PDEBench data](https://darus.uni-stuttgart.de/dataset.xhtml?persistentId=doi:10.18419/darus-2986&version=7.0) (~7.7 GB per viscosity file).
+
+**Risks**
+
+| Risk | Safeguard |
+| --- | --- |
+| The shift is too easy | Check FNO extrapolation first; widen if needed |
+| The formula overfits noise | Complexity penalty, multiple seeds, expression stability |
+| Leakage through repeated tuning | Practice shift inside training data; open the real test once |
+| Unfair baseline | Same backbone, data, and tuning budget for all four models |
+
+**Publication venues**
+- [ICML 2026 AI for Science](https://ai4sciencecommunity.github.io/icml26/call)
+- [NeurIPS 2025 AI for Science](https://ai4sciencecommunity.github.io/neurips25/call)
+- [AI&PDE format](https://openreview.net/pdf?id=med7qzMIaG)
+- [ICLR workshop guide](https://iclr.cc/Conferences/2026/WorkshopGuide)
+
+## B4. The phylogeny: method and evidence
+
+### What it is
 
 An interactive **causal atlas** of machine-learning history. A timeline answers *what came when*; a phylogeny answers *what descended from what, and why*. Every branch gets four questions:
 
@@ -46,7 +169,7 @@ An interactive **causal atlas** of machine-learning history. A timeline answers 
 3. **Where did its ideas go?** Survival, merger, migration, or extinction.
 4. **What does it connect to at the frontier?** Including under-explored branches worth reopening.
 
-### 2.2 How "death" is measured
+### How "death" is measured
 
 - **Title-label visibility:** for 16 branches, exact-phrase paper titles in OpenAlex (1950–2025), divided by all papers each year. Recent share (2021–25) is compared with the branch's peak five-year share.
 - **Exact phrases, not broad search:** broad search made artificial life and learning classifier systems look revived when they were not.
@@ -71,7 +194,7 @@ An interactive **causal atlas** of machine-learning history. A timeline answers 
 
 Full method and branch-by-branch causes: [`branch-mortality-analysis.md`](branch-mortality-analysis.md).
 
-### 2.3 Do ideas outlive their labels? Citation evidence
+### Do ideas outlive their labels? Citation evidence
 
 For 13 branches I tracked citations to each **founding paper**:
 
@@ -87,7 +210,7 @@ For 13 branches I tracked citations to each **founding paper**:
 - ILP → **explainable AI, program synthesis**
 - Self-organizing maps → **geoscience**
 
-### 2.4 The four ways an idea moves (the website's colored edges)
+### The four ways an idea moves (the website's colored edges)
 
 | Flow | Meaning | Examples |
 | --- | --- | --- |
@@ -105,7 +228,7 @@ For 13 branches I tracked citations to each **founding paper**:
 
 **They come back when the bottleneck lifts.**
 
-### 2.5 Edge evidence
+### Edge evidence
 
 - **Direct citation** confirms 5 of 10 featured links:
   - Hopfield 1982 → modern Hopfield
@@ -119,7 +242,7 @@ For 13 branches I tracked citations to each **founding paper**:
 - **Lesson:** citation data can raise confidence in a link, but only reading the source can rule one out.
 - **On the website:** every link shows a human **judgment** (documented / inferred / proposed) and, separately, a **citation check**. Open a node → *Connections and evidence*.
 
-### 2.6 Website demo path
+### Website demo path
 
 1. **Legend:** toggle the survival, merger, migration, and extinction colors.
 2. **Timeline:** 16 branches in order of emergence.
@@ -128,9 +251,7 @@ For 13 branches I tracked citations to each **founding paper**:
 5. **Hopfield Networks → Connections and evidence:** judgment and citation badges.
 6. **Hybrid Equation-Aware World Model → Focus:** the proposed project and its ancestors.
 
----
-
-## 3. World models
+## B5. World models
 
 **Definition:** a learned model that holds the state of an environment and predicts what happens next, ideally *if I act*. It is a functional category, not one architecture. Survey: [A Comprehensive Survey on World Models for Embodied AI](https://arxiv.org/abs/2510.16732).
 
@@ -162,9 +283,7 @@ For 13 branches I tracked citations to each **founding paper**:
 
 Full survey: [`world-model-survey.md`](world-model-survey.md).
 
----
-
-## 4. Recursive self-improvement
+## B6. Recursive self-improvement
 
 **Definition:** a system proposes a change to something that drives its own operation, tests it with an evaluator it doesn't control, keeps it only if it passes, and the kept change improves the *next* round. It has five fields: **proposer, target, evaluator, acceptance rule, loop closure**. Survey: [RSI: From Bounded Self-Refinement to Autonomous Research Loops](https://arxiv.org/abs/2607.07663).
 
@@ -181,145 +300,16 @@ Full survey: [`world-model-survey.md`](world-model-survey.md).
 
 Full survey: [`recursive-self-improvement.md`](recursive-self-improvement.md).
 
----
-
-## 5. The research idea
-
-### 5.1 The physics: Burgers equation
-
-`u_t + u·u_x = ν·u_xx` describes a 1D fluid on a ring.
-- `u·u_x` steepens waves into a **shock**.
-- `ν·u_xx` (viscosity, friction between neighbouring fluid) smooths it.
-- Larger ν gives a smoother shock.
-
-Plot: [`viscosity-shift.svg`](../experiments/burgers-pilot/viscosity-shift.svg). All runs form a shock by t = 2, and ν = 0.08 is visibly roundest.
-
-### 5.2 The shift
-
-| Split | Viscosities | Tests |
-| --- | --- | --- |
-| Train | 0.01, 0.02, 0.04 | What the model learns from |
-| Interpolation | 0.015, 0.03 | Unseen but between training values (easy) |
-| Extrapolation | 0.005, 0.08 | Outside the training range (the real question) |
-
-The horizon is t = 2 because before the shock forms, viscosity changes the solution by only 1–3%.
-
-### 5.3 The four models
-
-All four use the same backbone, data, and budget.
-
-| # | Model | Role |
-| --- | --- | --- |
-| 1 | [FNO](https://arxiv.org/abs/2010.08895), data only | Baseline |
-| 2 | FNO + PDE-residual loss ([PINO](https://arxiv.org/abs/2111.03794)) | Close replication of a 2026 thesis |
-| 3 | FNO + **symbolic correction** fitted to training errors (sparse regression, e.g. [SINDy](https://doi.org/10.1073/pnas.1517384113)) | The idea |
-| 4 | FNO + **equal-size neural correction**, same inputs and data | The control |
-
-**Reading the result:**
-- 3 beats 4 on extrapolation → the formula's *structure* helps.
-- 3 ≈ 4 → only the extra module helps.
-- Neither beats 1 → corrections don't transfer.
-- 3 helps only on interpolation → the formula overfit.
-
-### 5.4 Measurement rules
-
-- **Metrics:**
-  - prediction error per split;
-  - physics checks (mass conserved, energy only decreasing);
-  - compute;
-  - worst seed over ≥3 seeds.
-- **No leakage:** fit and tune only on training viscosities. Iterate against a *practice* shift inside the training range (e.g., train on 0.01–0.02, validate at 0.04). Open the real extrapolation test once, at the end.
-
-### 5.5 How it connects
-
-- **World models:** a small world model of a physical system, tested where world models fail, but with an exact answer key.
-- **RSI (Phase B):** freeze the extrapolation tests as a hidden suite. Do a coding agent's improvements survive them?
-- **Phylogeny:** symbolic regression descends from genetic programming and now migrates into physics.
-
----
-
-## 6. Prior work and the research gap
-
-### 6.1 Directly related
-
-| Paper | What it did | Missing piece |
-| --- | --- | --- |
-| [Campos Vilar 2026, TU Delft thesis](https://repository.tudelft.nl/record/uuid:bc293c72-0833-4df2-bd42-0aa63914ee23) ([code](https://github.com/samuekisde/fno-pino-data-efficiency)) | FNO vs PINO on PDEBench Burgers (train ν = 0.01, OOD 0.001) and Darcy; 3 seeds, A100. PINO matched full-data FNO with 50% of the labels, but **physics loss did not make OOD reliable**. | Only physics *loss*; no correction modules |
-| [Late Fusion Neural Operators 2026](https://arxiv.org/abs/2604.16721) | Sparse-regression formula on FNO features plus parameters; Burgers trained on ν ∈ (0.01, 0.02), tested on ν < 0.01; **~72% lower OOD RMSE than FNO** | Compares only with FNO and CAPE-FNO; **never swaps the formula for a same-size neural net** |
-| [HyCOP 2026](https://arxiv.org/abs/2605.00820) | Composes numerical sub-solvers and learned modules into short programs; order-of-magnitude OOD gains. Replacing numerical primitives with learned FNOs raised OOD error ~10× | Structure there means *numerical solvers*, not a fitted correction on a neural operator |
-| [PINO training study 2026](https://arxiv.org/abs/2606.06164) | PINO training choices across operators and PDEs | Not about corrections |
-| [Residual-based error correction for neural operators](https://arxiv.org/abs/2210.03008), [corrector operator](https://arxiv.org/abs/2306.12047) | Correct operator predictions using PDE residuals | Correction by solving the equation, not symbolic vs learned |
-| [Symbolic discovery of hidden operators](https://arxiv.org/abs/2212.04630), [NOMTO](https://arxiv.org/abs/2501.08086) | Discover equations using neural operators | Equation discovery, not extrapolation of a corrected surrogate |
-
-### 6.2 Evidence that symbolic structure extrapolates better (other settings)
-
-| Paper | Finding |
-| --- | --- |
-| [Cranmer et al. 2020, NeurIPS](https://arxiv.org/abs/2006.11287) | A formula extracted from a graph network generalized **out of distribution better than the network itself** |
-| [Rackauckas et al. 2020, Universal Differential Equations](https://arxiv.org/abs/2001.04385) | Symbolic regression on a learned missing term improves extrapolation over the neural term (ODEs) |
-| [Zanna & Bolton, ocean closures](https://repository.library.noaa.gov/view/noaa/32948/noaa_32948_DS1.pdf) | Equation discovery gives interpretable, conservation-respecting eddy closures |
-| [Jakhar et al. 2024, JAMES](https://doi.org/10.1029/2023MS003874) | Closed-form closures appear generalizable across flow regimes, but need physics-informed libraries and sparsity to be stable |
-| [OrthoReg 2026](https://arxiv.org/abs/2606.19145) | Hybrid symbolic-neural models extrapolate better than neural-only corrections; addresses library mismatch |
-
-### 6.3 Honest verdict on the gap
-
-- **Not new:** "formulas extrapolate better than neural nets" has support in ODEs, graph networks, and climate closures.
-- **Still open:** for a **neural-operator surrogate under a PDE parameter shift**, does a fitted symbolic correction beat a **matched-size learned correction** on extrapolation? Late Fusion, the closest paper, skips exactly this control.
-- **Why papers skip it:** method papers aim to beat standard baselines, not explain why they win. The control might weaken the story. Reviewers mostly ask for strong baselines, and every extra model costs runs.
-- **Stronger angle to discuss:** vary whether the formula's term library contains the right terms (exact / partly wrong / generic). That asks **when** symbolic structure helps, not just whether, and connects to OrthoReg's library-mismatch problem.
-- **Scale:** a careful ablation-style contribution, suitable for a short workshop paper, not a main-conference claim.
-
-Feasibility and publication path: [`ai-physics-feasibility.md`](ai-physics-feasibility.md).
-
----
-
-## 7. Plan, status, and risks
-
-**Done**
-- Reference solver with frozen splits; all 21 trajectories pass the mass and energy checks.
-- Persistence baseline (predict "no change") error at t = 2 is 0.49. That is the floor real models must beat.
-
-**Next go/no-go:** train model 1 (FNO) with 3 seeds. If it extrapolates fine, the shift is too easy and must be widened first.
-
-**Four-week plan:** [`project-focus-decision.md`](project-focus-decision.md).
-1. Baselines.
-2. Physics loss.
-3. Symbolic and learned corrections.
-4. Stress tests and write-up.
-
-**Needs:** GPU access, PyTorch, the [`neuraloperator`](https://neuraloperator.github.io/dev/_modules/neuralop/data/datasets/burgers.html) library. Optional [PDEBench data](https://darus.uni-stuttgart.de/dataset.xhtml?persistentId=doi:10.18419/darus-2986&version=7.0) (~7.7 GB per viscosity file).
-
-**Risks**
-
-| Risk | Safeguard |
-| --- | --- |
-| The shift is too easy | Check FNO extrapolation first; widen if needed |
-| The formula overfits noise | Complexity penalty, multiple seeds, expression stability |
-| Leakage through repeated tuning | Practice shift inside training data; open the real test once |
-| Unfair baseline | Same backbone, data, and tuning budget for all four models |
-
-**Publication venues**
-- [ICML 2026 AI for Science](https://ai4sciencecommunity.github.io/icml26/call)
-- [NeurIPS 2025 AI for Science](https://ai4sciencecommunity.github.io/neurips25/call)
-- [AI&PDE format](https://openreview.net/pdf?id=med7qzMIaG)
-- [ICLR workshop guide](https://iclr.cc/Conferences/2026/WorkshopGuide)
-
----
-
-## 8. Optional interest: emotion concepts in language models
+## B7. Optional: emotion concepts in language models
 
 Anthropic found internal "emotion vectors" in Claude Sonnet 4.5 that **causally affect behavior**: steering toward "desperation" increased reward hacking, and "calm" reduced it. These are *functional* representations, not evidence of feelings. Sources: [summary, April 2026](https://www.anthropic.com/research/emotion-concepts-function), [technical paper](https://transformer-circuits.pub/2026/emotions/index.html).
 
 **Link to the theme:** an internal state invisible in outputs could predict when an agent games its evaluator. This is a possible later bridge to RSI.
 
----
+## B8. More questions
 
-## 9. Pitch, questions, and answers
+**Other questions to ask, if there's time**
 
-**90-second pitch**
-> "I want to know whether learned physics models can be trusted outside the conditions they were trained on. I use the Burgers equation, where viscosity is the knob: I train on some viscosities and test outside that range. Late Fusion Neural Operators (2026) showed a sparse-regression formula beats a plain FNO by about 70% there, but never tested whether an equally small neural network in the same slot does just as well. I compare four models: data-only FNO, FNO with a physics loss (replicating a 2026 thesis), FNO plus a formula correction, and FNO plus an equal-size neural correction. If the formula wins, the structure matters, not just the capacity. The reference solver and frozen splits are done; next is the baseline, for which I need GPU access."
-
-**Questions to ask the mentor**
 1. **Compute:** is GPU access available?
 2. **Scope:** four models, or cut to fewer?
 3. **Direction:** physics, world models, or RSI?
@@ -329,17 +319,16 @@ Anthropic found internal "emotion vectors" in Claude Sonnet 4.5 that **causally 
 7. **Website:** is the phylogeny worth a paper of its own?
 8. **Formula library:** should model 3 test how much the formula's advantage depends on choosing the right terms (exact / partly wrong / generic library)?
 
-**Likely questions**
-- **"Already done?"** The physics loss is done (the thesis), and formula corrections exist (Late Fusion). The matched neural-correction control is missing, so whether the *structure* helps is still open.
-- **"Why a world model?"** It is a dynamics model of a physical system. I call it a world model only where it predicts step by step, and I don't claim planning.
-- **"What if nothing works?"** That is a finding about where and why corrections fail under shift. A clean negative result can still be a workshop paper.
-- **"Won't you tweak until it wins?"** I iterate against a practice shift inside the training data, and open the real test once.
+**Questions you might get**
+
 - **"Isn't Phase B just AutoML?"** It is RSI only if a kept change improves the *next* round of improvement.
 - **"Why trust the atlas?"** It uses label counts plus citation checks, and judgment is shown separately from evidence. One link was confirmed only by reading the original paper.
 
 ---
 
-## 10. Paper library
+# Part 3 — References
+
+## R1. Paper library
 
 Every paper and source cited across the project, grouped by topic.
 
@@ -385,9 +374,7 @@ Every paper and source cited across the project, grouped by topic.
 ### Tools and venues
 [OpenAlex search docs](https://help.openalex.org/api/searching/) · [ICLR 2026 workshop guide](https://iclr.cc/Conferences/2026/WorkshopGuide) · [AI&PDE format](https://openreview.net/pdf?id=med7qzMIaG) · [NeurIPS 2025 AI for Science](https://ai4sciencecommunity.github.io/neurips25/call) · [ICML 2026 AI for Science](https://ai4sciencecommunity.github.io/icml26/call) · [AAAI 2026 AI4Research](https://openreview.net/group?id=AAAI.org%2F2026%2FWorkshop%2FAI4Research)
 
----
-
-## 11. Project documents, data, and code
+## R2. Project documents, data, and code
 
 ### Research notes
 
