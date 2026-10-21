@@ -1,0 +1,21 @@
+{
+  "name": "ML Civilization",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:22-bookworm",
+  "forwardPorts": [5173],
+  "portsAttributes": {
+    "5173": {
+      "label": "ML Civilization (Vite)",
+      "onAutoForward": "openPreview"
+    }
+  },
+  "postCreateCommand": "npm ci",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "yzhang.markdown-all-in-one"
+      ]
+    }
+  },
+  "remoteUser": "node"
+}
